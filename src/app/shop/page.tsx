@@ -68,6 +68,28 @@ function ShopContent() {
         <div className={styles.main}>
             <Navbar onSearch={(term: string) => setSearchTerm(term)} />
             <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem', display: 'flex', gap: '2rem' }}>
+                {/* Mobile Filter Chips */}
+                <div className={styles.mobileFilters} style={{ display: 'none' /* Will be overridden by CSS media query */ }}>
+                    {genders.map(g => (
+                        <button
+                            key={g}
+                            className={`${styles.filterChip} ${selectedGender === g ? styles.active : ''}`}
+                            onClick={() => setSelectedGender(g)}
+                        >
+                            {g}
+                        </button>
+                    ))}
+                    {categories.filter(c => c !== 'All').map(c => (
+                        <button
+                            key={c}
+                            className={`${styles.filterChip} ${selectedCategory === c ? styles.active : ''}`}
+                            onClick={() => setSelectedCategory(c)}
+                        >
+                            {c}
+                        </button>
+                    ))}
+                </div>
+
                 {/* Sidebar Filters */}
                 <aside className={styles.sidebar}>
                     <div className={styles.filterGroup}>

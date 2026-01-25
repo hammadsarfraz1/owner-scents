@@ -247,18 +247,56 @@
     }
 
     .sidebar {
-        width: 100%;
-        position: relative;
-        top: 0;
-        padding-right: 0;
+        display: none;
+        /* Hide sidebar on mobile */
+    }
+
+    .mobileFilters {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        padding: 1rem 0;
         margin-bottom: 2rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        padding-bottom: 1rem;
+        scrollbar-width: none;
+        /* Hide scrollbar Firefox */
+        -ms-overflow-style: none;
+        /* Hide scrollbar IE */
+        position: sticky;
+        top: 60px;
+        /* Below navbar */
+        background: var(--bg-primary);
+        z-index: 90;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .mobileFilters::-webkit-scrollbar {
+        display: none;
+        /* Hide scrollbar Chrome/Safari */
+    }
+
+    .filterChip {
+        flex: 0 0 auto;
+        padding: 0.5rem 1.2rem;
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .filterChip.active {
+        background: var(--text-primary);
+        color: var(--bg-primary);
+        border-color: var(--text-primary);
     }
 
     .filterGroup {
         margin-bottom: 1.5rem;
+        display: none;
+        /* Hide default filter group in mobile view if it was used elsewhere */
     }
 
     /* Make filters collapsible or horizontal scroll could optionally go here */
