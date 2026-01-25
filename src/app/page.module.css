@@ -332,6 +332,12 @@
 @media (max-width: 768px) {
   .title {
     font-size: 3rem;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
   }
 
   .categories {
@@ -340,7 +346,14 @@
   }
 
   .catCard {
-    height: 300px;
+    height: 40vh;
+    /* Better than fixed pixels */
+    width: 100%;
+  }
+
+  .catTitle {
+    font-size: 2rem;
+    padding: 0.8rem 2rem;
   }
 
   .main {
@@ -350,7 +363,23 @@
   }
 
   .hero {
+    height: 90vh;
+    /* Prevent address bar issues */
     background-attachment: scroll;
     /* Mobile doesn't handle fixed well */
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    /* Single column for featured info */
+    padding: 0 1rem;
+  }
+
+  .featuredHeader {
+    margin: 4rem 0 2rem;
+  }
+
+  .featuredHeader h2 {
+    font-size: 2.2rem;
   }
 }
