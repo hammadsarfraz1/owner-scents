@@ -122,7 +122,7 @@ function ShopContent() {
                     </div>
 
                     {loading ? (
-                        <p style={{ textAlign: 'center' }}>Loading scents from WordPress...</p>
+                        <p style={{ textAlign: 'center' }}>Loading scents...</p>
                     ) : (
                         <div className={styles.grid}>
                             {filteredProducts.map((product) => (
