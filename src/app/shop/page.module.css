@@ -239,3 +239,71 @@
 .buyNowBtn:hover::before {
     left: 100%;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .shopContainer {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        padding-right: 0;
+        margin-bottom: 2rem;
+        border-right: none;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        padding-bottom: 1rem;
+    }
+
+    .filterGroup {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Make filters collapsible or horizontal scroll could optionally go here */
+
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on mobile */
+        gap: 1rem;
+    }
+
+    .imagePlaceholder {
+        height: 200px;
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 2rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* Force 2 columns even on small screens */
+        gap: 0.8rem;
+        /* Tighter gap */
+    }
+
+    .imagePlaceholder {
+        height: 150px;
+        /* Shorter images for small screens */
+        font-size: 0.9rem;
+    }
+
+    .cardInfo {
+        padding: 0.8rem;
+    }
+
+    .cardInfo h3 {
+        font-size: 1rem;
+    }
+
+    .buyNowBtn {
+        font-size: 0.75rem;
+        padding: 0.6rem;
+    }
+}
