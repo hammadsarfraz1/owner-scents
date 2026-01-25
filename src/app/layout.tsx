@@ -7,6 +7,11 @@ import CartDrawer from "@/components/CartDrawer";
 export const metadata: Metadata = {
   title: "Owner Scents | Exclusive Perfumery",
   description: "Experience the essence of luxury with Owner Scents.",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({
