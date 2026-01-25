@@ -163,9 +163,19 @@
 @media (max-width: 968px) {
     .hamburger {
         display: flex;
+        flex-direction: column;
+        gap: 6px;
         z-index: 101;
         /* Above the drawer */
         cursor: pointer;
+    }
+
+    .bar {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background-color: var(--text-primary);
+        transition: all 0.3s ease;
     }
 
     .navRight {
