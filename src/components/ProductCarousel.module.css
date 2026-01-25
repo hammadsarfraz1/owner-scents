@@ -133,3 +133,18 @@
         height: 240px;
     }
 }
+
+@media (max-width: 480px) {
+    .card {
+        flex: 0 0 180px;
+        /* Even smaller for portrait phones */
+    }
+
+    .imagePlaceholder {
+        height: 200px;
+    }
+
+    .productName {
+        font-size: 1rem;
+    }
+}
