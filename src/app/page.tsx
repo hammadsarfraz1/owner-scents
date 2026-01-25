@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import HeroSearch from '@/components/HeroSearch';
+import ProductCarousel from '@/components/ProductCarousel';
 import styles from './page.module.css';
 
 type Product = {
@@ -19,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/products')
       .then(res => res.json())
-      .then(data => setFeaturedProducts(data.slice(0, 3)))
+      .then(data => setFeaturedProducts(data.slice(0, 6))) // Fetch more for carousel
       .catch(console.error);
   }, []);
 
@@ -29,10 +32,28 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
+        {/* Background Image */}
+        <div className={styles.heroBg}>
+          <Image
+            src="/hero-new.png"
+            alt="Luxury Perfume"
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+          <div className={styles.overlay} />
+        </div>
+
         <div className={styles.heroContent}>
           <h1 className={styles.title}>ESSENCE OF <br /> AUTHORITY.</h1>
           <p className={styles.subtitle}>Discover the scent that defines you.</p>
-          <Link href="/shop" className="btn">Shop Collection</Link>
+
+          {/* New Search Bar */}
+          <HeroSearch />
+
+          <div style={{ marginTop: '2rem' }}>
+            <Link href="/shop" className="btn">Shop Collection</Link>
+          </div>
         </div>
       </section>
 
@@ -56,30 +77,17 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Featured Section */}
+      {/* Featured Section - NOW CAROUSEL */}
       <section className="container">
         <div className={styles.featuredHeader}>
           <h2>Signature Scents</h2>
           <p>Curated for the distinguished.</p>
         </div>
 
-        <div className={styles.grid}>
-          {featuredProducts.map((product) => (
-            <div key={product.id} className={styles.card}>
-              <Link href={`/shop/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className={styles.imagePlaceholder}>
-                  <span>{product.name}</span>
-                </div>
-                <div className={styles.cardInfo}>
-                  <h3>{product.name}</h3>
-                  <p>${Number(product.price).toFixed(2)}</p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
+        {/* Replaced Grid with Carousel */}
+        <ProductCarousel products={featuredProducts} title="" />
 
-        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+        <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '4rem' }}>
           <Link href="/shop" className={styles.secondaryBtn}>View All Products</Link>
         </div>
       </section>

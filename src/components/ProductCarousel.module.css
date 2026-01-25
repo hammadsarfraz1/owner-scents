@@ -1,0 +1,135 @@
+.container {
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.viewAll {
+    font-size: 0.9rem;
+    text-decoration: underline;
+    color: var(--text-secondary);
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 0.5rem 1.5rem 2rem;
+    /* Bottom padding for shadow/hover */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE */
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    flex: 0 0 280px;
+    /* Fixed width cards */
+    scroll-snap-align: start;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    /* Slight rounding */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+}
+
+.imagePlaceholder {
+    height: 300px;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.imagePlaceholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .imagePlaceholder img {
+    transform: scale(1.05);
+}
+
+.info {
+    padding: 1rem;
+    text-align: center;
+}
+
+.productName {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.price {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.addBtn {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.addBtn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex: 0 0 220px;
+        /* Smaller cards on mobile */
+    }
+
+    .imagePlaceholder {
+        height: 240px;
+    }
+}

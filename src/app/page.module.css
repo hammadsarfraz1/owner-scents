@@ -5,35 +5,42 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* Parallax Effect */
-  /* Remove the background image link or use a placeholder if the file doesn't exist yet */
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  color: #fff;
   position: relative;
   overflow: hidden;
-  /* Ensure pseudo-elements don't overflow */
+  color: #fff;
 }
 
-/* Add a pseudo-element for the parallax background to allow smooth movement */
-.hero::before {
-  content: '';
+.heroBg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 120%;
-  /* Taller than container for parallax movement */
-  background: url('/hero-dark.jpg');
-  /* Ensure this image exists or use a color */
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
-  transform: translateZ(-1px) scale(2);
-  /* CSS 3D Parallax technique base */
-  will-change: transform;
+  height: 100%;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  /* Darken image for text readability */
+  z-index: 1;
+}
+
+.heroContent {
+  animation: fadeUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  max-width: 800px;
+  padding: 0 1rem;
+  z-index: 2;
+  /* Sit above overlay */
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ... existing styles ... */
