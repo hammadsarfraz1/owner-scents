@@ -1,0 +1,59 @@
+.footer {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 4rem 0 1rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+.brand h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.links {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.column h4 {
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.column a {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+    color: var(--text-secondary);
+}
+
+.column a:hover {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.bottom {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}

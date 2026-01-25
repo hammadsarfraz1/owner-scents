@@ -1,0 +1,356 @@
+/* HERO SECTION */
+.hero {
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Parallax Effect */
+  /* Remove the background image link or use a placeholder if the file doesn't exist yet */
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  /* Ensure pseudo-elements don't overflow */
+}
+
+/* Add a pseudo-element for the parallax background to allow smooth movement */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  /* Taller than container for parallax movement */
+  background: url('/hero-dark.jpg');
+  /* Ensure this image exists or use a color */
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  transform: translateZ(-1px) scale(2);
+  /* CSS 3D Parallax technique base */
+  will-change: transform;
+}
+
+/* ... existing styles ... */
+.main {
+  min-height: 100vh;
+  overflow-x: hidden;
+  perspective: 1px;
+  /* Enable 3D perspective for parallax if using CSS-only method */
+  height: 100vh;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.heroContent {
+  animation: fadeUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  max-width: 800px;
+  padding: 0 1rem;
+  z-index: 1;
+  /* Ensure content is above background */
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* MARQUEE */
+.marquee {
+  background: var(--accent);
+  color: var(--accent-text);
+  padding: 1.5rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.track {
+  display: inline-block;
+  animation: scroll 20s linear infinite;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* CATEGORIES SPLIT */
+.categories {
+  display: flex;
+  height: 600px;
+  width: 100%;
+}
+
+.catCard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: transform 0.5s ease;
+  overflow: hidden;
+}
+
+/* Placeholders for category images - in real app, use real images */
+.men {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), #1a1a1a;
+}
+
+.women {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), #333;
+}
+
+.catTitle {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  color: #fff;
+  z-index: 2;
+  border: 1px solid #fff;
+  padding: 1rem 3rem;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+/* Hover Micro-animations */
+.catCard:hover .catTitle {
+  background: #fff;
+  color: #000;
+  transform: scale(1.05);
+  /* Slightly subtle scale */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.catCard:hover {
+  /* Zoom background effect could be done here if background-image was set */
+}
+
+/* FEATURED SECTION */
+.featuredHeader {
+  text-align: center;
+  margin: 6rem 0 4rem;
+}
+
+.featuredHeader h2 {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.featuredHeader p {
+  color: var(--text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+
+.card {
+  text-align: center;
+  cursor: pointer;
+  perspective: 1000px;
+  /* For 3D card tilts if desired */
+}
+
+.imagePlaceholder {
+  background: var(--bg-tertiary);
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+}
+
+.card:hover .imagePlaceholder {
+  transform: scale(1.03) translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.cardInfo h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  color: var(--text-primary);
+}
+
+.card:hover .cardInfo h3 {
+  color: var(--text-secondary);
+}
+
+.cardInfo p {
+  opacity: 0.7;
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+}
+
+.secondaryBtn {
+  display: inline-block;
+  border: 1px solid var(--text-primary);
+  padding: 1rem 3rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.secondaryBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: var(--text-primary);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.secondaryBtn:hover::before {
+  width: 100%;
+}
+
+.secondaryBtn:hover {
+  color: var(--bg-primary);
+}
+
+/* STORY SECTION */
+.story {
+  padding: 8rem 2rem;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  margin-top: 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.storyContent {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.storyContent h2 {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.storyContent p {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  opacity: 0.8;
+}
+
+.storyContent a {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.storyContent a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+
+.storyContent a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+
+  .categories {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .catCard {
+    height: 300px;
+  }
+
+  .main {
+    perspective: none;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .hero {
+    background-attachment: scroll;
+    /* Mobile doesn't handle fixed well */
+  }
+}

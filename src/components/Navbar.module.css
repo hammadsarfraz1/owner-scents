@@ -1,0 +1,202 @@
+.navbar {
+    background: var(--nav-bg);
+    color: var(--text-primary);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.logo a {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+/* Wrapper for all right-side content */
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: auto;
+}
+
+/* Navigation Links with animated underline */
+.link {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--text-primary);
+    transition: width 0.3s ease;
+}
+
+.link:hover {
+    color: var(--text-primary);
+}
+
+.link:hover::after {
+    width: 100%;
+}
+
+/* Minimal Luxury Search Bar */
+.searchWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    /* More space from links */
+}
+
+.searchInput {
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    /* Space for icon */
+    border: none;
+    border-bottom: 1px solid var(--text-secondary);
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    border-radius: 0;
+    width: 150px;
+    transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+    width: 220px;
+    border-bottom-color: var(--text-primary);
+}
+
+.searchInput::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0;
+    color: var(--text-primary);
+    pointer-events: none;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* Icons (Cart, Theme) - distinct interaction */
+.themeToggle,
+.cartBtn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.themeToggle:hover,
+.cartBtn:hover {
+    background: rgba(125, 125, 125, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Auth/Sign Out Button - Sleek Pill Shape */
+.authBtn {
+    background: var(--text-primary);
+    border: 1px solid var(--text-primary);
+    color: var(--bg-primary);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    padding: 0.6rem 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.authBtn:hover {
+    background: transparent;
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile styles */
+@media (max-width: 968px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .navRight {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        padding: 2rem;
+        border-bottom: 1px solid var(--border-color);
+        transform: translateY(-200%);
+        transition: transform 0.3s ease-in-out;
+        gap: 1.5rem;
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .navRight.active {
+        transform: translateY(0);
+    }
+
+    /* Ensure the search wrapper doesn't break mobile layout */
+    .searchWrapper {
+        margin-right: 0;
+        margin-bottom: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .searchInput {
+        width: 80%;
+    }
+
+    .searchInput:focus {
+        width: 90%;
+    }
+}

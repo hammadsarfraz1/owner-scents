@@ -1,0 +1,154 @@
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.profileContainer {
+    flex: 1;
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .profileContainer {
+        flex-direction: column;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: #f9f9f9;
+    padding: 2rem;
+    text-align: center;
+    border-right: 1px solid #eee;
+}
+
+.avatar {
+    background: #000;
+    color: #fff;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: var(--font-serif);
+    margin: 0 auto 1.5rem;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-serif);
+}
+
+.sidebar p {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.editBtn {
+    background: transparent;
+    border: 1px solid #000;
+    padding: 0.8rem 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.editBtn:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* Content */
+.content {
+    flex: 1;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-serif);
+}
+
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.orderCard {
+    border: 1px solid #e0e0e0;
+    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.orderId {
+    font-weight: bold;
+    margin-right: 1rem;
+    font-family: var(--font-sans);
+}
+
+.orderDate {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.shipped {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.orderTotal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+    font-size: 1.1rem;
+}

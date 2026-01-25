@@ -1,0 +1,24 @@
+# Task List - Phase 2: Full Stack Implementation
+
+- [x] Database Setup
+    - [x] Install Prisma & initialize (SQLite for local dev)
+    - [x] Define Schema: `User`, `Product`, `Order`, `OrderItem`
+    - [x] Seed database with initial perfume collection
+- [x] Backend API Development
+    - [x] `GET /api/products`: Fetch all products
+    - [x] `GET /api/products/[id]`: Fetch single product details
+    - [x] `POST /api/checkout`: Handle order creation (Mock/Stripe)
+- [x] Frontend Integration
+    - [x] Create `CartContext` for global state management
+    - [x] Update `Shop` page to fetch data from API
+    - [x] Update `Product` page to be dynamic
+    - [x] Implement "Add to Cart" functionality
+    - [x] Build Checkout Page/Flow
+- [x] Phase 3: Premium Experience (J./Gul Ahmed Benchmarking)
+    - [x] Database Schema Upgrade (Gender, Notes, Category)
+    - [x] **Product Details Page** with Olfactive Pyramid
+    - [x] Search Bar UI in Navbar
+    - [x] Functional Search & Filtering
+    - [ ] User Wishes/Favorites
+- [ ] Authentication (Optional/Next Step)
+    - [ ] Setup NextAuth.js for user accounts

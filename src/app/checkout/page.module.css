@@ -1,0 +1,146 @@
+.container {
+    padding: 10rem 2rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 80vh;
+}
+
+.title {
+    font-family: var(--font-cinzel), serif;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+}
+
+.formSection {
+    background: var(--bg-card);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.sectionTitle {
+    font-family: var(--font-cinzel), serif;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.input {
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--gold-highlight);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.summarySection {
+    background: var(--bg-card);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    position: sticky;
+    top: 6rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-family: var(--font-sans);
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    margin-top: 1rem;
+    font-family: var(--font-cinzel), serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--gold-highlight);
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 1.25rem;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    border: none;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+}
+
+.submitBtn:hover {
+    background: var(--gold-highlight);
+    transform: translateY(-2px);
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.paymentMethod {
+    padding: 1rem;
+    border: 1px solid var(--gold-highlight);
+    background: rgba(212, 175, 55, 0.05);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.radio {
+    accent-color: var(--gold-highlight);
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 6rem 1rem 2rem;
+    }
+}
