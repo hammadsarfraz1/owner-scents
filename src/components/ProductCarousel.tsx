@@ -26,6 +26,17 @@ export default function ProductCarousel({ products, title }: { products: Product
                     <div key={product.id} className={styles.card}>
                         <Link href={`/shop/${product.id}`} className={styles.link}>
                             <div className={styles.imagePlaceholder}>
+                                <span className={styles.saleBadge}>SALE</span>
+                                <button
+                                    className={styles.plusBtn}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        addToCart({ ...product, price: Number(product.price), gender: 'Unisex', category: 'Signature' });
+                                    }}
+                                >
+                                    +
+                                </button>
                                 {product.image ? (
                                     <img src={product.image} alt={product.name} />
                                 ) : (
@@ -34,18 +45,12 @@ export default function ProductCarousel({ products, title }: { products: Product
                             </div>
                             <div className={styles.info}>
                                 <h3 className={styles.productName}>{product.name}</h3>
-                                <p className={styles.price}>${Number(product.price).toFixed(2)}</p>
+                                <div className={styles.priceRow}>
+                                    <span className={styles.price}>Rs.{Number(product.price).toLocaleString()}</span>
+                                    <span className={styles.originalPrice}>Rs.{Number(Number(product.price) * 1.2).toLocaleString()}</span>
+                                </div>
                             </div>
                         </Link>
-                        <button
-                            className={styles.addBtn}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                addToCart({ ...product, price: Number(product.price), gender: 'Unisex', category: 'Signature' });
-                            }}
-                        >
-                            Add to Cart
-                        </button>
                     </div>
                 ))}
             </div>

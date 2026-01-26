@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar"; // Ensure Navbar is here if not inside
 import CartDrawer from "@/components/CartDrawer";
 import MobileHeader from "@/components/MobileHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import TopPromoBar from "@/components/TopPromoBar";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 export const metadata: Metadata = {
   title: "Owner Scents | Exclusive Perfumery",
@@ -25,9 +27,11 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning>
         <Providers>
+          <TopPromoBar />
           <MobileHeader />
           <CartDrawer />
           {children}
+          <WhatsAppFloat />
           <MobileBottomNav />
         </Providers>
       </body>
