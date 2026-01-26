@@ -41,6 +41,7 @@
     letter-spacing: 2px;
     text-decoration: none;
     color: var(--text-primary);
+    /* Ensure Cinzel font is used if var(--font-serif) is set correctly */
 }
 
 /* Wrapper for all right-side content */
@@ -173,7 +174,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Mobile styles */
 /* Mobile styles */
 @media (max-width: 968px) {
     .navbar {

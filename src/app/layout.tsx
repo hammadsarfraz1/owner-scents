@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar"; // Ensure Navbar is here if not inside page
@@ -7,6 +8,9 @@ import MobileHeader from "@/components/MobileHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import TopPromoBar from "@/components/TopPromoBar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+
+const inter = Inter({ subsets: ["latin"], variable: '--font-sans' });
+const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-serif' });
 
 export const metadata: Metadata = {
   title: "Owner Scents | Exclusive Perfumery",
@@ -25,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${inter.variable} ${cinzel.variable}`}>
         <Providers>
           <TopPromoBar />
           <MobileHeader />

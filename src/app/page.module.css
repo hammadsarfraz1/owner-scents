@@ -355,14 +355,18 @@
   }
 
   .catCard {
-    height: 250px;
-    /* Specific fixed height for mobile, approx 30vh */
+    height: 150px;
+    /* Reduced height for better proportion */
     width: 100%;
+    margin-bottom: 0.5rem;
+    /* Spacing between cards */
   }
 
   .catTitle {
-    font-size: 1.8rem;
-    padding: 0.8rem 2rem;
+    font-size: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    /* Lighter border */
   }
 
   .main {

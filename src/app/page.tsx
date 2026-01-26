@@ -48,8 +48,8 @@ export default function Home() {
           <h1 className={styles.title}>ESSENCE OF <br /> AUTHORITY.</h1>
           <p className={styles.subtitle}>Discover the scent that defines you.</p>
 
-          {/* New Search Bar */}
-          <HeroSearch />
+          {/* New Search Bar removed as per request */}
+          {/* <HeroSearch /> */}
 
           <div style={{ marginTop: '2rem' }}>
             <Link href="/shop" className="btn">Shop Collection</Link>
