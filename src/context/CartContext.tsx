@@ -7,6 +7,8 @@ type Product = {
     name: string;
     price: number;
     image: string;
+    gender?: string;
+    category?: string;
 };
 
 type CartItem = Product & {

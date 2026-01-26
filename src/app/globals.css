@@ -64,3 +64,12 @@ img {
   height: auto;
   display: block;
 }
+
+@media (max-width: 968px) {
+  body {
+    padding-bottom: 80px;
+    /* Safe space for Bottom Nav */
+    padding-top: 0;
+    /* Header is sticky but we might need safe area if transparent */
+  }
+}
