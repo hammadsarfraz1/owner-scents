@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HeroSearch from '@/components/HeroSearch';
 import ProductCarousel from '@/components/ProductCarousel';
+import QuickViewModal from '@/components/QuickViewModal';
 import styles from './page.module.css';
 
 type Product = {
@@ -14,10 +15,14 @@ type Product = {
   name: string;
   price: string;
   image: string;
+  gender?: string;
+  category?: string;
 };
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+
 
   useEffect(() => {
     fetch('/api/products')
@@ -85,7 +90,7 @@ export default function Home() {
         </div>
 
         {/* Replaced Grid with Carousel */}
-        <ProductCarousel products={featuredProducts} title="" />
+        <ProductCarousel products={featuredProducts} title="" onQuickView={setQuickViewProduct} />
 
         <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '4rem' }}>
           <Link href="/shop" className={styles.secondaryBtn}>View All Products</Link>
@@ -100,6 +105,11 @@ export default function Home() {
           <Link href="/about" style={{ textDecoration: 'underline' }}>Read Our Philosophy</Link>
         </div>
       </section>
+
+      <QuickViewModal
+        product={quickViewProduct}
+        onClose={() => setQuickViewProduct(null)}
+      />
 
       <Footer />
     </div>

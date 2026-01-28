@@ -28,141 +28,22 @@
 .carousel {
     display: flex;
     overflow-x: auto;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 1rem;
     scroll-behavior: smooth;
     -ms-overflow-style: none;
-    /* Hide scrollbar IE/Edge */
     scrollbar-width: none;
-    /* Hide scrollbar Firefox */
+    scroll-snap-type: x mandatory;
 }
 
 .carousel::-webkit-scrollbar {
     display: none;
-    /* Hide scrollbar Chrome/Safari */
 }
 
-/* Reference Style Card */
-.card {
-    min-width: 180px;
-    /* Smaller mobile width */
-    max-width: 200px;
-    background: #ffffff;
-    /* White background */
-    border-radius: 8px;
-    /* Rounded corners */
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    /* Subtle shadow */
-    transition: transform 0.3s ease;
+.cardWrapper {
+    min-width: 280px;
+    scroll-snap-align: start;
     flex-shrink: 0;
-    padding-bottom: 0.5rem;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.imagePlaceholder {
-    width: 100%;
-    aspect-ratio: 1;
-    /* Square images */
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.imagePlaceholder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Sale Badge */
-.saleBadge {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #ff0000;
-    /* Red Sale Badge */
-    color: white;
-    font-size: 0.65rem;
-    font-weight: 700;
-    padding: 0.2rem 0.5rem;
-    text-transform: uppercase;
-    z-index: 2;
-    border-bottom-right-radius: 4px;
-}
-
-.info {
-    padding: 0.8rem;
-    text-align: left;
-}
-
-.productName {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #333;
-}
-
-.priceRow {
-    display: flex;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    align-items: center;
-}
-
-.price {
-    color: #cc0000;
-    /* Red Price */
-}
-
-.originalPrice {
-    color: #999;
-    text-decoration: line-through;
-    font-size: 0.8rem;
-    font-weight: 400;
-}
-
-/* Plus Button (Quick Add) */
-.plusBtn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
-    background-color: #cc0000;
-    /* Red Button */
-    color: white;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 5;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Hide the old "Add to Cart" block button */
-.addBtn {
-    display: none;
 }
 
 @media (max-width: 768px) {
@@ -170,8 +51,7 @@
         margin: 1rem auto;
     }
 
-    .card {
-        min-width: 160px;
-        /* Even smaller for mobile */
+    .cardWrapper {
+        min-width: 220px;
     }
 }

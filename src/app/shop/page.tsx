@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
 import QuickViewModal from '@/components/QuickViewModal';
+import ProductCard from '@/components/ProductCard';
 
 type Product = {
     id: string;
@@ -148,44 +149,11 @@ function ShopContent() {
                     ) : (
                         <div className={styles.grid}>
                             {filteredProducts.map((product) => (
-                                <div key={product.id} className={styles.card}>
-                                    <Link href={`/shop/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        <div className={styles.imagePlaceholder}>
-                                            {/* Render Image if exists, else text */}
-                                            {product.image ? (
-                                                <img
-                                                    src={product.image}
-                                                    alt={product.name}
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                                />
-                                            ) : (
-                                                <span>{product.name}</span>
-                                            )}
-                                        </div>
-                                        <div className={styles.cardInfo}>
-                                            <h3>{product.name}</h3>
-                                            <p>${Number(product.price).toFixed(2)}</p>
-                                        </div>
-                                    </Link>
-                                    <div className={styles.actions}>
-                                        <button
-                                            className={styles.buyNowBtn}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                addToCart({ ...product, price: Number(product.price) });
-                                                window.location.href = '/checkout';
-                                            }}
-                                        >
-                                            Buy Now
-                                        </button>
-                                        <button
-                                            className={styles.quickViewBtn}
-                                            onClick={() => setQuickViewProduct(product)}
-                                        >
-                                            View
-                                        </button>
-                                    </div>
-                                </div>
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                    onQuickView={setQuickViewProduct}
+                                />
                             ))}
                         </div>
                     )}
