@@ -7,17 +7,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
+import ProductCard, { Product } from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
-import ProductCard from '@/components/ProductCard';
 
-type Product = {
-    id: string;
-    name: string;
-    price: string;
-    image: string;
-    gender: string;
-    category: string;
-};
+// Local Product type removed in favor of imported one to ensure compatibility
+// type Product = { ... }
 
 function ShopContent() {
     const searchParams = useSearchParams();
@@ -51,7 +45,7 @@ function ShopContent() {
             });
     }, []);
 
-    const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+    const categories = ['All', ...Array.from(new Set(products.map(p => p.category).filter((c): c is string => !!c)))];
     const genders = ['All', 'Men', 'Women', 'Unisex'];
 
     const filteredProducts = products.filter(product => {
@@ -59,7 +53,7 @@ function ShopContent() {
         const matchesGender = selectedGender === 'All' || product.gender === selectedGender;
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
         return matchesSearch && matchesGender && matchesCategory;
-    }).sort((a, b) => {
+    }).sort((a: Product, b: Product) => {
         if (sortOption === 'price-asc') return Number(a.price) - Number(b.price);
         if (sortOption === 'price-desc') return Number(b.price) - Number(a.price);
         return 0;
