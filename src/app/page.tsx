@@ -24,21 +24,30 @@ export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>, slug: string) => {
-    setHoveredCard(slug);
-    const card = e.currentTarget;
-    const box = card.getBoundingClientRect();
-    const x = e.clientX - box.left - (box.width / 2);
-    const y = e.clientY - box.top - (box.height / 2);
+  const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const box = container.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const pct = x / box.width;
     
-    // Max 12 degrees tilt
-    const factorX = -(y / (box.height / 2)) * 12;
-    const factorY = (x / (box.width / 2)) * 12;
+    let slug = 'midnight';
+    if (pct < 0.36) {
+      slug = 'rose';
+    } else if (pct > 0.64) {
+      slug = 'velvet';
+    }
+    
+    setHoveredCard(slug);
+    
+    const tiltX = e.clientX - box.left - (box.width / 2);
+    const tiltY = e.clientY - box.top - (box.height / 2);
+    const factorX = -(tiltY / (box.height / 2)) * 12;
+    const factorY = (tiltX / (box.width / 2)) * 12;
     
     setTilt({ x: factorX, y: factorY });
   };
 
-  const handleMouseLeave = () => {
+  const handleContainerMouseLeave = () => {
     setHoveredCard(null);
     setTilt({ x: 0, y: 0 });
   };
@@ -100,7 +109,11 @@ export default function Home() {
           </div>
 
           <div className={styles.heroRight}>
-            <div className={styles.stackContainer}>
+            <div 
+              className={styles.stackContainer}
+              onMouseMove={handleContainerMouseMove}
+              onMouseLeave={handleContainerMouseLeave}
+            >
               {[
                 {
                   slug: 'rose',
@@ -124,21 +137,19 @@ export default function Home() {
                   className: styles.rightCard
                 }
               ].map((perfume) => {
-                const isCenter = perfume.slug === 'midnight';
                 const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().includes(perfume.slug));
                 const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : '/shop';
+                const isActive = hoveredCard === perfume.slug;
                 
                 return (
                   <Link 
                     key={perfume.slug}
                     href={linkHref}
-                    className={`${styles.stackCard} ${perfume.className}`}
-                    onMouseMove={(e) => handleMouseMove(e, perfume.slug)}
-                    onMouseLeave={handleMouseLeave}
+                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''}`}
                     style={{
-                      '--rotate-x': hoveredCard === perfume.slug ? `${tilt.x}deg` : '0deg',
-                      '--rotate-y': hoveredCard === perfume.slug ? `${tilt.y}deg` : '0deg',
-                      transition: hoveredCard !== perfume.slug ? 'transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1)' : 'none'
+                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
+                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                      transition: 'transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease'
                     } as React.CSSProperties}
                   >
                     <div className={styles.cardGlow} />
