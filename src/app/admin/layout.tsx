@@ -38,6 +38,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'Dashboard', path: '/admin', icon: '📊' },
         { name: 'All Orders', path: '/admin/orders', icon: '📦' },
         { name: 'Products', path: '/admin/products', icon: '✨' },
+        { name: 'Categories', path: '/admin/categories', icon: '📁' },
+        { name: 'Reviews', path: '/admin/reviews', icon: '⭐' },
     ];
 
     return (

@@ -69,49 +69,71 @@ export default function ProductDetails() {
             })
             .catch(console.error);
 
-        // Load reviews from local storage or set defaults
-        const storedReviews = localStorage.getItem(`reviews_${product.id}`);
-        if (storedReviews) {
-            setReviews(JSON.parse(storedReviews));
-        } else {
-            const defaults = [
-                {
-                    name: "James S.",
-                    rating: 5,
-                    comment: `Absolutely brilliant scent. The projection is powerful and the notes linger beautifully for 8+ hours. Highly recommended.`,
-                    date: "June 12, 2026"
-                },
-                {
-                    name: "Sarah M.",
-                    rating: 4,
-                    comment: `Stunning fragrance, very unique and premium feel. It's a bit intense at first spray, but settles down into a gorgeous olfactory base.`,
-                    date: "June 20, 2026"
+        // Load reviews from database API
+        fetch(`/api/products/${product.id}/reviews`)
+            .then((res) => {
+                if (res.ok) return res.json();
+                throw new Error('Failed to fetch reviews');
+            })
+            .then((data: Review[]) => {
+                setReviews(data);
+            })
+            .catch((err) => {
+                console.error(err);
+                // Fallback to local storage or defaults if API fails
+                const storedReviews = localStorage.getItem(`reviews_${product.id}`);
+                if (storedReviews) {
+                    setReviews(JSON.parse(storedReviews));
+                } else {
+                    const defaults = [
+                        {
+                            name: "James S.",
+                            rating: 5,
+                            comment: `Absolutely brilliant scent. The projection is powerful and the notes linger beautifully for 8+ hours. Highly recommended.`,
+                            date: "June 12, 2026"
+                        },
+                        {
+                            name: "Sarah M.",
+                            rating: 4,
+                            comment: `Stunning fragrance, very unique and premium feel. It's a bit intense at first spray, but settles down into a gorgeous olfactory base.`,
+                            date: "June 20, 2026"
+                        }
+                    ];
+                    setReviews(defaults);
                 }
-            ];
-            setReviews(defaults);
-            localStorage.setItem(`reviews_${product.id}`, JSON.stringify(defaults));
-        }
+            });
     }, [product]);
 
-    const handleAddReview = (e: React.FormEvent) => {
+    const handleAddReview = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!revName.trim() || !revComment.trim() || !product) return;
 
-        const newReview: Review = {
-            name: revName,
-            rating: revRating,
-            comment: revComment,
-            date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-        };
+        try {
+            const res = await fetch(`/api/products/${product.id}/reviews`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: revName,
+                    rating: revRating,
+                    comment: revComment
+                })
+            });
 
-        const updated = [newReview, ...reviews];
-        setReviews(updated);
-        localStorage.setItem(`reviews_${product.id}`, JSON.stringify(updated));
-
-        // Clear form
-        setRevName('');
-        setRevRating(5);
-        setRevComment('');
+            if (res.ok) {
+                const newReview = await res.json();
+                setReviews(prev => [newReview, ...prev]);
+                
+                // Clear form
+                setRevName('');
+                setRevRating(5);
+                setRevComment('');
+            } else {
+                alert('Failed to submit review.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to submit review due to a network error.');
+        }
     };
 
     if (loading) return <div className={styles.loading}>Loading Essence...</div>;
