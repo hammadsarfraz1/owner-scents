@@ -155,6 +155,11 @@
     gap: 2.5rem;
 }
 
+/* Hide mobile filters on desktop */
+.mobileFilters {
+    display: none;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 968px) {
     .shopContainer {
