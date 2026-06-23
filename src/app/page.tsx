@@ -21,15 +21,17 @@ type Product = {
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>, slug: string) => {
+    setHoveredCard(slug);
     const card = e.currentTarget;
     const box = card.getBoundingClientRect();
     const x = e.clientX - box.left - (box.width / 2);
     const y = e.clientY - box.top - (box.height / 2);
     
-    // Max 15 degrees tilt
+    // Max 12 degrees tilt
     const factorX = -(y / (box.height / 2)) * 12;
     const factorY = (x / (box.width / 2)) * 12;
     
@@ -37,6 +39,7 @@ export default function Home() {
   };
 
   const handleMouseLeave = () => {
+    setHoveredCard(null);
     setTilt({ x: 0, y: 0 });
   };
 
@@ -130,12 +133,13 @@ export default function Home() {
                     key={perfume.slug}
                     href={linkHref}
                     className={`${styles.stackCard} ${perfume.className}`}
-                    onMouseMove={isCenter ? handleMouseMove : undefined}
-                    onMouseLeave={isCenter ? handleMouseLeave : undefined}
-                    style={isCenter ? {
-                      transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(30px)`,
-                      transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s ease' : 'none'
-                    } : undefined}
+                    onMouseMove={(e) => handleMouseMove(e, perfume.slug)}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      '--rotate-x': hoveredCard === perfume.slug ? `${tilt.x}deg` : '0deg',
+                      '--rotate-y': hoveredCard === perfume.slug ? `${tilt.y}deg` : '0deg',
+                      transition: hoveredCard !== perfume.slug ? 'transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1)' : 'none'
+                    } as React.CSSProperties}
                   >
                     <div className={styles.cardGlow} />
                     <div className={styles.cardInner}>
