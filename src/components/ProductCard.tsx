@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import styles from './ProductCard.module.css';
 
@@ -38,20 +37,24 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
     return (
         <div className={styles.card}>
-            <Link href={`/shop/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div className={styles.imagePlaceholder}>
+            <Link href={`/shop/${product.id}`} className={styles.linkWrapper}>
+                <div className={styles.imageContainer}>
+                    {product.gender && (
+                        <span className={styles.badge}>{product.gender.toUpperCase()}</span>
+                    )}
                     {product.image ? (
                         <img
                             src={product.image}
                             alt={product.name}
+                            className={styles.productImage}
                         />
                     ) : (
-                        <span>{product.name}</span>
+                        <span className={styles.fallbackName}>{product.name}</span>
                     )}
                 </div>
                 <div className={styles.cardInfo}>
-                    <h3>{product.name}</h3>
-                    <p>${Number(product.price).toFixed(2)}</p>
+                    <h3 className={styles.productName}>{product.name}</h3>
+                    <p className={styles.productPrice}>${Number(product.price).toFixed(2)}</p>
                 </div>
             </Link>
             <div className={styles.actions}>
@@ -66,7 +69,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                         className={styles.quickViewBtn}
                         onClick={handleQuickView}
                     >
-                        View
+                        Quick View
                     </button>
                 )}
             </div>

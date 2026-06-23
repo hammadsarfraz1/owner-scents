@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import styles from './page.module.css';
 import Navbar from '@/components/Navbar';
@@ -11,6 +12,9 @@ export default function CheckoutPage() {
     const { cart, cartTotal, clearCart } = useCart();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState<'COD' | 'CARD'>('COD');
+    
+    // Address Details
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -21,15 +25,75 @@ export default function CheckoutPage() {
         country: 'Pakistan'
     });
 
+    // Card Details
+    const [cardData, setCardData] = useState({
+        number: '',
+        expiry: '',
+        cvc: '',
+        nameOnCard: ''
+    });
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleCardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        
+        if (name === 'number') {
+            // Remove non-digits, cap at 16 digits, format with spaces
+            const digits = value.replace(/\D/g, '').substring(0, 16);
+            const formatted = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
+            setCardData(prev => ({ ...prev, number: formatted }));
+        } else if (name === 'expiry') {
+            // Remove non-digits, cap at 4 digits, format as MM/YY
+            const digits = value.replace(/\D/g, '').substring(0, 4);
+            let formatted = digits;
+            if (digits.length > 2) {
+                formatted = `${digits.substring(0, 2)}/${digits.substring(2)}`;
+            }
+            setCardData(prev => ({ ...prev, expiry: formatted }));
+        } else if (name === 'cvc') {
+            const digits = value.replace(/\D/g, '').substring(0, 3);
+            setCardData(prev => ({ ...prev, cvc: digits }));
+        } else {
+            setCardData(prev => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
+        // Simulated validation for Card Payments
+        if (paymentMethod === 'CARD') {
+            const cleanCardNum = cardData.number.replace(/\s/g, '');
+            if (cleanCardNum.length !== 16) {
+                alert('Please enter a valid 16-digit credit card number.');
+                setLoading(false);
+                return;
+            }
+            if (cardData.expiry.length !== 5) {
+                alert('Please enter a valid expiry date (MM/YY).');
+                setLoading(false);
+                return;
+            }
+            if (cardData.cvc.length !== 3) {
+                alert('Please enter a valid 3-digit CVC/CVV.');
+                setLoading(false);
+                return;
+            }
+            if (!cardData.nameOnCard.trim()) {
+                alert('Please enter the name on the card.');
+                setLoading(false);
+                return;
+            }
+        }
+
         try {
+            // Simulate Stripe latency / processor time
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
             const res = await fetch('/api/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -39,7 +103,9 @@ export default function CheckoutPage() {
                         productId: item.id,
                         quantity: item.quantity
                     })),
-                    total: cartTotal.toString()
+                    total: cartTotal.toString(),
+                    paymentMethod: paymentMethod,
+                    paymentStatus: paymentMethod === 'CARD' ? 'PAID' : 'PENDING'
                 })
             });
 
@@ -47,7 +113,6 @@ export default function CheckoutPage() {
 
             const data = await res.json();
             clearCart();
-            // Redirect to success page (we will build this next)
             router.push(`/checkout/success?orderId=${data.orderId}`);
         } catch (error) {
             console.error(error);
@@ -59,11 +124,12 @@ export default function CheckoutPage() {
 
     if (cart.length === 0) {
         return (
-            <div className={styles.container}>
+            <div className={styles.main}>
                 <Navbar />
-                <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-                    <h1 className={styles.title}>Your Cart is Empty</h1>
-                    <p>Add some scents to your collection first.</p>
+                <div className={styles.emptyContainer}>
+                    <h1 className={styles.title}>Your Bag is Empty</h1>
+                    <p className={styles.subtitle}>Select from our curated fragrance catalog to continue.</p>
+                    <Link href="/shop" className="btn">Browse Shop</Link>
                 </div>
                 <Footer />
             </div>
@@ -71,34 +137,38 @@ export default function CheckoutPage() {
     }
 
     return (
-        <>
+        <div className={styles.main}>
             <Navbar />
             <div className={styles.container}>
                 <h1 className={styles.title}>Secure Checkout</h1>
 
                 <form onSubmit={handleSubmit} className={styles.grid}>
-                    {/* Left Column: Shipping Details */}
+                    {/* Left Column: Shipping & Payment */}
                     <div className={styles.formSection}>
-                        <h2 className={styles.sectionTitle}>Shipping Details</h2>
+                        <h2 className={styles.sectionTitle}>1. Shipping Details</h2>
 
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>Full Name</label>
+                            <label className={styles.label}>Full Name *</label>
                             <input
                                 required
                                 name="name"
+                                value={formData.name}
                                 className={styles.input}
                                 onChange={handleChange}
+                                placeholder="Enter your full name"
                             />
                         </div>
 
-                        <div className={styles.grid} style={{ gap: '1rem', gridTemplateColumns: '1fr 1fr' }}>
+                        <div className={styles.gridRow}>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Email (Optional)</label>
+                                <label className={styles.label}>Email Address</label>
                                 <input
                                     type="email"
                                     name="email"
+                                    value={formData.email}
                                     className={styles.input}
                                     onChange={handleChange}
+                                    placeholder="name@domain.com"
                                 />
                             </div>
                             <div className={styles.formGroup}>
@@ -107,6 +177,7 @@ export default function CheckoutPage() {
                                     required
                                     type="tel"
                                     name="phone"
+                                    value={formData.phone}
                                     placeholder="03XX-XXXXXXX"
                                     className={styles.input}
                                     onChange={handleChange}
@@ -115,60 +186,133 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>Address</label>
+                            <label className={styles.label}>Delivery Address *</label>
                             <input
                                 required
                                 name="address"
+                                value={formData.address}
                                 className={styles.input}
                                 onChange={handleChange}
+                                placeholder="House / Apartment #, Street Name, Sector"
                             />
                         </div>
 
-                        <div className={styles.grid} style={{ gap: '1rem', gridTemplateColumns: '1fr 1fr' }}>
+                        <div className={styles.gridRow}>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>City</label>
+                                <label className={styles.label}>City *</label>
                                 <input
                                     required
                                     name="city"
+                                    value={formData.city}
                                     className={styles.input}
                                     onChange={handleChange}
+                                    placeholder="e.g. Islamabad"
                                 />
                             </div>
                             <div className={styles.formGroup}>
                                 <label className={styles.label}>Postal Code</label>
                                 <input
                                     name="postalCode"
+                                    value={formData.postalCode}
                                     className={styles.input}
                                     onChange={handleChange}
+                                    placeholder="e.g. 44000"
                                 />
                             </div>
                         </div>
+
+                        <h2 className={styles.sectionTitle} style={{ marginTop: '3rem' }}>2. Payment Method</h2>
+
+                        <div className={styles.paymentToggle}>
+                            <button
+                                type="button"
+                                className={`${styles.toggleBtn} ${paymentMethod === 'COD' ? styles.active : ''}`}
+                                onClick={() => setPaymentMethod('COD')}
+                            >
+                                Cash on Delivery (COD)
+                            </button>
+                            <button
+                                type="button"
+                                className={`${styles.toggleBtn} ${paymentMethod === 'CARD' ? styles.active : ''}`}
+                                onClick={() => setPaymentMethod('CARD')}
+                            >
+                                Credit / Debit Card (Simulated)
+                            </button>
+                        </div>
+
+                        {paymentMethod === 'CARD' && (
+                            <div className={styles.cardForm}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Cardholder Name</label>
+                                    <input
+                                        type="text"
+                                        name="nameOnCard"
+                                        value={cardData.nameOnCard}
+                                        onChange={handleCardChange}
+                                        className={styles.input}
+                                        placeholder="Name printed on card"
+                                    />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Card Number</label>
+                                    <input
+                                        type="text"
+                                        name="number"
+                                        value={cardData.number}
+                                        onChange={handleCardChange}
+                                        className={styles.input}
+                                        placeholder="0000 0000 0000 0000"
+                                    />
+                                </div>
+                                <div className={styles.gridRow}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Expiration Date</label>
+                                        <input
+                                            type="text"
+                                            name="expiry"
+                                            value={cardData.expiry}
+                                            onChange={handleCardChange}
+                                            className={styles.input}
+                                            placeholder="MM/YY"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>CVC / CVV</label>
+                                        <input
+                                            type="text"
+                                            name="cvc"
+                                            value={cardData.cvc}
+                                            onChange={handleCardChange}
+                                            className={styles.input}
+                                            placeholder="123"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column: Order Summary */}
                     <div className={styles.summarySection}>
                         <h2 className={styles.sectionTitle}>Order Summary</h2>
 
-                        {cart.map(item => (
-                            <div key={item.id} className={styles.summaryRow}>
-                                <span>{item.name} x {item.quantity}</span>
-                                <span>${(Number(item.price) * item.quantity).toFixed(2)}</span>
-                            </div>
-                        ))}
+                        <div className={styles.summaryItems}>
+                            {cart.map(item => (
+                                <div key={item.id} className={styles.summaryRow}>
+                                    <span className={styles.itemName}>{item.name} x {item.quantity}</span>
+                                    <span className={styles.itemPrice}>${(Number(item.price) * item.quantity).toFixed(2)}</span>
+                                </div>
+                            ))}
+                        </div>
 
                         <div className={styles.summaryRow}>
                             <span>Shipping</span>
-                            <span>Calculated at next step</span>
+                            <span style={{ color: 'var(--accent)', fontWeight: 500 }}>FREE</span>
                         </div>
 
                         <div className={styles.totalRow}>
-                            <span>Total</span>
+                            <span>Subtotal Total</span>
                             <span>${cartTotal.toFixed(2)}</span>
-                        </div>
-
-                        <div className={styles.paymentMethod}>
-                            <input type="radio" checked readOnly className={styles.radio} />
-                            <span>Cash on Delivery (COD)</span>
                         </div>
 
                         <button
@@ -176,12 +320,12 @@ export default function CheckoutPage() {
                             className={styles.submitBtn}
                             disabled={loading}
                         >
-                            {loading ? 'Processing...' : 'Place Order'}
+                            {loading ? 'Validating Payment & Placing Order...' : `Pay & Place Order - $${cartTotal.toFixed(2)}`}
                         </button>
                     </div>
                 </form>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }

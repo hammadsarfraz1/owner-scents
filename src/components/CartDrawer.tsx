@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 export default function CartDrawer() {
-    const { cart, isCartOpen, toggleCart, removeFromCart, cartTotal } = useCart();
+    const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, cartTotal } = useCart();
 
     // Prevent scrolling when cart is open
     useEffect(() => {
@@ -39,28 +39,52 @@ export default function CartDrawer() {
                     {cart.length === 0 ? (
                         <div className={styles.empty}>
                             <p>Your bag is empty.</p>
+                            <Link href="/shop" className={styles.shopNowLink} onClick={toggleCart}>
+                                Shop the collection
+                            </Link>
                         </div>
                     ) : (
                         cart.map((item) => (
                             <div key={item.id} className={styles.item}>
                                 <div className={styles.itemImage}>
-                                    {/* Placeholder for image */}
-                                    {item.name}
+                                    {item.image ? (
+                                        <img src={item.image} alt={item.name} className={styles.cartImg} />
+                                    ) : (
+                                        <span className={styles.fallbackText}>{item.name[0]}</span>
+                                    )}
                                 </div>
                                 <div className={styles.itemDetails}>
                                     <div className={styles.itemName}>{item.name}</div>
                                     <div className={styles.itemPrice}>
-                                        ${Number(item.price).toFixed(2)} x {item.quantity}
+                                        ${Number(item.price).toFixed(2)}
+                                    </div>
+                                    <div className={styles.quantityControls}>
+                                        <button 
+                                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                            className={styles.qtyBtn}
+                                        >
+                                            -
+                                        </button>
+                                        <span className={styles.qtyVal}>{item.quantity}</span>
+                                        <button 
+                                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                            className={styles.qtyBtn}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={styles.itemRight}>
+                                    <div className={styles.itemTotal}>
+                                        ${(Number(item.price) * item.quantity).toFixed(2)}
                                     </div>
                                     <button
                                         onClick={() => removeFromCart(item.id)}
                                         className={styles.removeBtn}
+                                        aria-label="Remove item"
                                     >
-                                        Remove
+                                        &times;
                                     </button>
-                                </div>
-                                <div>
-                                    ${(Number(item.price) * item.quantity).toFixed(2)}
                                 </div>
                             </div>
                         ))

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import HeroSearch from '@/components/HeroSearch';
 import ProductCarousel from '@/components/ProductCarousel';
 import QuickViewModal from '@/components/QuickViewModal';
 import styles from './page.module.css';
@@ -23,13 +22,30 @@ export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
-
   useEffect(() => {
     fetch('/api/products')
       .then(res => res.json())
-      .then(data => setFeaturedProducts(data.slice(0, 6))) // Fetch more for carousel
+      .then(data => setFeaturedProducts(data.slice(0, 6)))
       .catch(console.error);
   }, []);
+
+  const testimonials = [
+    {
+      quote: "Midnight Oud is absolute perfection. It's bold, complex, and commands attention the moment you walk into the room.",
+      author: "Aron K.",
+      role: "Founder, Apex Capital"
+    },
+    {
+      quote: "Rose Elixir has become my signature scent. It strikes the perfect balance between delicate floral notes and rich vanilla warmth.",
+      author: "Elena R.",
+      role: "Creative Director"
+    },
+    {
+      quote: "These aren't just perfumes; they are olfactory statements. The packaging, bottle, and scent longevity are unmatched.",
+      author: "Marcus V.",
+      role: "Collector & Critic"
+    }
+  ];
 
   return (
     <div className={styles.main}>
@@ -37,10 +53,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
-        {/* Background Image */}
         <div className={styles.heroBg}>
           <Image
-            src="/hero-new.png"
+            src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1800&q=80"
             alt="Luxury Perfume"
             fill
             style={{ objectFit: 'cover' }}
@@ -50,14 +65,12 @@ export default function Home() {
         </div>
 
         <div className={styles.heroContent}>
-          <h1 className={styles.title}>ESSENCE OF <br /> AUTHORITY.</h1>
-          <p className={styles.subtitle}>Discover the scent that defines you.</p>
-
-          {/* New Search Bar removed as per request */}
-          {/* <HeroSearch /> */}
-
-          <div style={{ marginTop: '2rem' }}>
+          <span className={styles.heroTagline}>THE HAUTE PARFUMERIE</span>
+          <h1 className={styles.title}>ESSENCE OF<br />AUTHORITY</h1>
+          <p className={styles.subtitle}>Curating timeless fragrance collections for the distinguished individual.</p>
+          <div className={styles.heroActions}>
             <Link href="/shop" className="btn">Shop Collection</Link>
+            <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
           </div>
         </div>
       </section>
@@ -75,34 +88,57 @@ export default function Home() {
       {/* Categories Split */}
       <section className={styles.categories}>
         <Link href="/shop?gender=Men" className={`${styles.catCard} ${styles.men}`}>
+          <div className={styles.catOverlay} />
           <span className={styles.catTitle}>FOR HIM</span>
         </Link>
         <Link href="/shop?gender=Women" className={`${styles.catCard} ${styles.women}`}>
+          <div className={styles.catOverlay} />
           <span className={styles.catTitle}>FOR HER</span>
         </Link>
       </section>
 
-      {/* Featured Section - NOW CAROUSEL */}
-      <section className="container">
+      {/* Featured Section - CAROUSEL */}
+      <section className={`container ${styles.featuredSection}`}>
         <div className={styles.featuredHeader}>
           <h2>Signature Scents</h2>
-          <p>Curated for the distinguished.</p>
+          <p>Hand-crafted fragrances curated for modern authority.</p>
         </div>
 
-        {/* Replaced Grid with Carousel */}
         <ProductCarousel products={featuredProducts} title="" onQuickView={setQuickViewProduct} />
 
-        <div style={{ textAlign: 'center', marginTop: '2rem', marginBottom: '4rem' }}>
-          <Link href="/shop" className={styles.secondaryBtn}>View All Products</Link>
+        <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
+          <Link href="/shop" className={styles.viewAllBtn}>Explore Full Catalog</Link>
         </div>
       </section>
 
       {/* Story Teaser */}
       <section className={styles.story}>
+        <div className={styles.storyOverlay} />
         <div className={styles.storyContent}>
+          <span className={styles.storyLabel}>OUR LEGACY</span>
           <h2>The Owner's Story</h2>
-          <p>Crafted for those who walk into a room and own it without saying a word. Our fragrances are not just scents; they are a statement of power and prestige.</p>
-          <Link href="/about" style={{ textDecoration: 'underline' }}>Read Our Philosophy</Link>
+          <p>Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.</p>
+          <Link href="/about" className={styles.storyLink}>Read Our Philosophy</Link>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className={`container ${styles.testimonialsSection}`}>
+        <div className={styles.featuredHeader}>
+          <h2>Client Appraisals</h2>
+          <p>What the connoisseurs say about Owner Scents.</p>
+        </div>
+        <div className={styles.testimonialsGrid}>
+          {testimonials.map((t, idx) => (
+            <div key={idx} className={styles.testimonialCard}>
+              <div className={styles.quoteIcon}>“</div>
+              <p className={styles.quoteText}>{t.quote}</p>
+              <div className={styles.quoteAuthor}>
+                <strong>{t.author}</strong>
+                <span>{t.role}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

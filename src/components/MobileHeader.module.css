@@ -4,105 +4,138 @@
     position: sticky;
     top: 0;
     z-index: 90;
-    background: #000000;
-    /* Header is black in reference? Actually reference header is black/dark. Let's stick to black based on reference header bar color */
-    color: white;
-    padding: 0;
-}
-
-[data-theme='light'] .mobileHeader {
-    background: #111;
-    /* Dark header for luxury feel */
-    color: white;
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow-sm);
 }
 
 .topRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 1rem;
+    padding: 1rem 1.25rem;
     width: 100%;
 }
 
 .logo a {
     text-decoration: none;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    color: var(--text-primary);
 }
 
 .logoText {
-    font-family: 'Cursive', var(--font-serif);
-    /* Trying to match the script font broadly */
-    font-size: 1.5rem;
-    font-style: italic;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
 .actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .iconBtn {
     background: none;
     border: none;
-    color: white;
+    color: var(--text-secondary);
     cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.iconBtn:hover {
+    color: var(--accent);
 }
 
 .badge {
     position: absolute;
     top: -5px;
     right: -8px;
-    background: red;
-    color: white;
-    font-size: 0.6rem;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 0.55rem;
     font-weight: bold;
-    min-width: 16px;
-    height: 16px;
+    min-width: 14px;
+    height: 14px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 2px;
+    box-shadow: 0 0 5px var(--accent-gold-glow);
 }
 
 /* Search Row */
 .searchRow {
-    padding: 0.5rem 1rem 1rem 1rem;
+    padding: 0 1.25rem 1rem 1.25rem;
     width: 100%;
-    background: #111;
-    /* Matches header */
+    animation: slideDown 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .searchInputWrapper {
     position: relative;
-    background: white;
-    border-radius: 25px;
-    /* Pill shape */
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     overflow: hidden;
     display: flex;
     align-items: center;
+    padding: 0 0.5rem;
+}
+
+.searchInputWrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-gold-glow);
 }
 
 .searchInput {
     width: 100%;
-    padding: 0.6rem 1rem 0.6rem 1rem;
+    padding: 0.6rem 0.5rem;
     border: none;
     outline: none;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     background: transparent;
-    color: black;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    letter-spacing: 0.5px;
 }
 
-.searchIcon {
-    margin-right: 1rem;
-    color: black;
+.searchInput::placeholder {
+    color: var(--text-tertiary);
+}
+
+.searchBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.searchBtn:hover {
+    color: var(--accent);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 968px) {

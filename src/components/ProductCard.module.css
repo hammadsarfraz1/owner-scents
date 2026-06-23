@@ -1,146 +1,200 @@
 .card {
-    border: 1px solid var(--border-color, #e5e5e5);
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease;
-    background: var(--bg-secondary, #fafafa);
+    background: var(--bg-secondary);
     height: 100%;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    border: 1px solid var(--border-color);
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md), 0 0 15px var(--accent-gold-glow);
+    border-color: var(--accent);
 }
 
-.imagePlaceholder {
-    height: 300px;
-    background-color: var(--bg-tertiary, #f0f0f0);
+.linkWrapper {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.imageContainer {
+    height: 380px;
+    background-color: var(--bg-tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary, #111);
-    font-family: var(--font-serif, serif);
-    font-size: 1.5rem;
     overflow: hidden;
+    position: relative;
 }
 
-.imagePlaceholder img {
+.productImage {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover .productImage {
+    transform: scale(1.08);
+}
+
+.badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(8, 8, 9, 0.75);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    font-weight: 500;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+}
+
+.fallbackName {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
 }
 
 .cardInfo {
-    padding: 1rem;
-    flex: 1;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
 }
 
-.cardInfo h3 {
-    font-size: 1.1rem;
+.productName {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
     margin-bottom: 0.5rem;
-    color: var(--text-primary, #111);
-    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
-.cardInfo p {
-    color: var(--text-secondary, #555);
+.card:hover .productName {
+    color: var(--accent);
+}
+
+.productPrice {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
 }
 
 .actions {
-    padding: 0 1rem 1.5rem;
+    padding: 0 1.5rem 1.5rem;
     display: flex;
     gap: 0.75rem;
 }
 
-.quickViewBtn {
-    flex: 1;
-    background: transparent;
-    border: 1px solid var(--border-color, #e5e5e5);
-    color: var(--text-secondary, #555);
-    padding: 0.75rem;
-    font-family: var(--font-sans, sans-serif);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.quickViewBtn:hover {
-    border-color: var(--text-primary, #111);
-    color: var(--text-primary, #111);
-    background: var(--bg-tertiary, #f0f0f0);
-}
-
 .buyNowBtn {
-    flex: 1;
-    background: linear-gradient(135deg, #D4AF37 0%, #C5A028 100%);
-    color: #fff;
-    border: none;
-    padding: 0.85rem;
-    font-family: var(--font-sans, sans-serif);
-    font-size: 0.9rem;
+    flex: 1.2;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
+    padding: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    letter-spacing: 2px;
     font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    z-index: 1;
 }
 
 .buyNowBtn::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: 0.5s;
+    background: var(--bg-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: -1;
 }
 
 .buyNowBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-    background: linear-gradient(135deg, #E5C048 0%, #D4AF37 100%);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 4px 12px var(--accent-gold-glow);
 }
 
 .buyNowBtn:hover::before {
-    left: 100%;
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.quickViewBtn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.quickViewBtn:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+}
+
+@media (max-width: 968px) {
+    .imageContainer {
+        height: 300px;
+    }
 }
 
 @media (max-width: 768px) {
-    .imagePlaceholder {
-        height: 200px;
-        font-size: 1rem;
+    .imageContainer {
+        height: 250px;
+    }
+    .productName {
+        font-size: 1.05rem;
+    }
+    .actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0 1rem 1.25rem;
+    }
+    .buyNowBtn, .quickViewBtn {
+        padding: 0.7rem;
+        font-size: 0.7rem;
     }
 }
 
 @media (max-width: 480px) {
-    .imagePlaceholder {
-        height: 150px;
-        font-size: 0.9rem;
+    .imageContainer {
+        height: 200px;
     }
-
     .cardInfo {
-        padding: 0.8rem;
-    }
-
-    .cardInfo h3 {
-        font-size: 1rem;
-    }
-
-    .buyNowBtn {
-        font-size: 0.75rem;
-        padding: 0.6rem;
+        padding: 1rem;
     }
 }

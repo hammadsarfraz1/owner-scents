@@ -5,12 +5,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(2px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .overlay.open {
@@ -22,16 +23,17 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 400px;
+    width: 440px;
     height: 100%;
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
     color: var(--text-primary);
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     z-index: 1001;
     display: flex;
     flex-direction: column;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
+    border-left: 1px solid var(--border-color);
 }
 
 .drawer.open {
@@ -42,28 +44,31 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
 }
 
 .title {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .closeBtn {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 1.8rem;
     cursor: pointer;
     line-height: 1;
-    color: var(--text-primary);
-    transition: color 0.3s ease;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
 }
 
 .closeBtn:hover {
-    color: #999;
+    color: var(--accent);
+    transform: rotate(90deg);
 }
 
 .items {
@@ -74,54 +79,143 @@
 
 .empty {
     text-align: center;
-    margin-top: 50%;
+    margin-top: 40%;
     color: var(--text-secondary);
-    font-size: 1.1rem;
+}
+
+.empty p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.shopNowLink {
+    display: inline-block;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.2rem;
+    transition: all 0.3s ease;
+}
+
+.shopNowLink:hover {
+    color: var(--text-primary);
+    border-bottom-color: var(--text-primary);
 }
 
 .item {
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border-color);
+    align-items: center;
 }
 
 .itemImage {
-    width: 80px;
-    height: 80px;
-    background: var(--bg-secondary);
+    width: 90px;
+    height: 110px;
+    background: var(--bg-tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7rem;
-    color: var(--text-secondary);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.cartImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fallbackText {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--accent);
 }
 
 .itemDetails {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .itemName {
     font-family: var(--font-serif);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-primary);
 }
 
 .itemPrice {
     color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+}
+
+.quantityControls {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    width: fit-content;
+    background: var(--bg-primary);
+}
+
+.qtyBtn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qtyBtn:hover {
+    background: var(--bg-tertiary);
+    color: var(--accent);
+}
+
+.qtyVal {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+    min-width: 20px;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.itemRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.5rem;
+}
+
+.itemTotal {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
 }
 
 .removeBtn {
     background: none;
     border: none;
-    text-decoration: underline;
+    font-size: 1.3rem;
     cursor: pointer;
-    font-size: 0.8rem;
     color: var(--text-tertiary);
     transition: color 0.3s ease;
+    line-height: 1;
 }
 
 .removeBtn:hover {
@@ -129,35 +223,42 @@
 }
 
 .footer {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     border-top: 1px solid var(--border-color);
-    background: var(--bg-secondary);
+    background: var(--bg-primary);
 }
 
 .totalRow {
     display: flex;
     justify-content: space-between;
     font-family: var(--font-serif);
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
 }
 
 .checkoutBtn {
     display: block;
     width: 100%;
-    padding: 1rem;
-    background: var(--text-primary);
-    color: var(--bg-primary);
+    padding: 1.1rem;
+    background: var(--accent);
+    color: var(--accent-text);
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 0.9rem;
-    transition: opacity 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid var(--accent);
 }
 
 .checkoutBtn:hover {
-    opacity: 0.8;
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
 }
 
 @media (max-width: 480px) {

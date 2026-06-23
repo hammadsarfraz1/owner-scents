@@ -1,77 +1,159 @@
+.main {
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
 .container {
-    padding: 10rem 2rem 5rem;
-    max-width: 1200px;
+    padding: 8rem 2rem 5rem;
+    max-width: 1400px;
     margin: 0 auto;
-    min-height: 80vh;
+}
+
+.emptyContainer {
+    text-align: center;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .title {
-    font-family: var(--font-cinzel), serif;
-    font-size: 2.5rem;
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
     margin-bottom: 3rem;
     text-align: center;
-    color: var(--text-primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1.2fr 0.8fr;
     gap: 4rem;
 }
 
 .formSection {
-    background: var(--bg-card);
-    padding: 2rem;
+    background: var(--bg-secondary);
+    padding: 3rem;
     border: 1px solid var(--border-color);
 }
 
 .sectionTitle {
-    font-family: var(--font-cinzel), serif;
-    font-size: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
     margin-bottom: 2rem;
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .formGroup {
     margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .label {
-    display: block;
     font-family: var(--font-sans);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.5rem;
+    letter-spacing: 1.5px;
     color: var(--text-secondary);
 }
 
 .input {
     width: 100%;
-    padding: 1rem;
-    background: transparent;
+    padding: 0.9rem 1rem;
+    background: var(--bg-primary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 0.9rem;
+    outline: none;
     transition: all 0.3s ease;
 }
 
 .input:focus {
-    outline: none;
-    border-color: var(--gold-highlight);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-gold-glow);
+}
+
+.gridRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Payment Toggle Buttons */
+.paymentToggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.toggleBtn {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.toggleBtn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.toggleBtn.active {
+    background: var(--accent-gold-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+/* Card Form Styles */
+.cardForm {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    animation: slideDown 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .summarySection {
-    background: var(--bg-card);
-    padding: 2rem;
+    background: var(--bg-secondary);
+    padding: 3rem;
     border: 1px solid var(--border-color);
     height: fit-content;
     position: sticky;
-    top: 6rem;
+    top: 7rem;
+}
+
+.summaryItems {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 .summaryRow {
@@ -80,6 +162,12 @@
     padding: 1rem 0;
     border-bottom: 1px solid var(--border-color);
     font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.itemName {
+    color: var(--text-primary);
 }
 
 .totalRow {
@@ -87,29 +175,35 @@
     justify-content: space-between;
     padding: 1.5rem 0;
     margin-top: 1rem;
-    font-family: var(--font-cinzel), serif;
-    font-size: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
     font-weight: bold;
-    color: var(--gold-highlight);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
 }
 
 .submitBtn {
     width: 100%;
-    padding: 1.25rem;
-    background: var(--text-primary);
-    color: var(--bg-primary);
-    border: none;
+    padding: 1.1rem;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
     font-family: var(--font-sans);
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     margin-top: 2rem;
+    font-size: 0.8rem;
 }
 
 .submitBtn:hover {
-    background: var(--gold-highlight);
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
     transform: translateY(-2px);
 }
 
@@ -117,30 +211,38 @@
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
 
-.paymentMethod {
-    padding: 1rem;
-    border: 1px solid var(--gold-highlight);
-    background: rgba(212, 175, 55, 0.05);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.radio {
-    accent-color: var(--gold-highlight);
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .container {
-        padding: 6rem 1rem 2rem;
+        padding: 6rem 1.25rem 2rem;
+    }
+    
+    .formSection, .summarySection {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 580px) {
+    .gridRow, .paymentToggle {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 }

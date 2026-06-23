@@ -6,20 +6,16 @@
     left: 0;
     right: 0;
     height: 70px;
-    /* Safe height including iOS home bar area */
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border-color);
+    background: var(--nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--glass-border);
     z-index: 1000;
     padding-bottom: env(safe-area-inset-bottom);
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.03);
-}
-
-[data-theme='dark'] .bottomNav {
-    background: rgba(10, 10, 10, 0.95);
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .navItem {
@@ -35,11 +31,15 @@
     flex: 1;
     height: 100%;
     padding: 0.5rem 0;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     gap: 4px;
 }
 
 .navItem.active {
+    color: var(--accent);
+}
+
+.navItem:hover {
     color: var(--text-primary);
 }
 
@@ -61,8 +61,8 @@
     position: absolute;
     top: -5px;
     right: -8px;
-    background: var(--text-primary);
-    color: var(--bg-primary);
+    background: var(--accent);
+    color: var(--accent-text);
     font-size: 0.6rem;
     font-weight: bold;
     min-width: 16px;
@@ -72,6 +72,7 @@
     align-items: center;
     justify-content: center;
     padding: 2px;
+    box-shadow: 0 0 5px var(--accent-gold-glow);
 }
 
 @media (max-width: 968px) {

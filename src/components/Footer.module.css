@@ -1,77 +1,164 @@
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
-    padding: 4rem 0 1rem;
-    margin-top: 4rem;
+    padding: 5rem 0 2rem;
+    margin-top: 6rem;
     border-top: 1px solid var(--border-color);
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 4rem;
 }
 
-.brand h3 {
+.brand {
+    max-width: 450px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 4px;
     margin-bottom: 1rem;
+}
+
+.tagline {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Newsletter Styles */
+.newsletter h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.newsletterForm {
+    display: flex;
+    max-width: 400px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    transition: border-color 0.3s ease;
+}
+
+.newsletterForm:focus-within {
+    border-bottom-color: var(--accent);
+}
+
+.newsletterInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+}
+
+.newsletterInput::placeholder {
+    color: var(--text-tertiary);
+}
+
+.newsletterBtn {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.newsletterBtn:hover {
+    color: var(--text-primary);
+    transform: translateX(3px);
 }
 
 .links {
     display: flex;
-    gap: 4rem;
+    gap: 5rem;
     flex-wrap: wrap;
 }
 
 .column h4 {
     margin-bottom: 1.5rem;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--text-primary);
 }
 
 .column a {
     display: block;
     margin-bottom: 0.8rem;
-    font-size: 0.9rem;
-    opacity: 0.8;
-    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
     color: var(--text-secondary);
 }
 
 .column a:hover {
-    opacity: 1;
-    color: var(--text-primary);
+    color: var(--accent);
+    transform: translateX(4px);
 }
 
 .bottom {
     text-align: center;
-    margin-top: 4rem;
-    padding-top: 1rem;
+    margin-top: 5rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
-    font-size: 0.8rem;
-    opacity: 0.6;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .container {
         flex-direction: column;
+        gap: 3rem;
+    }
+
+    .brand {
+        max-width: 100%;
         text-align: center;
-        gap: 2rem;
+        align-items: center;
+    }
+
+    .newsletterForm {
+        margin: 0 auto;
+        width: 100%;
     }
 
     .links {
-        justify-content: center;
+        justify-content: space-between;
+        width: 100%;
         gap: 2rem;
     }
+}
 
-    .footer {
-        padding-top: 2rem;
-        margin-top: 2rem;
+@media (max-width: 480px) {
+    .links {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .column a:hover {
+        transform: none;
     }
 }

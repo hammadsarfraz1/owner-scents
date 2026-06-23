@@ -1,13 +1,15 @@
 .navbar {
     background: var(--nav-bg);
     color: var(--text-primary);
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Hamburger default state (Hidden on Desk) */
@@ -18,7 +20,7 @@
 .bar {
     display: block;
     width: 25px;
-    height: 3px;
+    height: 2px;
     background-color: var(--text-primary);
     margin: 5px 0;
     transition: all 0.3s ease;
@@ -29,38 +31,44 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
 .logo a {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 4px;
     text-decoration: none;
     color: var(--text-primary);
-    /* Ensure Cinzel font is used if var(--font-serif) is set correctly */
+    transition: all 0.3s ease;
+    text-shadow: 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+.logo a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-gold-glow);
 }
 
 /* Wrapper for all right-side content */
 .navRight {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.2rem;
     margin-left: auto;
 }
 
-/* Navigation Links with animated underline */
+/* Navigation Links with animated gold underline */
 .link {
     text-decoration: none;
-    color: var(--text-primary);
-    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
     position: relative;
     padding: 0.5rem 0;
 }
@@ -72,8 +80,8 @@
     height: 1px;
     bottom: 0;
     left: 0;
-    background-color: var(--text-primary);
-    transition: width 0.3s ease;
+    background-color: var(--accent);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .link:hover {
@@ -89,32 +97,31 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-right: 1.5rem;
-    /* More space from links */
+    margin-right: 1rem;
 }
 
 .searchInput {
     padding: 0.5rem 0.5rem 0.5rem 2rem;
-    /* Space for icon */
     border: none;
-    border-bottom: 1px solid var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
     background: transparent;
     color: var(--text-primary);
     font-family: var(--font-sans);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     outline: none;
     border-radius: 0;
-    width: 150px;
-    transition: all 0.3s ease;
+    width: 140px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .searchInput:focus {
     width: 220px;
-    border-bottom-color: var(--text-primary);
+    border-bottom-color: var(--accent);
+    box-shadow: 0 1px 0 var(--accent);
 }
 
 .searchInput::placeholder {
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     opacity: 0.7;
     font-weight: 300;
     letter-spacing: 0.5px;
@@ -123,10 +130,16 @@
 .searchIcon {
     position: absolute;
     left: 0;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     pointer-events: none;
-    font-size: 0.9rem;
-    opacity: 0.7;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    transition: color 0.3s ease;
+}
+
+.searchInput:focus + .searchIcon {
+    color: var(--accent);
+    opacity: 1;
 }
 
 /* Icons (Cart, Theme) - distinct interaction */
@@ -134,44 +147,47 @@
 .cartBtn {
     background: none;
     border: none;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     cursor: pointer;
-    font-size: 1.1rem;
-    padding: 0.6rem;
+    font-size: 1rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid transparent;
 }
 
 .themeToggle:hover,
 .cartBtn:hover {
-    background: rgba(125, 125, 125, 0.1);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border-color: var(--glass-border);
     transform: translateY(-2px);
 }
 
 /* Auth/Sign Out Button - Sleek Pill Shape */
 .authBtn {
-    background: var(--text-primary);
-    border: 1px solid var(--text-primary);
-    color: var(--bg-primary);
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
     cursor: pointer;
     font-family: var(--font-sans);
-    font-size: 0.8rem;
-    padding: 0.6rem 1.5rem;
+    font-size: 0.75rem;
+    padding: 0.5rem 1.25rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-radius: 30px;
-    transition: all 0.3s ease;
-    font-weight: 600;
+    border-radius: 0px; /* Luxury sharp edge or very subtle pill. Let's do elegant sharp/minimal box */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-weight: 500;
 }
 
 .authBtn:hover {
-    background: transparent;
-    color: var(--text-primary);
+    background: var(--accent);
+    color: var(--accent-text);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
 }
 
 /* Mobile styles */

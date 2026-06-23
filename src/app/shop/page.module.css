@@ -5,83 +5,90 @@
     flex-direction: column;
 }
 
-/* Sidebar Styling */
+.shopContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 3rem;
+}
+
 /* Sidebar Styling */
 .sidebar {
-    width: 280px;
-    padding-right: 3rem;
-    border-right: 1px solid rgba(212, 175, 55, 0.2);
-    /* Subtle gold border */
+    width: 260px;
+    padding-right: 2.5rem;
+    border-right: 1px solid var(--border-color);
     position: sticky;
-    top: 6rem;
+    top: 7rem;
     height: fit-content;
     align-self: start;
 }
 
 .filterGroup {
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
 }
 
 .filterGroup h3 {
-    font-family: var(--font-cinzel, serif);
-    /* Ensure Serif font */
-    font-size: 1.1rem;
+    font-family: var(--font-serif);
+    font-size: 1rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 1.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
     color: var(--text-primary);
     font-weight: 500;
-    border-bottom: 2px solid var(--gold-highlight, #D4AF37);
+    border-bottom: 1px solid var(--accent);
     display: inline-block;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
 }
 
 .filterLabel {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
-    margin-bottom: 1.2rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
     transition: all 0.3s ease;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.25rem 0;
     font-family: var(--font-sans);
     letter-spacing: 0.5px;
 }
 
 .filterLabel:hover {
-    color: var(--gold-highlight, #D4AF37);
-    padding-left: 0.5rem;
+    color: var(--accent);
+    padding-left: 0.25rem;
 }
 
 /* Custom Radio Button Design */
 .filterLabel input {
     appearance: none;
     -webkit-appearance: none;
-    width: 1.2rem;
-    height: 1.2rem;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 1.15rem;
+    height: 1.15rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
     border-radius: 50%;
     margin: 0;
     display: grid;
     place-content: center;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .filterLabel input::before {
     content: "";
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.55rem;
+    height: 0.55rem;
     border-radius: 50%;
     transform: scale(0);
-    transition: 0.2s transform ease-in-out;
-    background-color: var(--gold-highlight, #D4AF37);
+    transition: 0.25s transform cubic-bezier(0.25, 0.8, 0.25, 1);
+    background-color: var(--accent);
 }
 
 .filterLabel input:checked {
-    border-color: var(--gold-highlight, #D4AF37);
-    border-width: 2px;
+    border-color: var(--accent);
+    box-shadow: 0 0 5px var(--accent-gold-glow);
 }
 
 .filterLabel input:checked::before {
@@ -93,25 +100,27 @@
     font-weight: 500;
 }
 
-/* Existing Grid & Card Styles */
+/* Grid & Card Styles */
 .title {
     font-family: var(--font-serif);
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-align: left;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--text-primary);
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .shopContainer {
         flex-direction: column;
+        gap: 1.5rem;
     }
 
     .sidebar {
@@ -121,17 +130,14 @@
 
     .mobileFilters {
         display: flex;
-        gap: 1rem;
+        gap: 0.75rem;
         overflow-x: auto;
-        padding: 1rem 0;
-        margin-bottom: 2rem;
+        padding: 0.5rem 0 1rem 0;
+        margin-bottom: 1.5rem;
         scrollbar-width: none;
-        /* Hide scrollbar Firefox */
         -ms-overflow-style: none;
-        /* Hide scrollbar IE */
         position: sticky;
         top: 60px;
-        /* Below navbar */
         background: var(--bg-primary);
         z-index: 90;
         border-bottom: 1px solid var(--border-color);
@@ -139,77 +145,45 @@
 
     .mobileFilters::-webkit-scrollbar {
         display: none;
-        /* Hide scrollbar Chrome/Safari */
     }
 
     .filterChip {
         flex: 0 0 auto;
         padding: 0.5rem 1.2rem;
         border: 1px solid var(--border-color);
-        border-radius: 20px;
-        font-size: 0.85rem;
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+        border-radius: 0px; /* Sharp minimal edges */
+        font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 1px;
         white-space: nowrap;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: all 0.3s ease;
     }
 
     .filterChip.active {
-        background: var(--text-primary);
-        color: var(--bg-primary);
-        border-color: var(--text-primary);
+        background: var(--accent);
+        color: var(--accent-text);
+        border-color: var(--accent);
+        box-shadow: 0 2px 8px var(--accent-gold-glow);
     }
-
-    .filterGroup {
-        margin-bottom: 1.5rem;
-        display: none;
-        /* Hide default filter group in mobile view if it was used elsewhere */
-    }
-
-    /* Make filters collapsible or horizontal scroll could optionally go here */
 
     .grid {
         grid-template-columns: repeat(2, 1fr);
-        /* 2 columns on mobile */
-        gap: 1rem;
-    }
-
-    .imagePlaceholder {
-        height: 200px;
-        font-size: 1rem;
+        gap: 1.5rem;
     }
 
     .title {
-        font-size: 2rem;
+        font-size: 1.8rem;
         text-align: center;
+        margin-bottom: 1rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 580px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* Force 2 columns even on small screens */
-        gap: 0.8rem;
-        /* Tighter gap */
-    }
-
-    .imagePlaceholder {
-        height: 150px;
-        /* Shorter images for small screens */
-        font-size: 0.9rem;
-    }
-
-    .cardInfo {
-        padding: 0.8rem;
-    }
-
-    .cardInfo h3 {
-        font-size: 1rem;
-    }
-
-    .buyNowBtn {
-        font-size: 0.75rem;
-        padding: 0.6rem;
+        grid-template-columns: 1fr; /* 1 full column for luxury card sizes on mobile */
+        gap: 2rem;
     }
 }
