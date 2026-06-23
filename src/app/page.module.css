@@ -563,25 +563,26 @@
 @media (max-width: 968px) {
   .hero {
     min-height: auto;
-    padding: 6rem 0 3rem;
+    padding: 3rem 0 2rem;
   }
   .heroContainer {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
   }
   .heroLeft {
     align-items: center;
     text-align: center;
   }
   .title {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     text-align: center;
   }
   .subtitle {
     text-align: center;
+    margin-bottom: 1.5rem;
   }
   .scentTags {
-    justify-content: center;
+    display: none;
   }
   .stackContainer {
     height: 420px;
@@ -635,11 +636,15 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    padding: 2rem 0 1rem;
+  }
   .title {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
   }
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.2rem;
   }
   .featuredHeader h2, .storyContent h2 {
     font-size: 2.2rem;
@@ -648,6 +653,7 @@
     flex-direction: column;
     width: 100%;
     gap: 1rem;
+    margin-bottom: 1.5rem;
   }
   .secondaryBtn, :global(.btn) {
     width: 100%;
@@ -694,7 +700,7 @@
 
 @media (max-width: 480px) {
   .title {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
   .stackContainer {
     height: 290px;

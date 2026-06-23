@@ -139,12 +139,17 @@ export default function Home() {
                   >
                     <div className={styles.cardGlow} />
                     <div className={styles.cardInner}>
-                      <Image
+                      <img
                         src={perfume.image}
                         alt={perfume.name}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        priority={isCenter}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
                       />
                       <div className={styles.cardContent}>
                         <h3>{perfume.name}</h3>
