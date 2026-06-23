@@ -176,19 +176,25 @@ export default function ProductDetails() {
 
                         {/* Olfactive Pyramid */}
                         <div className={styles.pyramidSection}>
-                            <h3>Olfactory Notes</h3>
-                            <div className={styles.pyramid}>
-                                <div className={styles.noteRow}>
-                                    <span className={styles.noteLabel}>TOP</span>
-                                    <span className={styles.noteValue}>{product.topNotes || "Bergamot, Grapefruit"}</span>
+                            <h3>Olfactory Pyramid</h3>
+                            <div className={styles.pyramidContainer}>
+                                <div className={`${styles.pyramidTier} ${styles.tierTop}`}>
+                                    <div className={styles.tierGlass}>
+                                        <span className={styles.tierName}>TOP NOTES</span>
+                                        <p className={styles.tierValue}>{product.topNotes || "Bergamot, Grapefruit"}</p>
+                                    </div>
                                 </div>
-                                <div className={styles.noteRow}>
-                                    <span className={styles.noteLabel}>HEART</span>
-                                    <span className={styles.noteValue}>{product.heartNotes || "Jasmine, Sage"}</span>
+                                <div className={`${styles.pyramidTier} ${styles.tierHeart}`}>
+                                    <div className={styles.tierGlass}>
+                                        <span className={styles.tierName}>HEART NOTES</span>
+                                        <p className={styles.tierValue}>{product.heartNotes || "Jasmine, Sage"}</p>
+                                    </div>
                                 </div>
-                                <div className={styles.noteRow}>
-                                    <span className={styles.noteLabel}>BASE</span>
-                                    <span className={styles.noteValue}>{product.baseNotes || "Sandalwood, Patchouli"}</span>
+                                <div className={`${styles.pyramidTier} ${styles.tierBase}`}>
+                                    <div className={styles.tierGlass}>
+                                        <span className={styles.tierName}>BASE NOTES</span>
+                                        <p className={styles.tierValue}>{product.baseNotes || "Sandalwood, Patchouli"}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

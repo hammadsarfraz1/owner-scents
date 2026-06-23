@@ -21,6 +21,24 @@ type Product = {
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left - (box.width / 2);
+    const y = e.clientY - box.top - (box.height / 2);
+    
+    // Max 15 degrees tilt
+    const factorX = -(y / (box.height / 2)) * 12;
+    const factorY = (x / (box.width / 2)) * 12;
+    
+    setTilt({ x: factorX, y: factorY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
 
   useEffect(() => {
     fetch('/api/products')
@@ -51,26 +69,58 @@ export default function Home() {
     <div className={styles.main}>
       <Navbar />
 
+      {/* Background Aura Blobs */}
+      <div className="auraBlob1" style={{ top: '10%', left: '5%' }} />
+      <div className="auraBlob2" style={{ top: '35%', right: '10%' }} />
+
       {/* Hero Section */}
       <section className={styles.hero}>
-        <div className={styles.heroBg}>
-          <Image
-            src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1800&q=80"
-            alt="Luxury Perfume"
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-          <div className={styles.overlay} />
-        </div>
+        <div className={`container ${styles.heroContainer}`}>
+          <div className={styles.heroLeft}>
+            <span className={styles.heroTagline}>THE HAUTE PARFUMERIE</span>
+            <h1 className={styles.title}>
+              ESSENCE OF<br />
+              <span className={styles.glowingText}>AUTHORITY</span>
+            </h1>
+            <p className={styles.subtitle}>Curating timeless fragrance collections for the distinguished individual.</p>
+            <div className={styles.heroActions}>
+              <Link href="/shop" className="btn">Shop Collection</Link>
+              <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
+            </div>
+            
+            {/* Scent Tag Descriptors */}
+            <div className={styles.scentTags}>
+              <span>✦ OUD & LEATHER</span>
+              <span>✦ ROSE & VANILLA</span>
+              <span>✦ BERGAMOT & OCEAN</span>
+            </div>
+          </div>
 
-        <div className={styles.heroContent}>
-          <span className={styles.heroTagline}>THE HAUTE PARFUMERIE</span>
-          <h1 className={styles.title}>ESSENCE OF<br />AUTHORITY</h1>
-          <p className={styles.subtitle}>Curating timeless fragrance collections for the distinguished individual.</p>
-          <div className={styles.heroActions}>
-            <Link href="/shop" className="btn">Shop Collection</Link>
-            <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
+          <div className={styles.heroRight}>
+            <div 
+              className={styles.tiltCard}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s ease' : 'none'
+              }}
+            >
+              <div className={styles.cardGlow} />
+              <div className={styles.cardInner}>
+                <Image
+                  src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1800&q=80"
+                  alt="Luxury Showcase"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  priority
+                />
+                <div className={styles.cardContent}>
+                  <h3>Midnight Oud</h3>
+                  <span>SIGNATURE EDITION</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

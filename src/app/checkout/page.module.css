@@ -45,6 +45,12 @@
     background: var(--bg-secondary);
     padding: 3rem;
     border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.formSection:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px var(--accent-gold-glow);
 }
 
 .sectionTitle {
@@ -148,6 +154,12 @@
     height: fit-content;
     position: sticky;
     top: 7rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.summarySection:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px var(--accent-gold-glow);
 }
 
 .summaryItems {

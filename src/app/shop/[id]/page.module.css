@@ -237,34 +237,80 @@
     letter-spacing: 2px;
 }
 
-.pyramid {
+.pyramidContainer {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-}
-
-.noteRow {
-    display: grid;
-    grid-template-columns: 100px 1fr;
     align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1rem;
 }
 
-.noteRow:last-child {
-    border-bottom: none;
+.pyramidTier {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.noteLabel {
+.tierTop {
+    max-width: 55%;
+}
+
+.tierHeart {
+    max-width: 78%;
+}
+
+.tierBase {
+    max-width: 100%;
+}
+
+.tierGlass {
+    width: 100%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 1.25rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.pyramidTier:hover .tierGlass {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent-gold-glow);
+    transform: translateY(-2px);
+}
+
+@media (min-width: 769px) {
+    .tierTop .tierGlass {
+        clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    .tierHeart .tierGlass {
+        clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%);
+        padding-left: 3.5rem;
+        padding-right: 3.5rem;
+    }
+}
+
+.tierName {
+    font-family: var(--font-serif);
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 2px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
     color: var(--accent);
+    display: block;
+    margin-bottom: 0.3rem;
 }
 
-.noteValue {
-    font-size: 0.95rem;
+.tierValue {
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.4;
 }
 
 /* Reviews Section */

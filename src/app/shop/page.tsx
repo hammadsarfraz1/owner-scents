@@ -24,6 +24,8 @@ function ShopContent() {
     const [selectedGender, setSelectedGender] = useState<string>('All');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [sortOption, setSortOption] = useState<string>('newest');
+    const [genderFolderOpen, setGenderFolderOpen] = useState(true);
+    const [categoryFolderOpen, setCategoryFolderOpen] = useState(true);
 
     useEffect(() => {
         const genderParam = searchParams.get('gender');
@@ -87,33 +89,50 @@ function ShopContent() {
 
                 {/* Sidebar Filters */}
                 <aside className={styles.sidebar}>
-                    <div className={styles.filterGroup}>
-                        <h3>Gender</h3>
-                        {genders.map(g => (
-                            <label key={g} className={styles.filterLabel}>
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    checked={selectedGender === g}
-                                    onChange={() => setSelectedGender(g)}
-                                />
-                                {g}
-                            </label>
-                        ))}
+                    <div className={`${styles.filterFolder} ${genderFolderOpen ? styles.folderOpen : ''}`}>
+                        <button 
+                            className={styles.folderHeader} 
+                            onClick={() => setGenderFolderOpen(!genderFolderOpen)}
+                        >
+                            <span>Gender</span>
+                            <span className={styles.folderArrow}>{genderFolderOpen ? '−' : '+'}</span>
+                        </button>
+                        <div className={styles.folderContent}>
+                            {genders.map(g => (
+                                <label key={g} className={styles.filterLabel}>
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        checked={selectedGender === g}
+                                        onChange={() => setSelectedGender(g)}
+                                    />
+                                    {g}
+                                </label>
+                            ))}
+                        </div>
                     </div>
-                    <div className={styles.filterGroup}>
-                        <h3>Category</h3>
-                        {categories.map(c => (
-                            <label key={c} className={styles.filterLabel}>
-                                <input
-                                    type="radio"
-                                    name="category"
-                                    checked={selectedCategory === c}
-                                    onChange={() => setSelectedCategory(c)}
-                                />
-                                {c}
-                            </label>
-                        ))}
+
+                    <div className={`${styles.filterFolder} ${categoryFolderOpen ? styles.folderOpen : ''}`}>
+                        <button 
+                            className={styles.folderHeader} 
+                            onClick={() => setCategoryFolderOpen(!categoryFolderOpen)}
+                        >
+                            <span>Category</span>
+                            <span className={styles.folderArrow}>{categoryFolderOpen ? '−' : '+'}</span>
+                        </button>
+                        <div className={styles.folderContent}>
+                            {categories.map(c => (
+                                <label key={c} className={styles.filterLabel}>
+                                    <input
+                                        type="radio"
+                                        name="category"
+                                        checked={selectedCategory === c}
+                                        onChange={() => setSelectedCategory(c)}
+                                    />
+                                    {c}
+                                </label>
+                            ))}
+                        </div>
                     </div>
                 </aside>
 

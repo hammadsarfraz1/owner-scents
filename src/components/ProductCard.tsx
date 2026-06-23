@@ -11,6 +11,10 @@ export type Product = {
     image: string;
     gender?: string;
     category?: string;
+    topNotes?: string;
+    heartNotes?: string;
+    baseNotes?: string;
+    description?: string;
 };
 
 type ProductCardProps = {
@@ -25,6 +29,12 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         e.preventDefault();
         addToCart({ ...product, price: Number(product.price) });
         window.location.href = '/checkout';
+    };
+
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addToCart({ ...product, price: Number(product.price) });
     };
 
     const handleQuickView = (e: React.MouseEvent) => {
@@ -51,6 +61,31 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     ) : (
                         <span className={styles.fallbackName}>{product.name}</span>
                     )}
+                    
+                    {/* Quick Add Button */}
+                    <button
+                        className={styles.quickAddBtn}
+                        onClick={handleAddToCart}
+                        aria-label="Quick Add to Cart"
+                    >
+                        +
+                    </button>
+
+                    {/* Hover Notes Overlay */}
+                    <div className={styles.notesOverlay}>
+                        <div className={styles.notesOverlayContent}>
+                            <span className={styles.overlayTitle}>Scent Profile</span>
+                            <div className={styles.overlayNote}>
+                                <span className={styles.overlayLabel}>Top:</span> {product.topNotes || "Bergamot, Grapefruit"}
+                            </div>
+                            <div className={styles.overlayNote}>
+                                <span className={styles.overlayLabel}>Heart:</span> {product.heartNotes || "Jasmine, Sage"}
+                            </div>
+                            <div className={styles.overlayNote}>
+                                <span className={styles.overlayLabel}>Base:</span> {product.baseNotes || "Sandalwood, Oud"}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.cardInfo}>
                     <h3 className={styles.productName}>{product.name}</h3>

@@ -115,8 +115,9 @@
 }
 
 .optionCard {
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
+    border-left: 3px solid var(--border-color);
     padding: 1.5rem 2rem;
     text-align: left;
     cursor: pointer;
@@ -128,7 +129,8 @@
 
 .optionCard:hover {
     border-color: var(--accent);
-    transform: translateY(-2px);
+    border-left-color: var(--accent);
+    transform: translateX(6px);
     box-shadow: 0 4px 15px var(--accent-gold-glow);
 }
 

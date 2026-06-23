@@ -24,21 +24,52 @@
     align-self: start;
 }
 
-.filterGroup {
-    margin-bottom: 3rem;
+.filterFolder {
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.filterGroup h3 {
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1.5rem;
+.filterFolder:hover {
+    border-color: rgba(168, 85, 247, 0.3);
+}
+
+.folderHeader {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: var(--text-primary);
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
     font-weight: 500;
-    border-bottom: 1px solid var(--accent);
-    display: inline-block;
-    padding-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+}
+
+.folderArrow {
+    font-size: 0.75rem;
+    color: var(--accent);
+}
+
+.folderContent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), padding 0.4s ease;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.folderOpen .folderContent {
+    max-height: 300px;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid rgba(168, 85, 247, 0.1);
 }
 
 .filterLabel {
