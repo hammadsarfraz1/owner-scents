@@ -35,7 +35,9 @@ export default function RootLayout({
           <TopPromoBar />
           <MobileHeader />
           <CartDrawer />
-          {children}
+          <div style={{ position: 'relative', overflowX: 'hidden', width: '100%' }}>
+            {children}
+          </div>
           <WhatsAppFloat />
           <MobileBottomNav />
         </Providers>
