@@ -101,3 +101,36 @@ model Review {
   date      String
   createdAt DateTime @default(now())
 }
+
+model HomepageConfig {
+  id              String   @id @default("singleton")
+  // 3D Card 1 (Left)
+  card1Name       String   @default("Rose Elixir")
+  card1Edition    String   @default("FLORAL ESSENCE")
+  card1Image      String   @default("https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80")
+  card1Link       String   @default("/shop")
+  
+  // 3D Card 2 (Center)
+  card2Name       String   @default("Midnight OUD")
+  card2Edition    String   @default("SIGNATURE EDITION")
+  card2Image      String   @default("https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80")
+  card2Link       String   @default("/shop")
+  
+  // 3D Card 3 (Right)
+  card3Name       String   @default("Velvet Orchid")
+  card3Edition    String   @default("ROYAL ORIENTAL")
+  card3Image      String   @default("https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80")
+  card3Link       String   @default("/shop")
+
+  // Split Category 1 (For Him)
+  split1Title     String   @default("FOR HIM")
+  split1Image     String   @default("https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&w=1000&q=80")
+  split1Link      String   @default("/shop?gender=Men")
+
+  // Split Category 2 (For Her)
+  split2Title     String   @default("FOR HER")
+  split2Image     String   @default("https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=1000&q=80")
+  split2Link      String   @default("/shop?gender=Women")
+
+  updatedAt       DateTime @updatedAt
+}

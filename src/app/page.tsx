@@ -20,6 +20,7 @@ type Product = {
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [config, setConfig] = useState<any>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -56,6 +57,11 @@ export default function Home() {
     fetch('/api/products?t=' + Date.now())
       .then(res => res.json())
       .then(data => setFeaturedProducts(data.slice(0, 6)))
+      .catch(console.error);
+
+    fetch('/api/homepage-config?t=' + Date.now())
+      .then(res => res.json())
+      .then(data => setConfig(data))
       .catch(console.error);
   }, []);
 
@@ -117,28 +123,31 @@ export default function Home() {
               {[
                 {
                   slug: 'rose',
-                  name: "Rose Elixir",
-                  edition: "FLORAL ESSENCE",
-                  image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                  name: config?.card1Name || "Rose Elixir",
+                  edition: config?.card1Edition || "FLORAL ESSENCE",
+                  image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card1Link || "/shop",
                   className: styles.leftCard
                 },
                 {
                   slug: 'midnight',
-                  name: "Midnight OUD",
-                  edition: "SIGNATURE EDITION",
-                  image: "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                  name: config?.card2Name || "Midnight OUD",
+                  edition: config?.card2Edition || "SIGNATURE EDITION",
+                  image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card2Link || "/shop",
                   className: styles.centerCard
                 },
                 {
                   slug: 'velvet',
-                  name: "Velvet Orchid",
-                  edition: "ROYAL ORIENTAL",
-                  image: "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                  name: config?.card3Name || "Velvet Orchid",
+                  edition: config?.card3Edition || "ROYAL ORIENTAL",
+                  image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card3Link || "/shop",
                   className: styles.rightCard
                 }
               ].map((perfume) => {
-                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().includes(perfume.slug));
-                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : '/shop';
+                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
+                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
                 const isActive = hoveredCard === perfume.slug;
                 
                 return (
@@ -191,13 +200,29 @@ export default function Home() {
 
       {/* Categories Split */}
       <section className={styles.categories}>
-        <Link href="/shop?gender=Men" className={`${styles.catCard} ${styles.men}`}>
+        <Link 
+          href={config?.split1Link || "/shop?gender=Men"} 
+          className={`${styles.catCard}`}
+          style={{ 
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${config?.split1Image || 'https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&w=1000&q=80'})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
           <div className={styles.catOverlay} />
-          <span className={styles.catTitle}>FOR HIM</span>
+          <span className={styles.catTitle}>{config?.split1Title || "FOR HIM"}</span>
         </Link>
-        <Link href="/shop?gender=Women" className={`${styles.catCard} ${styles.women}`}>
+        <Link 
+          href={config?.split2Link || "/shop?gender=Women"} 
+          className={`${styles.catCard}`}
+          style={{ 
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${config?.split2Image || 'https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=1000&q=80'})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
           <div className={styles.catOverlay} />
-          <span className={styles.catTitle}>FOR HER</span>
+          <span className={styles.catTitle}>{config?.split2Title || "FOR HER"}</span>
         </Link>
       </section>
 
