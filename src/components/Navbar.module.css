@@ -60,11 +60,17 @@
     margin-left: auto;
 }
 
-/* Navigation Links with animated gold underline */
+.actionGroup {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* Navigation Links with animated luxury underline */
 .link {
     text-decoration: none;
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 500;
@@ -76,12 +82,14 @@
 .link::after {
     content: '';
     position: absolute;
-    width: 0;
+    width: 100%;
     height: 1px;
     bottom: 0;
     left: 0;
     background-color: var(--accent);
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .link:hover {
@@ -89,104 +97,179 @@
 }
 
 .link:hover::after {
-    width: 100%;
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
-/* Minimal Luxury Search Bar */
+/* Premium Capsule Search Bar */
 .searchWrapper {
     position: relative;
     display: flex;
     align-items: center;
-    margin-right: 1rem;
-}
-
-.searchInput {
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    border: none;
-    border-bottom: 1px solid var(--border-color);
-    background: transparent;
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    outline: none;
-    border-radius: 0;
-    width: 140px;
+    background: rgba(168, 85, 247, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 0.2rem 0.5rem 0.2rem 2.2rem;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+.searchWrapper:hover {
+    border-color: rgba(168, 85, 247, 0.3);
+    background: rgba(168, 85, 247, 0.05);
+}
+
+.searchWrapper:has(.searchInput:focus) {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-gold-glow);
+    background: var(--bg-primary);
+}
+
+.searchInput {
+    padding: 0.3rem 0.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    outline: none;
+    border-radius: 0;
+    width: 110px;
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .searchInput:focus {
-    width: 220px;
-    border-bottom-color: var(--accent);
-    box-shadow: 0 1px 0 var(--accent);
+    width: 180px;
 }
 
 .searchInput::placeholder {
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: 0.6;
     font-weight: 300;
     letter-spacing: 0.5px;
 }
 
 .searchIcon {
     position: absolute;
-    left: 0;
+    left: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-secondary);
     pointer-events: none;
-    font-size: 0.85rem;
-    opacity: 0.6;
-    transition: color 0.3s ease;
+    opacity: 0.5;
+    transition: all 0.3s ease;
 }
 
-.searchInput:focus + .searchIcon {
+.searchInput:focus + .searchIcon,
+.searchWrapper:hover .searchIcon {
     color: var(--accent);
-    opacity: 1;
+    opacity: 0.9;
 }
 
-/* Icons (Cart, Theme) - distinct interaction */
-.themeToggle,
-.cartBtn {
-    background: none;
-    border: none;
+/* Glassmorphic Circular Theme Toggle */
+.themeToggle {
+    background: rgba(168, 85, 247, 0.04);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 1rem;
-    padding: 0.5rem;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid transparent;
+    backdrop-filter: blur(8px);
 }
 
-.themeToggle:hover,
+.themeToggle:hover {
+    color: var(--text-primary);
+    background: rgba(168, 85, 247, 0.1);
+    border-color: var(--accent);
+    transform: rotate(15deg) scale(1.05);
+    box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+.themeToggle svg {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Luxury Capsule Cart Button */
+.cartBtn {
+    background: rgba(168, 85, 247, 0.04);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 30px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    backdrop-filter: blur(8px);
+}
+
 .cartBtn:hover {
     color: var(--text-primary);
-    background: var(--bg-secondary);
-    border-color: var(--glass-border);
-    transform: translateY(-2px);
+    background: rgba(168, 85, 247, 0.08);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px var(--accent-gold-glow);
 }
 
-/* Auth/Sign Out Button - Sleek Pill Shape */
+.cartLabel {
+    display: inline-block;
+}
+
+.cartBadge {
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px var(--accent-gold-glow);
+    transition: all 0.3s ease;
+}
+
+.cartBtn:hover .cartBadge {
+    transform: scale(1.1);
+}
+
+/* Auth/Sign Out Button - Sleek Luxury Capsule */
 .authBtn {
+    text-decoration: none;
     background: transparent;
     border: 1px solid var(--accent);
     color: var(--accent);
     cursor: pointer;
     font-family: var(--font-sans);
     font-size: 0.75rem;
-    padding: 0.5rem 1.25rem;
+    padding: 0.45rem 1.25rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-radius: 0px; /* Luxury sharp edge or very subtle pill. Let's do elegant sharp/minimal box */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    font-weight: 500;
+    border-radius: 30px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .authBtn:hover {
     background: var(--accent);
     color: var(--accent-text);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: 0 4px 15px var(--accent-gold-glow);
 }
 

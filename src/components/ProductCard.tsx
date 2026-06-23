@@ -50,7 +50,9 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
             <Link href={`/shop/${product.id}`} className={styles.linkWrapper}>
                 <div className={styles.imageContainer}>
                     {product.gender && (
-                        <span className={styles.badge}>{product.gender.toUpperCase()}</span>
+                        <span className={`${styles.badge} ${styles[product.gender.toLowerCase()] || ''}`}>
+                            {product.gender.toUpperCase()}
+                        </span>
                     )}
                     {product.image ? (
                         <img
