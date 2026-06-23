@@ -35,7 +35,7 @@ function ShopContent() {
     }, [searchParams]);
 
     useEffect(() => {
-        fetch('/api/products')
+        fetch('/api/products?t=' + Date.now())
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data);

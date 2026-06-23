@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch('/api/products')
+    fetch('/api/products?t=' + Date.now())
       .then(res => res.json())
       .then(data => setFeaturedProducts(data.slice(0, 6)))
       .catch(console.error);
