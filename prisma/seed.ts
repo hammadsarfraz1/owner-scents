@@ -35,7 +35,7 @@ async function main() {
             name: "Ocean Breeze",
             description: "Fresh aquatic notes reminiscent of the sea.",
             price: 35.00,
-            image: "https://images.unsplash.com/photo-1523293188086-b469956fa79c?auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&w=800&q=80",
             gender: "Unisex",
             category: "Fresh",
             slug: "ocean-breeze",
@@ -47,7 +47,7 @@ async function main() {
             name: "Santal Royal",
             description: "An elegant and mysterious woody fragrance.",
             price: 89.00,
-            image: "https://images.unsplash.com/photo-1616999665476-887e41571550?auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=800&q=80",
             gender: "Unisex",
             category: "Woody",
             slug: "santal-royal",
@@ -71,7 +71,7 @@ async function main() {
             name: "Velvet Orchid",
             description: "A luxurious and sensual floral amber fragrance.",
             price: 75.00,
-            image: "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+            image: "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=800&q=80",
             gender: "Women",
             category: "Oriental",
             slug: "velvet-orchid",
@@ -84,7 +84,17 @@ async function main() {
     for (const p of products) {
         const product = await prisma.product.upsert({
             where: { slug: p.slug },
-            update: {},
+            update: {
+                name: p.name,
+                description: p.description,
+                price: p.price,
+                image: p.image,
+                gender: p.gender,
+                category: p.category,
+                topNotes: p.topNotes,
+                heartNotes: p.heartNotes,
+                baseNotes: p.baseNotes,
+            },
             create: p,
         })
         console.log(`Created product with id: ${product.id}`)
