@@ -64,27 +64,38 @@ function ShopContent() {
     return (
         <div className={styles.main}>
             <Navbar onSearch={(term: string) => setSearchTerm(term)} />
-            <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem', display: 'flex', gap: '2rem' }}>
+            <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem' }}>
                 {/* Mobile Filter Chips */}
-                <div className={styles.mobileFilters} style={{ display: 'none' /* Will be overridden by CSS media query */ }}>
-                    {genders.map(g => (
-                        <button
-                            key={g}
-                            className={`${styles.filterChip} ${selectedGender === g ? styles.active : ''}`}
-                            onClick={() => setSelectedGender(g)}
-                        >
-                            {g}
-                        </button>
-                    ))}
-                    {categories.filter(c => c !== 'All').map(c => (
-                        <button
-                            key={c}
-                            className={`${styles.filterChip} ${selectedCategory === c ? styles.active : ''}`}
-                            onClick={() => setSelectedCategory(c)}
-                        >
-                            {c}
-                        </button>
-                    ))}
+                <div className={styles.mobileFilters}>
+                    <div className={styles.mobileFilterGroup}>
+                        <span className={styles.mobileFilterLabel}>Gender</span>
+                        <div className={styles.mobileFilterScroll}>
+                            {genders.map(g => (
+                                <button
+                                    key={g}
+                                    className={`${styles.filterChip} ${selectedGender === g ? styles.active : ''}`}
+                                    onClick={() => setSelectedGender(g)}
+                                >
+                                    {g}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className={styles.mobileFilterGroup}>
+                        <span className={styles.mobileFilterLabel}>Category</span>
+                        <div className={styles.mobileFilterScroll}>
+                            {categories.map(c => (
+                                <button
+                                    key={c}
+                                    className={`${styles.filterChip} ${selectedCategory === c ? styles.active : ''}`}
+                                    onClick={() => setSelectedCategory(c)}
+                                >
+                                    {c}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Sidebar Filters */}
@@ -137,8 +148,8 @@ function ShopContent() {
                 </aside>
 
                 <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                        <h1 className={styles.title} style={{ marginBottom: 0 }}>All Fragrances</h1>
+                    <div className={styles.catalogHeader}>
+                        <h1 className={styles.title}>All Fragrances</h1>
                         <select
                             value={sortOption}
                             onChange={(e) => setSortOption(e.target.value)}
