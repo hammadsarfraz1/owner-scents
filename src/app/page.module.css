@@ -123,16 +123,90 @@
   color: var(--accent);
 }
 
-/* Interactive 3D Card */
-.tiltCard {
-  width: 380px;
-  height: 480px;
+/* Interactive 3D Card Stack */
+.stackContainer {
   position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.stackCard {
+  position: absolute;
   transform-style: preserve-3d;
   cursor: pointer;
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-  z-index: 5;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 16px;
+  overflow: visible;
+}
+
+.leftCard {
+  width: 270px;
+  height: 360px;
+  z-index: 1;
+  transform: translate3d(-105px, 0, -120px) rotateY(20deg) scale(0.9);
+  opacity: 0.6;
+}
+
+.centerCard {
+  width: 310px;
+  height: 410px;
+  z-index: 3;
+  transform: translate3d(0, 0, 20px);
+  opacity: 1;
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.rightCard {
+  width: 270px;
+  height: 360px;
+  z-index: 1;
+  transform: translate3d(105px, 0, -120px) rotateY(-20deg) scale(0.9);
+  opacity: 0.6;
+}
+
+/* Container Hover - Slide out */
+.stackContainer:hover .leftCard {
+  transform: translate3d(-155px, -10px, -60px) rotateY(15deg) scale(0.93);
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.stackContainer:hover .rightCard {
+  transform: translate3d(155px, -10px, -60px) rotateY(-15deg) scale(0.93);
+  opacity: 0.8;
+  z-index: 2;
+}
+
+/* Individual Card Hover - Focus & Bring to front */
+.leftCard:hover {
+  transform: translate3d(-165px, -20px, 80px) rotateY(5deg) scale(1.03) !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
+}
+
+.rightCard:hover {
+  transform: translate3d(165px, -20px, 80px) rotateY(-5deg) scale(1.03) !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
+}
+
+.centerCard:hover {
+  z-index: 10 !important;
+  opacity: 1 !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
 }
 
 .cardGlow {
@@ -146,10 +220,7 @@
   z-index: -1;
   opacity: 0.8;
   transition: opacity 0.5s ease;
-}
-
-.tiltCard:hover .cardGlow {
-  opacity: 1;
+  border-radius: 20px;
 }
 
 .cardInner {
@@ -160,6 +231,7 @@
   background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
+  border-radius: 16px;
 }
 
 .cardContent {
@@ -511,9 +583,35 @@
   .scentTags {
     justify-content: center;
   }
-  .tiltCard {
-    width: 320px;
-    height: 400px;
+  .stackContainer {
+    height: 420px;
+    max-width: 440px;
+  }
+  .leftCard {
+    width: 210px;
+    height: 280px;
+    transform: translate3d(-70px, 0, -80px) rotateY(15deg) scale(0.9);
+  }
+  .centerCard {
+    width: 240px;
+    height: 320px;
+  }
+  .rightCard {
+    width: 210px;
+    height: 280px;
+    transform: translate3d(70px, 0, -80px) rotateY(-15deg) scale(0.9);
+  }
+  .stackContainer:hover .leftCard {
+    transform: translate3d(-100px, -5px, -40px) rotateY(10deg) scale(0.92);
+  }
+  .stackContainer:hover .rightCard {
+    transform: translate3d(100px, -5px, -40px) rotateY(-10deg) scale(0.92);
+  }
+  .leftCard:hover {
+    transform: translate3d(-110px, -12px, 60px) rotateY(5deg) scale(1.02) !important;
+  }
+  .rightCard:hover {
+    transform: translate3d(110px, -12px, 60px) rotateY(-5deg) scale(1.02) !important;
   }
   .testimonialsGrid {
     grid-template-columns: 1fr;
@@ -560,14 +658,74 @@
     justify-content: center;
     box-sizing: border-box;
   }
-  .tiltCard {
-    width: 280px;
+  .stackContainer {
     height: 350px;
+    max-width: 360px;
+  }
+  .leftCard {
+    width: 170px;
+    height: 230px;
+    transform: translate3d(-55px, 0, -70px) rotateY(12deg) scale(0.9);
+    opacity: 0.55;
+  }
+  .centerCard {
+    width: 200px;
+    height: 270px;
+  }
+  .rightCard {
+    width: 170px;
+    height: 230px;
+    transform: translate3d(55px, 0, -70px) rotateY(-12deg) scale(0.9);
+    opacity: 0.55;
+  }
+  .stackContainer:hover .leftCard {
+    transform: translate3d(-75px, -5px, -30px) rotateY(8deg) scale(0.92);
+  }
+  .stackContainer:hover .rightCard {
+    transform: translate3d(75px, -5px, -30px) rotateY(-8deg) scale(0.92);
+  }
+  .leftCard:hover {
+    transform: translate3d(-80px, -8px, 40px) rotateY(3deg) scale(1.02) !important;
+  }
+  .rightCard:hover {
+    transform: translate3d(80px, -8px, 40px) rotateY(-3deg) scale(1.02) !important;
   }
 }
 
 @media (max-width: 480px) {
   .title {
     font-size: 2.4rem;
+  }
+  .stackContainer {
+    height: 290px;
+    max-width: 290px;
+  }
+  .leftCard {
+    width: 135px;
+    height: 185px;
+    transform: translate3d(-40px, 0, -60px) rotateY(10deg) scale(0.9);
+    opacity: 0.5;
+  }
+  .centerCard {
+    width: 160px;
+    height: 215px;
+  }
+  .rightCard {
+    width: 135px;
+    height: 185px;
+    transform: translate3d(40px, 0, -60px) rotateY(-10deg) scale(0.9);
+    opacity: 0.5;
+  }
+  .stackContainer:hover .leftCard {
+    transform: translate3d(-55px, -5px, -20px) rotateY(6deg) scale(0.92);
+  }
+  .stackContainer:hover .rightCard {
+    transform: translate3d(55px, -5px, -20px) rotateY(-6deg) scale(0.92);
+  }
+  .leftCard:hover {
+    transform: translate3d(-60px, -6px, 30px) rotateY(2deg) scale(1.02) !important;
+  }
+  .rightCard:hover {
+    transform: translate3d(60px, -6px, 30px) rotateY(-2deg) scale(1.02) !important;
   }
 }

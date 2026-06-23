@@ -23,7 +23,7 @@ export default function Home() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const card = e.currentTarget;
     const box = card.getBoundingClientRect();
     const x = e.clientX - box.left - (box.width / 2);
@@ -97,29 +97,63 @@ export default function Home() {
           </div>
 
           <div className={styles.heroRight}>
-            <div 
-              className={styles.tiltCard}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s ease' : 'none'
-              }}
-            >
-              <div className={styles.cardGlow} />
-              <div className={styles.cardInner}>
-                <Image
-                  src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1800&q=80"
-                  alt="Luxury Showcase"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  priority
-                />
-                <div className={styles.cardContent}>
-                  <h3>Midnight Oud</h3>
-                  <span>SIGNATURE EDITION</span>
-                </div>
-              </div>
+            <div className={styles.stackContainer}>
+              {[
+                {
+                  slug: 'rose',
+                  name: "Rose Elixir",
+                  edition: "FLORAL ESSENCE",
+                  image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                  className: styles.leftCard
+                },
+                {
+                  slug: 'midnight',
+                  name: "Midnight OUD",
+                  edition: "SIGNATURE EDITION",
+                  image: "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                  className: styles.centerCard
+                },
+                {
+                  slug: 'velvet',
+                  name: "Velvet Orchid",
+                  edition: "ROYAL ORIENTAL",
+                  image: "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                  className: styles.rightCard
+                }
+              ].map((perfume) => {
+                const isCenter = perfume.slug === 'midnight';
+                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().includes(perfume.slug));
+                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : '/shop';
+                
+                return (
+                  <Link 
+                    key={perfume.slug}
+                    href={linkHref}
+                    className={`${styles.stackCard} ${perfume.className}`}
+                    onMouseMove={isCenter ? handleMouseMove : undefined}
+                    onMouseLeave={isCenter ? handleMouseLeave : undefined}
+                    style={isCenter ? {
+                      transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateZ(30px)`,
+                      transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s ease' : 'none'
+                    } : undefined}
+                  >
+                    <div className={styles.cardGlow} />
+                    <div className={styles.cardInner}>
+                      <Image
+                        src={perfume.image}
+                        alt={perfume.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        priority={isCenter}
+                      />
+                      <div className={styles.cardContent}>
+                        <h3>{perfume.name}</h3>
+                        <span>{perfume.edition}</span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
