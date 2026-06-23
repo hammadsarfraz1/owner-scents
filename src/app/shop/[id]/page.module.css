@@ -438,6 +438,12 @@
     text-transform: uppercase;
 }
 
+.relatedGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+
 @media (max-width: 968px) {
     .grid {
         grid-template-columns: 1fr;
@@ -446,6 +452,10 @@
     .reviewsGrid {
         grid-template-columns: 1fr;
         gap: 3rem;
+    }
+    .relatedGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 }
 
@@ -462,5 +472,12 @@
     .relatedTitle {
         font-size: 1.8rem;
         margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 580px) {
+    .relatedGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Cinzel } from "next/font/google";
+import { Plus_Jakarta_Sans, Cinzel } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Navbar from "@/components/Navbar"; // Ensure Navbar is here if not inside page
@@ -9,7 +9,7 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import TopPromoBar from "@/components/TopPromoBar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
-const inter = Inter({ subsets: ["latin"], variable: '--font-sans' });
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: '--font-sans' });
 const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-serif' });
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={`${inter.variable} ${cinzel.variable}`}>
+      <body suppressHydrationWarning className={`${plusJakartaSans.variable} ${cinzel.variable}`}>
         <Providers>
           <TopPromoBar />
           <MobileHeader />

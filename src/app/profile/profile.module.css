@@ -2,12 +2,15 @@
     min-height: 100vh;
     background: var(--bg-primary);
     color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 8rem 2rem 5rem;
+    width: 100%;
 }
 
 .header {
@@ -18,21 +21,26 @@
 }
 
 .title {
-    font-family: var(--font-cinzel);
+    font-family: var(--font-serif);
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .email {
     color: var(--text-secondary);
     font-family: var(--font-sans);
+    font-size: 0.95rem;
 }
 
 .sectionTitle {
-    font-family: var(--font-cinzel);
-    font-size: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
     margin-bottom: 2rem;
     color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .ordersGrid {
@@ -41,58 +49,94 @@
 }
 
 .orderCard {
-    background: var(--bg-card);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    border-radius: 4px;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.orderCard:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
 }
 
 .minHeader {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
     font-family: var(--font-sans);
     font-size: 0.9rem;
 }
 
+.date {
+    color: var(--text-secondary);
+}
+
 .status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .status.pending {
-    background: #fff3cdc9;
-    color: #856404;
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.2);
 }
 
 .status.shipped {
-    background: #d4edda;
-    color: #155724;
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.2);
 }
 
 .status.delivered {
-    background: #d4edda;
-    color: #155724;
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.2);
 }
 
 .items {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: var(--text-secondary);
     font-size: 0.95rem;
+    font-family: var(--font-sans);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .totalRow {
     display: flex;
     justify-content: space-between;
     border-top: 1px solid var(--border-color);
-    padding-top: 1rem;
+    padding-top: 1.25rem;
     font-weight: bold;
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .totalPrice {
-    color: var(--gold-highlight);
-    font-size: 1.1rem;
+    color: var(--accent);
+    font-size: 1.15rem;
+    font-family: var(--font-sans);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 6rem 1.25rem 3rem;
+    }
+    .header {
+        margin-bottom: 2.5rem;
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .orderCard {
+        padding: 1.5rem 1.25rem;
+    }
 }

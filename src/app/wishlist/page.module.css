@@ -2,108 +2,206 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .wishlistContainer {
     flex: 1;
-    margin-top: 3rem;
-    padding-bottom: 3rem;
+    margin-top: 6rem;
+    padding-bottom: 5rem;
 }
 
 .title {
     font-family: var(--font-serif);
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .empty {
     text-align: center;
-    margin-top: 4rem;
+    margin-top: 6rem;
 }
 
 .empty p {
     margin-bottom: 2rem;
-    color: #666;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 300;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
 }
 
 .card {
-    border: 1px solid #eee;
-    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md), 0 0 15px var(--accent-gold-glow);
+    border-color: var(--accent);
 }
 
-.imagePlaceholder {
-    height: 250px;
-    background: #f0f0f0;
+.imageContainer {
+    height: 320px;
+    background-color: var(--bg-tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #888;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.productImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover .productImage {
+    transform: scale(1.08);
+}
+
+.fallbackName {
     font-family: var(--font-serif);
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
 }
 
 .info {
     padding: 1.5rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .info h3 {
-    font-size: 1.1rem;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
     margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+}
+
+.card:hover .info h3 {
+    color: var(--accent);
 }
 
 .info p {
-    color: #666;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
     margin-bottom: 1.5rem;
+    font-family: var(--font-sans);
 }
 
 .actions {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
+    gap: 0.75rem;
+    margin-top: auto;
 }
 
 .viewBtn {
-    text-decoration: none;
-    border: 1px solid #000;
-    color: #000;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    flex: 1.2;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
+    padding: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .viewBtn:hover {
-    background: #000;
-    color: #fff;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 4px 12px var(--accent-gold-glow);
 }
 
 .removeBtn {
+    flex: 1;
     background: transparent;
-    border: 1px solid #ef4444;
-    color: #ef4444;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .removeBtn:hover {
-    background: #ef4444;
-    color: #fff;
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+@media (max-width: 768px) {
+    .wishlistContainer {
+        padding: 0 1.25rem;
+        margin-top: 4rem;
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    .imageContainer {
+        height: 240px;
+    }
+    .actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .viewBtn, .removeBtn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .imageContainer {
+        height: 280px;
+    }
 }

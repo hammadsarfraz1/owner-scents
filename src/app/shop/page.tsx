@@ -124,12 +124,15 @@ function ShopContent() {
                             value={sortOption}
                             onChange={(e) => setSortOption(e.target.value)}
                             style={{
-                                padding: '0.5rem 1rem',
-                                background: 'transparent',
-                                border: '1px solid #333',
-                                color: 'inherit',
+                                padding: '0 1rem',
+                                minHeight: '44px',
+                                background: 'var(--bg-secondary)',
+                                border: '1px solid var(--border-color)',
+                                color: 'var(--text-primary)',
                                 fontFamily: 'inherit',
-                                cursor: 'pointer'
+                                fontSize: '0.85rem',
+                                cursor: 'pointer',
+                                outline: 'none'
                             }}
                         >
                             <option value="newest">Newest</option>

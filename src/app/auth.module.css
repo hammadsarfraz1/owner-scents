@@ -3,25 +3,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 2rem;
+    padding: 8rem 2rem 5rem;
     background: var(--bg-primary);
 }
 
 .card {
-    background: var(--bg-card);
+    background: var(--bg-secondary);
     padding: 3rem;
     border: 1px solid var(--border-color);
     width: 100%;
     max-width: 450px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-lg);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px var(--accent-gold-glow);
 }
 
 .title {
-    font-family: var(--font-cinzel);
-    font-size: 2rem;
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
     text-align: center;
     margin-bottom: 2rem;
     color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .form {
@@ -38,53 +46,110 @@
 
 .label {
     font-family: var(--font-sans);
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     color: var(--text-secondary);
 }
 
 .input {
     width: 100%;
-    padding: 1rem;
-    background: transparent;
+    padding: 0.9rem 1rem;
+    background: var(--bg-primary);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
     font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
     transition: all 0.3s ease;
 }
 
 .input:focus {
-    border-color: var(--gold-highlight);
-    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-gold-glow);
 }
 
 .button {
     margin-top: 1rem;
     padding: 1rem;
-    background: var(--text-primary);
-    color: var(--bg-primary);
-    border: none;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
     cursor: pointer;
     font-family: var(--font-sans);
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: -1;
 }
 
 .button:hover {
-    background: var(--gold-highlight);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: 0 4px 12px var(--accent-gold-glow);
+}
+
+.button:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .linkText {
     margin-top: 1.5rem;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
 }
 
 .link {
-    color: var(--text-primary);
-    text-decoration: underline;
-    cursor: pointer;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.link:hover {
+    color: var(--accent-hover);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 6rem 1.25rem 3rem;
+    }
+    .card {
+        padding: 2.5rem 1.5rem;
+    }
+    .title {
+        font-size: 1.8rem;
+    }
+    .button {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

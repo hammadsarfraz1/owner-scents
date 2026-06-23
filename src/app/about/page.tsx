@@ -8,6 +8,7 @@ export default function About() {
             <Navbar />
             <div className={styles.container}>
                 <div className={styles.content}>
+                    <span className={styles.tag}>OUR PHILOSOPHY</span>
                     <h1 className={styles.title}>OUR STORY</h1>
                     <p className={styles.text}>
                         Owner Scents was born from a desire to reclaim the narrative of luxury.

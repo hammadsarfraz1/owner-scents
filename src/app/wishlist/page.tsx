@@ -61,8 +61,16 @@ export default function WishlistPage() {
                     <div className={styles.grid}>
                         {products.map(product => (
                             <div key={product.id} className={styles.card}>
-                                <div className={styles.imagePlaceholder}>
-                                    {product.name}
+                                <div className={styles.imageContainer}>
+                                    {product.image ? (
+                                        <img
+                                            src={product.image}
+                                            alt={product.name}
+                                            className={styles.productImage}
+                                        />
+                                    ) : (
+                                        <span className={styles.fallbackName}>{product.name}</span>
+                                    )}
                                 </div>
                                 <div className={styles.info}>
                                     <h3>{product.name}</h3>
