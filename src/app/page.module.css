@@ -663,13 +663,13 @@
     padding: 2rem 1.25rem;
   }
   .catCard {
-    height: 280px;
+    height: 340px;
     width: 100%;
   }
   .catTitle {
-    font-size: 1.6rem;
-    padding: 1rem 2.5rem;
-    letter-spacing: 3px;
+    font-size: 1.8rem;
+    padding: 1.2rem 3rem;
+    letter-spacing: 4px;
   }
 }
 
@@ -754,12 +754,12 @@
     transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
   .catCard {
-    height: 320px;
+    height: 380px;
   }
   .catTitle {
-    font-size: 1.3rem;
-    padding: 0.8rem 2rem;
-    letter-spacing: 2px;
+    font-size: 1.7rem;
+    padding: 1.1rem 2.8rem;
+    letter-spacing: 3px;
   }
 }
 
@@ -819,11 +819,11 @@
     transform: perspective(1000px) translate3d(0, -6px, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
   .catCard {
-    height: 350px;
+    height: 420px;
   }
   .catTitle {
-    font-size: 1.2rem;
-    padding: 0.75rem 1.5rem;
-    letter-spacing: 2px;
+    font-size: 1.6rem;
+    padding: 1rem 2.2rem;
+    letter-spacing: 3px;
   }
 }
