@@ -3,7 +3,7 @@
 import { useCart } from '@/context/CartContext';
 import styles from './QuickViewModal.module.css';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Product = {
     id: string;
@@ -22,6 +22,12 @@ export default function QuickViewModal({ product, onClose }: Props) {
     const { addToCart } = useCart();
     const [touchStartY, setTouchStartY] = useState<number | null>(null);
     const [touchCurrentY, setTouchCurrentY] = useState<number | null>(null);
+    const [imageError, setImageError] = useState(false);
+
+    // Reset image error state whenever product changes
+    useEffect(() => {
+        setImageError(false);
+    }, [product]);
 
     if (!product) return null;
 
@@ -66,13 +72,23 @@ export default function QuickViewModal({ product, onClose }: Props) {
             >
                 {/* Drag handle for mobile */}
                 <div className={styles.dragHandle} />
-                <button className={styles.closeBtn} onClick={onClose}>&times;</button>
+                <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">&times;</button>
 
                 <div className={styles.imageSection}>
-                    {product.image ? (
-                        <img src={product.image} alt={product.name} className={styles.modalImage} />
+                    {product.image && !imageError ? (
+                        <img 
+                            src={product.image} 
+                            alt={product.name} 
+                            className={styles.modalImage} 
+                            onError={() => setImageError(true)}
+                        />
                     ) : (
-                        product.name
+                        <div className={styles.fallbackContainer}>
+                            <div className={styles.fallbackInitial}>
+                                {product.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div className={styles.fallbackName}>{product.name}</div>
+                        </div>
                     )}
                 </div>
 
@@ -94,7 +110,11 @@ export default function QuickViewModal({ product, onClose }: Props) {
                         Add to Cart
                     </button>
 
-                    <Link href={`/shop/${product.id}`} className={styles.viewDetailsLink}>
+                    <Link 
+                        href={`/shop/${product.id}`} 
+                        className={styles.viewDetailsLink}
+                        onClick={onClose}
+                    >
                         View Full Details
                     </Link>
                 </div>

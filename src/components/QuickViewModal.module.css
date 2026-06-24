@@ -138,6 +138,43 @@
     object-fit: cover;
 }
 
+/* Fallback image styles */
+.fallbackContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-tertiary);
+}
+
+.fallbackInitial {
+    font-size: 2.5rem;
+    font-family: var(--font-serif);
+    color: var(--accent);
+    background: var(--bg-primary);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.fallbackName {
+    font-size: 1.1rem;
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+}
+
 @media (max-width: 768px) {
     .modal {
         position: fixed;
@@ -172,6 +209,65 @@
     }
 
     .imageSection {
-        height: 250px;
+        height: 200px;
+        position: relative;
+    }
+
+    .detailsSection {
+        padding: 1.5rem 1.25rem;
+        gap: 0.5rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+    }
+
+    .price {
+        font-size: 1.15rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 1.25rem;
+        -webkit-line-clamp: 3;
+    }
+
+    .addToCartBtn {
+        width: 100%;
+        min-width: 100%;
+        padding: 0.85rem;
+        font-size: 0.85rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .viewDetailsLink {
+        margin-top: 0.75rem;
+        text-align: center;
+        display: block;
+    }
+
+    .closeBtn {
+        top: 0.75rem;
+        right: 0.75rem;
+        font-size: 1.5rem;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff !important;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 }

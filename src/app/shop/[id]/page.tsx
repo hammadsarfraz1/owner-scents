@@ -45,6 +45,10 @@ export default function ProductDetails() {
     const [revComment, setRevComment] = useState('');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [params.id]);
+
+    useEffect(() => {
         const handleScroll = () => {
             const actionBtn = document.querySelector(`.${styles.actionButtons}`);
             if (actionBtn) {
