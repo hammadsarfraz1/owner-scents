@@ -22,11 +22,11 @@ export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [config, setConfig] = useState<any>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [isCoverActive, setIsCoverActive] = useState(true);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isCoverActive, setIsCoverActive] = useState(true);
-  const [renderCover, setRenderCover] = useState(true);
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -56,35 +56,71 @@ export default function Home() {
     setTilt({ x: 0, y: 0 });
   };
 
+  // Body overflow locking
   useEffect(() => {
     if (isCoverActive) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
-      const timer = setTimeout(() => {
-        setRenderCover(false);
-      }, 1000);
-      return () => clearTimeout(timer);
     }
   }, [isCoverActive]);
 
+  // Handle scroll down / scroll up curtain toggle
   useEffect(() => {
-    const handleTrigger = () => {
-      if (isCoverActive) {
+    const handleGesture = (e: WheelEvent) => {
+      if (isCoverActive && e.deltaY > 0) {
         setIsCoverActive(false);
       }
     };
 
-    window.addEventListener('wheel', handleTrigger, { passive: true });
-    window.addEventListener('touchmove', handleTrigger, { passive: true });
-    window.addEventListener('keydown', handleTrigger, { passive: true });
+    const handleScroll = () => {
+      if (window.scrollY === 0 && !isCoverActive) {
+        setIsCoverActive(true);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isCoverActive && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
+        setIsCoverActive(false);
+      }
+    };
+
+    window.addEventListener('wheel', handleGesture, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('keydown', handleKeyDown, { passive: true });
 
     return () => {
-      window.removeEventListener('wheel', handleTrigger);
-      window.removeEventListener('touchmove', handleTrigger);
-      window.removeEventListener('keydown', handleTrigger);
+      window.removeEventListener('wheel', handleGesture);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isCoverActive]);
+
+  // Touch event listeners for mobile swipe to trigger curtain
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      setTouchStartY(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (touchStartY === null) return;
+      const currentY = e.touches[0].clientY;
+      const diffY = touchStartY - currentY; // positive is scroll down (swipe up)
+
+      if (isCoverActive && diffY > 30) {
+        setIsCoverActive(false);
+        setTouchStartY(null);
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isCoverActive, touchStartY]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -121,91 +157,90 @@ export default function Home() {
   return (
     <div className={styles.main}>
       {/* Intro Curtain Cover (Option A) */}
-      {renderCover && (
-        <div 
-          className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
-          onClick={() => setIsCoverActive(false)}
-        >
-          <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
-            <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
-            <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
+      {/* Intro Curtain Cover (Option A) */}
+      <div 
+        className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
+        onClick={() => setIsCoverActive(false)}
+      >
+        <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
+          <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
+          <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
 
-            <div 
-              className={`${styles.stackContainer} ${styles.introStackContainer}`}
-              onMouseMove={handleContainerMouseMove}
-              onMouseLeave={handleContainerMouseLeave}
-            >
-              {[
-                {
-                  slug: 'rose',
-                  name: config?.card1Name || "Rose Elixir",
-                  edition: config?.card1Edition || "FLORAL ESSENCE",
-                  image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card1Link || "/shop",
-                  className: styles.leftCard
-                },
-                {
-                  slug: 'midnight',
-                  name: config?.card2Name || "Midnight OUD",
-                  edition: config?.card2Edition || "SIGNATURE EDITION",
-                  image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card2Link || "/shop",
-                  className: styles.centerCard
-                },
-                {
-                  slug: 'velvet',
-                  name: config?.card3Name || "Velvet Orchid",
-                  edition: config?.card3Edition || "ROYAL ORIENTAL",
-                  image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card3Link || "/shop",
-                  className: styles.rightCard
-                }
-              ].map((perfume) => {
-                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
-                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
-                const isActive = hoveredCard === perfume.slug;
-                
-                return (
-                  <Link 
-                    key={perfume.slug}
-                    href={linkHref}
-                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
-                    style={{
-                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
-                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
-                    } as React.CSSProperties}
-                  >
-                    <div className={styles.cardGlow} />
-                    <div className={styles.cardInner}>
-                      <img
-                        src={perfume.image}
-                        alt={perfume.name}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
-                      />
-                      <div className={styles.cardContent}>
-                        <h3>{perfume.name}</h3>
-                        <span>{perfume.edition}</span>
-                      </div>
+          <div 
+            className={`${styles.stackContainer} ${styles.introStackContainer}`}
+            onMouseMove={handleContainerMouseMove}
+            onMouseLeave={handleContainerMouseLeave}
+          >
+            {[
+              {
+                slug: 'rose',
+                name: config?.card1Name || "Rose Elixir",
+                edition: config?.card1Edition || "FLORAL ESSENCE",
+                image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                link: config?.card1Link || "/shop",
+                className: styles.leftCard
+              },
+              {
+                slug: 'midnight',
+                name: config?.card2Name || "Midnight OUD",
+                edition: config?.card2Edition || "SIGNATURE EDITION",
+                image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                link: config?.card2Link || "/shop",
+                className: styles.centerCard
+              },
+              {
+                slug: 'velvet',
+                name: config?.card3Name || "Velvet Orchid",
+                edition: config?.card3Edition || "ROYAL ORIENTAL",
+                image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                link: config?.card3Link || "/shop",
+                className: styles.rightCard
+              }
+            ].map((perfume) => {
+              const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
+              const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
+              const isActive = hoveredCard === perfume.slug;
+              
+              return (
+                <Link 
+                  key={perfume.slug}
+                  href={linkHref}
+                  className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
+                  style={{
+                    '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
+                    '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                  } as React.CSSProperties}
+                >
+                  <div className={styles.cardGlow} />
+                  <div className={styles.cardInner}>
+                    <img
+                      src={perfume.image}
+                      alt={perfume.name}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                    <div className={styles.cardContent}>
+                      <h3>{perfume.name}</h3>
+                      <span>{perfume.edition}</span>
                     </div>
-                  </Link>
-                );
-              })}
-            </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
 
-            <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
-              <span className={styles.scrollText}>Scroll or click to enter</span>
-              <span className={styles.scrollArrow}>↓</span>
-            </div>
+          <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
+            <span className={styles.scrollText}>Scroll or click to enter</span>
+            <span className={styles.scrollArrow}>↓</span>
           </div>
         </div>
-      )}
+      </div>
 
       <Navbar />
 
