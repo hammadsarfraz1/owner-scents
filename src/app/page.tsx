@@ -23,6 +23,7 @@ export default function Home() {
   const [config, setConfig] = useState<any>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isCoverActive, setIsCoverActive] = useState(true);
+  const [renderCover, setRenderCover] = useState(true);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -62,36 +63,38 @@ export default function Home() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
+      // Unmount the cover completely after the slide transition completes
+      const timer = setTimeout(() => {
+        setRenderCover(false);
+      }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [isCoverActive]);
 
   // Handle scroll down / scroll up curtain toggle
   useEffect(() => {
     const handleGesture = (e: WheelEvent) => {
-      if (isCoverActive && e.deltaY > 0) {
-        setIsCoverActive(false);
-      }
-    };
-
-    const handleScroll = () => {
-      if (window.scrollY === 0 && !isCoverActive) {
-        setIsCoverActive(true);
+      if (isCoverActive) {
+        e.preventDefault(); // Block main page from scrolling
+        if (e.deltaY > 0) {
+          setIsCoverActive(false);
+        }
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isCoverActive && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
+        e.preventDefault(); // Block page scroll
         setIsCoverActive(false);
       }
     };
 
-    window.addEventListener('wheel', handleGesture, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('keydown', handleKeyDown, { passive: true });
+    // passive: false is required to support e.preventDefault()
+    window.addEventListener('wheel', handleGesture, { passive: false });
+    window.addEventListener('keydown', handleKeyDown, { passive: false });
 
     return () => {
       window.removeEventListener('wheel', handleGesture);
-      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isCoverActive]);
@@ -99,22 +102,25 @@ export default function Home() {
   // Touch event listeners for mobile swipe to trigger curtain
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
+      if (isCoverActive) {
+        setTouchStartY(e.touches[0].clientY);
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (touchStartY === null) return;
+      if (touchStartY === null || !isCoverActive) return;
       const currentY = e.touches[0].clientY;
       const diffY = touchStartY - currentY; // positive is scroll down (swipe up)
 
-      if (isCoverActive && diffY > 30) {
+      if (diffY > 30) {
+        e.preventDefault(); // Block touch page scroll
         setIsCoverActive(false);
         setTouchStartY(null);
       }
     };
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false allows e.preventDefault()
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
@@ -157,90 +163,91 @@ export default function Home() {
   return (
     <div className={styles.main}>
       {/* Intro Curtain Cover (Option A) */}
-      {/* Intro Curtain Cover (Option A) */}
-      <div 
-        className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
-        onClick={() => setIsCoverActive(false)}
-      >
-        <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
-          <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
-          <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
+      {renderCover && (
+        <div 
+          className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
+          onClick={() => setIsCoverActive(false)}
+        >
+          <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
+            <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
+            <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
 
-          <div 
-            className={`${styles.stackContainer} ${styles.introStackContainer}`}
-            onMouseMove={handleContainerMouseMove}
-            onMouseLeave={handleContainerMouseLeave}
-          >
-            {[
-              {
-                slug: 'rose',
-                name: config?.card1Name || "Rose Elixir",
-                edition: config?.card1Edition || "FLORAL ESSENCE",
-                image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
-                link: config?.card1Link || "/shop",
-                className: styles.leftCard
-              },
-              {
-                slug: 'midnight',
-                name: config?.card2Name || "Midnight OUD",
-                edition: config?.card2Edition || "SIGNATURE EDITION",
-                image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
-                link: config?.card2Link || "/shop",
-                className: styles.centerCard
-              },
-              {
-                slug: 'velvet',
-                name: config?.card3Name || "Velvet Orchid",
-                edition: config?.card3Edition || "ROYAL ORIENTAL",
-                image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
-                link: config?.card3Link || "/shop",
-                className: styles.rightCard
-              }
-            ].map((perfume) => {
-              const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
-              const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
-              const isActive = hoveredCard === perfume.slug;
-              
-              return (
-                <Link 
-                  key={perfume.slug}
-                  href={linkHref}
-                  className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
-                  style={{
-                    '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
-                    '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
-                  } as React.CSSProperties}
-                >
-                  <div className={styles.cardGlow} />
-                  <div className={styles.cardInner}>
-                    <img
-                      src={perfume.image}
-                      alt={perfume.name}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <div className={styles.cardContent}>
-                      <h3>{perfume.name}</h3>
-                      <span>{perfume.edition}</span>
+            <div 
+              className={`${styles.stackContainer} ${styles.introStackContainer}`}
+              onMouseMove={handleContainerMouseMove}
+              onMouseLeave={handleContainerMouseLeave}
+            >
+              {[
+                {
+                  slug: 'rose',
+                  name: config?.card1Name || "Rose Elixir",
+                  edition: config?.card1Edition || "FLORAL ESSENCE",
+                  image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card1Link || "/shop",
+                  className: styles.leftCard
+                },
+                {
+                  slug: 'midnight',
+                  name: config?.card2Name || "Midnight OUD",
+                  edition: config?.card2Edition || "SIGNATURE EDITION",
+                  image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card2Link || "/shop",
+                  className: styles.centerCard
+                },
+                {
+                  slug: 'velvet',
+                  name: config?.card3Name || "Velvet Orchid",
+                  edition: config?.card3Edition || "ROYAL ORIENTAL",
+                  image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card3Link || "/shop",
+                  className: styles.rightCard
+                }
+              ].map((perfume) => {
+                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
+                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
+                const isActive = hoveredCard === perfume.slug;
+                
+                return (
+                  <Link 
+                    key={perfume.slug}
+                    href={linkHref}
+                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
+                    style={{
+                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
+                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                    } as React.CSSProperties}
+                  >
+                    <div className={styles.cardGlow} />
+                    <div className={styles.cardInner}>
+                      <img
+                        src={perfume.image}
+                        alt={perfume.name}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div className={styles.cardContent}>
+                        <h3>{perfume.name}</h3>
+                        <span>{perfume.edition}</span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                  </Link>
+                );
+              })}
+            </div>
 
-          <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
-            <span className={styles.scrollText}>Scroll or click to enter</span>
-            <span className={styles.scrollArrow}>↓</span>
+            <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
+              <span className={styles.scrollText}>Scroll or click to enter</span>
+              <span className={styles.scrollArrow}>↓</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <Navbar />
 
@@ -264,6 +271,77 @@ export default function Home() {
               <span>✦ OUD & LEATHER</span>
               <span>✦ ROSE & VANILLA</span>
               <span>✦ BERGAMOT & OCEAN</span>
+            </div>
+          </div>
+
+          <div className={styles.heroRight}>
+            <div 
+              className={styles.stackContainer}
+              onMouseMove={handleContainerMouseMove}
+              onMouseLeave={handleContainerMouseLeave}
+            >
+              {[
+                {
+                  slug: 'rose',
+                  name: config?.card1Name || "Rose Elixir",
+                  edition: config?.card1Edition || "FLORAL ESSENCE",
+                  image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card1Link || "/shop",
+                  className: styles.leftCard
+                },
+                {
+                  slug: 'midnight',
+                  name: config?.card2Name || "Midnight OUD",
+                  edition: config?.card2Edition || "SIGNATURE EDITION",
+                  image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card2Link || "/shop",
+                  className: styles.centerCard
+                },
+                {
+                  slug: 'velvet',
+                  name: config?.card3Name || "Velvet Orchid",
+                  edition: config?.card3Edition || "ROYAL ORIENTAL",
+                  image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                  link: config?.card3Link || "/shop",
+                  className: styles.rightCard
+                }
+              ].map((perfume) => {
+                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
+                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
+                const isActive = hoveredCard === perfume.slug;
+                
+                return (
+                  <Link 
+                    key={perfume.slug}
+                    href={linkHref}
+                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
+                    style={{
+                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
+                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                    } as React.CSSProperties}
+                  >
+                    <div className={styles.cardGlow} />
+                    <div className={styles.cardInner}>
+                      <img
+                        src={perfume.image}
+                        alt={perfume.name}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div className={styles.cardContent}>
+                        <h3>{perfume.name}</h3>
+                        <span>{perfume.edition}</span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>

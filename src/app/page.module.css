@@ -853,11 +853,14 @@
 .introContent {
     width: 100%;
     max-width: 1200px;
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    justify-content: center;
+    height: 100vh;
+    max-height: 100vh;
+    box-sizing: border-box;
     gap: 1.25rem;
     z-index: 2;
 }
@@ -917,66 +920,44 @@
     }
 }
 
-/* Center Align the main Hero when cards are absent on Desktop */
-@media (min-width: 969px) {
-  .heroContainer {
-    grid-template-columns: 1fr;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-  }
-  .heroLeft {
-    align-items: center;
-    text-align: center;
-  }
-  .heroActions {
-    justify-content: center;
-  }
-  .scentTags {
-    justify-content: center;
-  }
-}
-
 /* Larger 3D Card Stack specifically for desktop fullscreen intro cover */
 @media (min-width: 769px) {
     .introStackContainer {
-        max-width: 660px !important;
-        height: 540px !important;
-        margin: 2.5rem 0 !important;
+        max-width: 480px !important;
+        height: 400px !important;
+        margin: 1.5rem 0 !important;
     }
     
     .introStackContainer .leftCard {
-        width: 320px !important;
-        height: 420px !important;
+        width: 230px !important;
+        height: 310px !important;
     }
     .introStackContainer .centerCard {
-        width: 360px !important;
-        height: 480px !important;
+        width: 260px !important;
+        height: 350px !important;
     }
     .introStackContainer .rightCard {
-        width: 320px !important;
-        height: 420px !important;
+        width: 230px !important;
+        height: 310px !important;
     }
 
     .introStackContainer .leftCard.cardLoaded {
-        transform: translate3d(-130px, 0, -130px) rotateY(20deg) scale(0.9) !important;
+        transform: translate3d(-95px, 0, -100px) rotateY(20deg) scale(0.9) !important;
     }
     .introStackContainer .centerCard.cardLoaded {
-        transform: translate3d(0, 0, 30px) !important;
+        transform: translate3d(0, 0, 20px) !important;
     }
     .introStackContainer .rightCard.cardLoaded {
-        transform: translate3d(130px, 0, -130px) rotateY(-20deg) scale(0.9) !important;
+        transform: translate3d(95px, 0, -100px) rotateY(-20deg) scale(0.9) !important;
     }
 
     .introStackContainer:hover .leftCard.cardLoaded {
-        transform: translate3d(-200px, -10px, -70px) rotateY(15deg) scale(0.93) !important;
+        transform: translate3d(-145px, -10px, -50px) rotateY(15deg) scale(0.93) !important;
         opacity: 0.85 !important;
         z-index: 2 !important;
     }
     .introStackContainer:hover .rightCard.cardLoaded {
-        transform: translate3d(200px, -10px, -70px) rotateY(-15deg) scale(0.93) !important;
+        transform: translate3d(145px, -10px, -50px) rotateY(-15deg) scale(0.93) !important;
         opacity: 0.85 !important;
         z-index: 2 !important;
     }
