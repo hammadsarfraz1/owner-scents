@@ -90,9 +90,7 @@ export default function Home() {
     <div className={styles.main}>
       <Navbar />
 
-      {/* Background Aura Blobs */}
-      <div className="auraBlob1" style={{ top: '10%', left: '5%' }} />
-      <div className="auraBlob2" style={{ top: '35%', right: '10%' }} />
+
 
       {/* Hero Section */}
       <section className={styles.hero}>

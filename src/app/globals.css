@@ -64,6 +64,10 @@ body {
   transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+[data-theme='dark'] body {
+  background: radial-gradient(ellipse at 50% 0%, #120824 0%, #07030e 45%, #050506 85%) no-repeat fixed;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 400;
@@ -169,65 +173,7 @@ img {
   color: var(--text-primary);
 }
 
-/* Animations for Cyber Glow Backdrops */
-@keyframes floatGlow1 {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.95);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
 
-@keyframes floatGlow2 {
-  0% {
-    transform: translate(0px, 0px) scale(1.1);
-  }
-  50% {
-    transform: translate(-40px, 40px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1.1);
-  }
-}
-
-@keyframes breathingGlow {
-  0%, 100% {
-    opacity: 0.15;
-  }
-  50% {
-    opacity: 0.25;
-  }
-}
-
-/* Floating Aura Blobs */
-.auraBlob1 {
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0) 70%);
-  filter: blur(80px);
-  z-index: 0;
-  pointer-events: none;
-  animation: floatGlow1 15s infinite ease-in-out;
-}
-
-.auraBlob2 {
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0) 70%);
-  filter: blur(90px);
-  z-index: 0;
-  pointer-events: none;
-  animation: floatGlow2 20s infinite ease-in-out;
-}
 
 /* Page/Element Entry Animations */
 @keyframes fadeInUp {
