@@ -24,6 +24,7 @@ export default function Home() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -54,6 +55,8 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setIsLoaded(true);
+
     fetch('/api/products?t=' + Date.now())
       .then(res => res.json())
       .then(data => setFeaturedProducts(data.slice(0, 6)))
@@ -114,7 +117,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={`${styles.heroRight} animateFadeInScale delay200`}>
+          <div className={styles.heroRight}>
             <div 
               className={styles.stackContainer}
               onMouseMove={handleContainerMouseMove}
@@ -154,11 +157,10 @@ export default function Home() {
                   <Link 
                     key={perfume.slug}
                     href={linkHref}
-                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''}`}
+                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                     style={{
                       '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
                       '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
-                      transition: 'transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.6s ease'
                     } as React.CSSProperties}
                   >
                     <div className={styles.cardGlow} />

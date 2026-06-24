@@ -35,7 +35,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeUp 1.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .heroTagline {
@@ -140,74 +139,94 @@
   position: absolute;
   transform-style: preserve-3d;
   cursor: pointer;
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease, border-color 0.5s ease, box-shadow 0.5s ease;
   border-radius: 16px;
   overflow: visible;
+  opacity: 0;
 }
 
 .leftCard {
   width: 270px;
   height: 360px;
   z-index: 1;
-  transform: translate3d(-105px, 0, -120px) rotateY(20deg) scale(0.9);
-  opacity: 0.6;
+  transform: translate3d(-240px, 40px, -180px) rotateY(50deg) scale(0.75);
 }
 
 .centerCard {
   width: 310px;
   height: 410px;
   z-index: 3;
-  transform: translate3d(0, 0, 20px);
-  opacity: 1;
-  border-color: rgba(168, 85, 247, 0.4);
+  transform: translate3d(0, 120px, -100px) scale(0.8);
 }
 
 .rightCard {
   width: 270px;
   height: 360px;
   z-index: 1;
+  transform: translate3d(240px, 40px, -180px) rotateY(-50deg) scale(0.75);
+}
+
+/* Loaded transforms */
+.leftCard.cardLoaded {
+  transform: translate3d(-105px, 0, -120px) rotateY(20deg) scale(0.9);
+  opacity: 0.65;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.centerCard.cardLoaded {
+  transform: translate3d(0, 0, 20px);
+  opacity: 1;
+  border-color: rgba(168, 85, 247, 0.4);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.rightCard.cardLoaded {
   transform: translate3d(105px, 0, -120px) rotateY(-20deg) scale(0.9);
-  opacity: 0.6;
+  opacity: 0.65;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Container Hover - Slide out */
-.stackContainer:hover .leftCard {
-  transform: translate3d(-155px, -10px, -60px) rotateY(15deg) scale(0.93);
-  opacity: 0.8;
+.stackContainer:hover .leftCard.cardLoaded {
+  transform: translate3d(-165px, -10px, -60px) rotateY(15deg) scale(0.93);
+  opacity: 0.85;
   z-index: 2;
 }
 
-.stackContainer:hover .rightCard {
-  transform: translate3d(155px, -10px, -60px) rotateY(-15deg) scale(0.93);
-  opacity: 0.8;
+.stackContainer:hover .rightCard.cardLoaded {
+  transform: translate3d(165px, -10px, -60px) rotateY(-15deg) scale(0.93);
+  opacity: 0.85;
   z-index: 2;
 }
 
-/* Individual Card Hover - Focus & Bring to front */
+/* Individual Card Hover - Focus & Bring to front with responsive mouse tracking */
 .leftCard.activeCard {
-  transform: perspective(1000px) translate3d(-165px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
+  transform: perspective(1000px) translate3d(-175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
   opacity: 1 !important;
   z-index: 10 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
 .rightCard.activeCard {
-  transform: perspective(1000px) translate3d(165px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
+  transform: perspective(1000px) translate3d(175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
   opacity: 1 !important;
   z-index: 10 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
 .centerCard.activeCard {
-  transform: perspective(1000px) translate3d(0, 0, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+  transform: perspective(1000px) translate3d(0, -10px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   z-index: 10 !important;
   opacity: 1 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 35px 70px rgba(168, 85, 247, 0.45) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
 .cardGlow {
@@ -592,22 +611,37 @@
   .leftCard {
     width: 210px;
     height: 280px;
-    transform: translate3d(-70px, 0, -80px) rotateY(15deg) scale(0.9);
+    transform: translate3d(-180px, 30px, -140px) rotateY(40deg) scale(0.75);
   }
   .centerCard {
     width: 240px;
     height: 320px;
+    transform: translate3d(0, 90px, -80px) scale(0.8);
   }
   .rightCard {
     width: 210px;
     height: 280px;
+    transform: translate3d(180px, 30px, -140px) rotateY(-40deg) scale(0.75);
+  }
+  .leftCard.cardLoaded {
+    transform: translate3d(-70px, 0, -80px) rotateY(15deg) scale(0.9);
+    opacity: 0.65;
+  }
+  .centerCard.cardLoaded {
+    transform: translate3d(0, 0, 10px);
+    opacity: 1;
+  }
+  .rightCard.cardLoaded {
     transform: translate3d(70px, 0, -80px) rotateY(-15deg) scale(0.9);
+    opacity: 0.65;
   }
-  .stackContainer:hover .leftCard {
+  .stackContainer:hover .leftCard.cardLoaded {
     transform: translate3d(-100px, -5px, -40px) rotateY(10deg) scale(0.92);
+    opacity: 0.85;
   }
-  .stackContainer:hover .rightCard {
+  .stackContainer:hover .rightCard.cardLoaded {
     transform: translate3d(100px, -5px, -40px) rotateY(-10deg) scale(0.92);
+    opacity: 0.85;
   }
   .leftCard.activeCard {
     transform: perspective(1000px) translate3d(-110px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
@@ -616,7 +650,7 @@
     transform: perspective(1000px) translate3d(110px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .centerCard.activeCard {
-    transform: perspective(1000px) translate3d(0, 0, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
   .testimonialsGrid {
     grid-template-columns: 1fr;
@@ -675,24 +709,40 @@
   .leftCard {
     width: 170px;
     height: 230px;
-    transform: translate3d(-55px, 0, -70px) rotateY(12deg) scale(0.9);
-    opacity: 0.55;
+    transform: translate3d(-140px, 20px, -120px) rotateY(35deg) scale(0.75);
+    opacity: 0;
   }
   .centerCard {
     width: 200px;
     height: 270px;
+    transform: translate3d(0, 70px, -80px) scale(0.8);
+    opacity: 0;
   }
   .rightCard {
     width: 170px;
     height: 230px;
+    transform: translate3d(140px, 20px, -120px) rotateY(-35deg) scale(0.75);
+    opacity: 0;
+  }
+  .leftCard.cardLoaded {
+    transform: translate3d(-55px, 0, -70px) rotateY(12deg) scale(0.9);
+    opacity: 0.6;
+  }
+  .centerCard.cardLoaded {
+    transform: translate3d(0, 0, 10px);
+    opacity: 1;
+  }
+  .rightCard.cardLoaded {
     transform: translate3d(55px, 0, -70px) rotateY(-12deg) scale(0.9);
-    opacity: 0.55;
+    opacity: 0.6;
   }
-  .stackContainer:hover .leftCard {
+  .stackContainer:hover .leftCard.cardLoaded {
     transform: translate3d(-75px, -5px, -30px) rotateY(8deg) scale(0.92);
+    opacity: 0.8;
   }
-  .stackContainer:hover .rightCard {
+  .stackContainer:hover .rightCard.cardLoaded {
     transform: translate3d(75px, -5px, -30px) rotateY(-8deg) scale(0.92);
+    opacity: 0.8;
   }
   .leftCard.activeCard {
     transform: perspective(1000px) translate3d(-80px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
@@ -701,7 +751,7 @@
     transform: perspective(1000px) translate3d(80px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .centerCard.activeCard {
-    transform: perspective(1000px) translate3d(0, 0, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
 }
 
@@ -716,24 +766,40 @@
   .leftCard {
     width: 135px;
     height: 185px;
-    transform: translate3d(-40px, 0, -60px) rotateY(10deg) scale(0.9);
-    opacity: 0.5;
+    transform: translate3d(-100px, 15px, -100px) rotateY(30deg) scale(0.75);
+    opacity: 0;
   }
   .centerCard {
     width: 160px;
     height: 215px;
+    transform: translate3d(0, 50px, -60px) scale(0.8);
+    opacity: 0;
   }
   .rightCard {
     width: 135px;
     height: 185px;
+    transform: translate3d(100px, 15px, -100px) rotateY(-30deg) scale(0.75);
+    opacity: 0;
+  }
+  .leftCard.cardLoaded {
+    transform: translate3d(-40px, 0, -60px) rotateY(10deg) scale(0.9);
+    opacity: 0.55;
+  }
+  .centerCard.cardLoaded {
+    transform: translate3d(0, 0, 10px);
+    opacity: 1;
+  }
+  .rightCard.cardLoaded {
     transform: translate3d(40px, 0, -60px) rotateY(-10deg) scale(0.9);
-    opacity: 0.5;
+    opacity: 0.55;
   }
-  .stackContainer:hover .leftCard {
+  .stackContainer:hover .leftCard.cardLoaded {
     transform: translate3d(-55px, -5px, -20px) rotateY(6deg) scale(0.92);
+    opacity: 0.75;
   }
-  .stackContainer:hover .rightCard {
+  .stackContainer:hover .rightCard.cardLoaded {
     transform: translate3d(55px, -5px, -20px) rotateY(-6deg) scale(0.92);
+    opacity: 0.75;
   }
   .leftCard.activeCard {
     transform: perspective(1000px) translate3d(-60px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
@@ -742,6 +808,6 @@
     transform: perspective(1000px) translate3d(60px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .centerCard.activeCard {
-    transform: perspective(1000px) translate3d(0, 0, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    transform: perspective(1000px) translate3d(0, -6px, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
 }
