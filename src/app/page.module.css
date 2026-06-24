@@ -827,3 +827,153 @@
     letter-spacing: 3px;
   }
 }
+
+/* Intro Curtain Cover (Option A) Styling */
+.introCover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(ellipse at 50% 30%, #170d2b 0%, #06030a 60%, #040407 100%);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.introCoverSlideUp {
+    transform: translateY(-100%);
+}
+
+.introContent {
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+}
+
+.introTag {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    text-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+.introTitle {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    line-height: 1.2;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    max-width: 700px;
+    margin: 0;
+}
+
+/* Scroll indicator */
+.scrollIndicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    cursor: pointer;
+    animation: bounceIndicator 2s infinite;
+}
+
+.scrollText {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 500;
+}
+
+.scrollArrow {
+    font-size: 1.2rem;
+}
+
+@keyframes bounceIndicator {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+    60% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Center Align the main Hero when cards are absent on Desktop */
+@media (min-width: 969px) {
+  .heroContainer {
+    grid-template-columns: 1fr;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  .heroLeft {
+    align-items: center;
+    text-align: center;
+  }
+  .heroActions {
+    justify-content: center;
+  }
+  .scentTags {
+    justify-content: center;
+  }
+}
+
+/* Larger 3D Card Stack specifically for desktop fullscreen intro cover */
+@media (min-width: 769px) {
+    .introStackContainer {
+        max-width: 660px !important;
+        height: 540px !important;
+        margin: 2.5rem 0 !important;
+    }
+    
+    .introStackContainer .leftCard {
+        width: 320px !important;
+        height: 420px !important;
+    }
+    .introStackContainer .centerCard {
+        width: 360px !important;
+        height: 480px !important;
+    }
+    .introStackContainer .rightCard {
+        width: 320px !important;
+        height: 420px !important;
+    }
+
+    .introStackContainer .leftCard.cardLoaded {
+        transform: translate3d(-130px, 0, -130px) rotateY(20deg) scale(0.9) !important;
+    }
+    .introStackContainer .centerCard.cardLoaded {
+        transform: translate3d(0, 0, 30px) !important;
+    }
+    .introStackContainer .rightCard.cardLoaded {
+        transform: translate3d(130px, 0, -130px) rotateY(-20deg) scale(0.9) !important;
+    }
+
+    .introStackContainer:hover .leftCard.cardLoaded {
+        transform: translate3d(-200px, -10px, -70px) rotateY(15deg) scale(0.93) !important;
+        opacity: 0.85 !important;
+        z-index: 2 !important;
+    }
+    .introStackContainer:hover .rightCard.cardLoaded {
+        transform: translate3d(200px, -10px, -70px) rotateY(-15deg) scale(0.93) !important;
+        opacity: 0.85 !important;
+        z-index: 2 !important;
+    }
+}

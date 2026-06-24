@@ -3,10 +3,12 @@
 import { useCart } from '@/context/CartContext';
 import styles from './CartDrawer.module.css';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CartDrawer() {
     const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, cartTotal } = useCart();
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
 
     // Prevent scrolling when cart is open
     useEffect(() => {
@@ -20,6 +22,36 @@ export default function CartDrawer() {
         };
     }, [isCartOpen]);
 
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (touchStartX === null) return;
+        const currentX = e.targetTouches[0].clientX;
+        const diffX = currentX - touchStartX;
+        // Only allow swiping right (out of screen)
+        if (diffX > 0) {
+            setTouchCurrentX(currentX);
+        }
+    };
+
+    const handleTouchEnd = () => {
+        if (touchStartX !== null && touchCurrentX !== null) {
+            const diffX = touchCurrentX - touchStartX;
+            // Dismiss if swiped more than 100px
+            if (diffX > 100) {
+                toggleCart();
+            }
+        }
+        setTouchStartX(null);
+        setTouchCurrentX(null);
+    };
+
+    const swipeStyle = touchStartX !== null && touchCurrentX !== null
+        ? { transform: `translateX(${Math.max(0, touchCurrentX - touchStartX)}px)`, transition: 'none' }
+        : {};
+
     return (
         <>
             {/* Overlay */}
@@ -29,7 +61,13 @@ export default function CartDrawer() {
             />
 
             {/* Drawer */}
-            <div className={`${styles.drawer} ${isCartOpen ? styles.open : ''}`}>
+            <div 
+                className={`${styles.drawer} ${isCartOpen ? styles.open : ''}`}
+                style={swipeStyle}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
                 <div className={styles.header}>
                     <h2 className={styles.title}>Your Bag ({cart.length})</h2>
                     <button onClick={toggleCart} className={styles.closeBtn}>&times;</button>

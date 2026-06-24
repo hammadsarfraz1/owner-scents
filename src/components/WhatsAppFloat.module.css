@@ -1,21 +1,190 @@
+.container {
+    position: relative;
+    z-index: 1001;
+}
+
 .whatsappFloat {
     position: fixed;
-    bottom: 90px;
-    /* Above bottom nav */
+    bottom: 85px; /* Aligned nicely above the mobile bottom nav */
     right: 20px;
     background-color: #25d366;
     color: white;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), 0 0 10px rgba(37, 211, 102, 0.15);
+    z-index: 1002;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: none;
+    cursor: pointer;
 }
 
 .whatsappFloat:hover {
-    transform: scale(1.1);
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 15px rgba(37, 211, 102, 0.25);
+}
+
+.whatsappFloat.active {
+    background-color: var(--accent);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), 0 0 15px var(--accent-gold-glow);
+}
+
+/* Concierge Card Popup */
+.conciergeCard {
+    position: fixed;
+    bottom: 155px; /* Nicely stacked above the floating button */
+    right: 20px;
+    width: 320px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.conciergeHeader {
+    background: var(--bg-tertiary);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.avatarWrapper {
+    position: relative;
+    background: #25d366;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.statusIndicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: #4caf50;
+    border: 2px solid var(--bg-tertiary);
+    border-radius: 50%;
+    box-shadow: 0 0 4px #4caf50;
+}
+
+.headerInfo h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+}
+
+.headerInfo span {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.closeBtn {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+    color: var(--text-primary);
+}
+
+.conciergeBody {
+    padding: 1.25rem;
+}
+
+.welcomeText {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    font-weight: 300;
+}
+
+.optionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.optionLink {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.optionLink:hover {
+    border-color: var(--accent);
+    background: var(--bg-tertiary);
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.05);
+}
+
+.arrow {
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: transform 0.25s ease;
+}
+
+.optionLink:hover .arrow {
+    transform: translateX(2px);
+}
+
+@media (max-width: 480px) {
+    .conciergeCard {
+        right: 15px;
+        left: 15px;
+        width: calc(100% - 30px);
+        bottom: 150px;
+    }
 }

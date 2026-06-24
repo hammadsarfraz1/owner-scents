@@ -25,6 +25,8 @@ export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isCoverActive, setIsCoverActive] = useState(true);
+  const [renderCover, setRenderCover] = useState(true);
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -53,6 +55,36 @@ export default function Home() {
     setHoveredCard(null);
     setTilt({ x: 0, y: 0 });
   };
+
+  useEffect(() => {
+    if (isCoverActive) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+      const timer = setTimeout(() => {
+        setRenderCover(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCoverActive]);
+
+  useEffect(() => {
+    const handleTrigger = () => {
+      if (isCoverActive) {
+        setIsCoverActive(false);
+      }
+    };
+
+    window.addEventListener('wheel', handleTrigger, { passive: true });
+    window.addEventListener('touchmove', handleTrigger, { passive: true });
+    window.addEventListener('keydown', handleTrigger, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleTrigger);
+      window.removeEventListener('touchmove', handleTrigger);
+      window.removeEventListener('keydown', handleTrigger);
+    };
+  }, [isCoverActive]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -88,36 +120,18 @@ export default function Home() {
 
   return (
     <div className={styles.main}>
-      <Navbar />
+      {/* Intro Curtain Cover (Option A) */}
+      {renderCover && (
+        <div 
+          className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
+          onClick={() => setIsCoverActive(false)}
+        >
+          <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
+            <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
+            <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
 
-
-
-      {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={`container ${styles.heroContainer}`}>
-          <div className={styles.heroLeft}>
-            <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
-            <h1 className={`${styles.title} animateFadeInUp delay100`}>
-              ESSENCE OF<br />
-              <span className={styles.glowingText}>AUTHORITY</span>
-            </h1>
-            <p className={`${styles.subtitle} animateFadeInUp delay200`}>Curating timeless fragrance collections for the distinguished individual.</p>
-            <div className={`${styles.heroActions} animateFadeInUp delay300`}>
-              <Link href="/shop" className="btn sheenEffect">Shop Collection</Link>
-              <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
-            </div>
-            
-            {/* Scent Tag Descriptors */}
-            <div className={`${styles.scentTags} animateFadeInUp delay400`}>
-              <span>✦ OUD & LEATHER</span>
-              <span>✦ ROSE & VANILLA</span>
-              <span>✦ BERGAMOT & OCEAN</span>
-            </div>
-          </div>
-
-          <div className={styles.heroRight}>
             <div 
-              className={styles.stackContainer}
+              className={`${styles.stackContainer} ${styles.introStackContainer}`}
               onMouseMove={handleContainerMouseMove}
               onMouseLeave={handleContainerMouseLeave}
             >
@@ -183,6 +197,38 @@ export default function Home() {
                   </Link>
                 );
               })}
+            </div>
+
+            <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
+              <span className={styles.scrollText}>Scroll or click to enter</span>
+              <span className={styles.scrollArrow}>↓</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className={styles.hero}>
+        <div className={`container ${styles.heroContainer}`}>
+          <div className={styles.heroLeft}>
+            <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
+            <h1 className={`${styles.title} animateFadeInUp delay100`}>
+              ESSENCE OF<br />
+              <span className={styles.glowingText}>AUTHORITY</span>
+            </h1>
+            <p className={`${styles.subtitle} animateFadeInUp delay200`}>Curating timeless fragrance collections for the distinguished individual.</p>
+            <div className={`${styles.heroActions} animateFadeInUp delay300`}>
+              <Link href="/shop" className="btn sheenEffect">Shop Collection</Link>
+              <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
+            </div>
+            
+            {/* Scent Tag Descriptors */}
+            <div className={`${styles.scentTags} animateFadeInUp delay400`}>
+              <span>✦ OUD & LEATHER</span>
+              <span>✦ ROSE & VANILLA</span>
+              <span>✦ BERGAMOT & OCEAN</span>
             </div>
           </div>
         </div>

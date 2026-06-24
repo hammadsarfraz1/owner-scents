@@ -7,14 +7,14 @@
     right: 0;
     height: 70px;
     background: var(--nav-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--glass-border);
     z-index: 1000;
     padding-bottom: env(safe-area-inset-bottom);
     justify-content: space-around;
     align-items: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -33,10 +33,29 @@
     padding: 0.5rem 0;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     gap: 4px;
+    position: relative;
+}
+
+.navItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent), 0 0 4px var(--accent);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 0 0 3px 3px;
 }
 
 .navItem.active {
     color: var(--accent);
+}
+
+.navItem.active::before {
+    width: 36px;
 }
 
 .navItem:hover {

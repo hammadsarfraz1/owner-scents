@@ -345,3 +345,106 @@
         padding: 1rem;
     }
 }
+
+/* Scent Note Badges & Tooltip Styles */
+.scentBadgesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: center;
+    margin-top: 0.75rem;
+    width: 100%;
+}
+
+.scentBadge {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.55rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.scentBadge:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-gold-glow);
+}
+
+.badgeTooltipBackdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(12, 12, 14, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    animation: fadeInTooltip 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.badgeTooltip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    max-width: 90%;
+}
+
+.tooltipTitle {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.tooltipDesc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    font-weight: 300;
+}
+
+.tooltipCloseBtn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.4rem 1rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 0px;
+    transition: all 0.25s ease;
+}
+
+.tooltipCloseBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-gold-glow);
+}
+
+@keyframes fadeInTooltip {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -9,6 +9,7 @@ import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
 import ProductCard, { Product } from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
+import { X, SlidersHorizontal } from 'lucide-react';
 
 // Local Product type removed in favor of imported one to ensure compatibility
 // type Product = { ... }
@@ -26,6 +27,7 @@ function ShopContent() {
     const [sortOption, setSortOption] = useState<string>('newest');
     const [genderFolderOpen, setGenderFolderOpen] = useState(true);
     const [categoryFolderOpen, setCategoryFolderOpen] = useState(true);
+    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
     useEffect(() => {
         const genderParam = searchParams.get('gender');
@@ -65,38 +67,7 @@ function ShopContent() {
         <div className={styles.main}>
             <Navbar onSearch={(term: string) => setSearchTerm(term)} />
             <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem' }}>
-                {/* Mobile Filter Chips */}
-                <div className={styles.mobileFilters}>
-                    <div className={styles.mobileFilterGroup}>
-                        <span className={styles.mobileFilterLabel}>Gender</span>
-                        <div className={styles.mobileFilterScroll}>
-                            {genders.map(g => (
-                                <button
-                                    key={g}
-                                    className={`${styles.filterChip} ${selectedGender === g ? styles.active : ''}`}
-                                    onClick={() => setSelectedGender(g)}
-                                >
-                                    {g}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className={styles.mobileFilterGroup}>
-                        <span className={styles.mobileFilterLabel}>Category</span>
-                        <div className={styles.mobileFilterScroll}>
-                            {categories.map(c => (
-                                <button
-                                    key={c}
-                                    className={`${styles.filterChip} ${selectedCategory === c ? styles.active : ''}`}
-                                    onClick={() => setSelectedCategory(c)}
-                                >
-                                    {c}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                {/* Mobile Filter Chips removed in favor of sticky bottom sheet trigger */}
 
                 {/* Sidebar Filters */}
                 <aside className={styles.sidebar}>
@@ -172,7 +143,16 @@ function ShopContent() {
                     </div>
 
                     {loading ? (
-                        <p style={{ textAlign: 'center' }}>Loading scents...</p>
+                        <div className={styles.grid}>
+                            {[...Array(6)].map((_, i) => (
+                                <div key={i} className={styles.skeletonCard}>
+                                    <div className={`${styles.skeletonImage} skeleton`} />
+                                    <div className={`${styles.skeletonTitle} skeleton`} />
+                                    <div className={`${styles.skeletonText} skeleton`} />
+                                    <div className={`${styles.skeletonPrice} skeleton`} />
+                                </div>
+                            ))}
+                        </div>
                     ) : (
                         <div className={styles.grid}>
                             {filteredProducts.map((product, index) => (
@@ -191,6 +171,99 @@ function ShopContent() {
                     )}
                 </div>
             </div>
+
+            {/* Sticky Filters & Sort Button for Mobile */}
+            <button 
+                className={styles.mobileFilterStickyBtn} 
+                onClick={() => setIsBottomSheetOpen(true)}
+            >
+                <SlidersHorizontal size={16} />
+                <span>Filters & Sort</span>
+                {(selectedGender !== 'All' || selectedCategory !== 'All' || sortOption !== 'newest') && (
+                    <span className={styles.activeFilterCount}></span>
+                )}
+            </button>
+
+            {/* Bottom Sheet Filter Menu */}
+            {isBottomSheetOpen && (
+                <div className={styles.bottomSheetBackdrop} onClick={() => setIsBottomSheetOpen(false)}>
+                    <div className={styles.bottomSheet} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.bottomSheetHeader}>
+                            <div className={styles.bottomSheetDragHandle} />
+                            <h2>Filters & Sort</h2>
+                            <button className={styles.closeBtn} onClick={() => setIsBottomSheetOpen(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className={styles.bottomSheetContent}>
+                            {/* Sort Options */}
+                            <div className={styles.sheetSection}>
+                                <h3>Sort By</h3>
+                                <div className={styles.sheetOptionsGrid}>
+                                    {[
+                                        { val: 'newest', label: 'Newest' },
+                                        { val: 'price-asc', label: 'Price: Low to High' },
+                                        { val: 'price-desc', label: 'Price: High to Low' }
+                                    ].map(opt => (
+                                        <button
+                                            key={opt.val}
+                                            className={`${styles.sheetOptionBtn} ${sortOption === opt.val ? styles.activeOption : ''}`}
+                                            onClick={() => setSortOption(opt.val)}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Gender Options */}
+                            <div className={styles.sheetSection}>
+                                <h3>Gender</h3>
+                                <div className={styles.sheetOptionsGrid}>
+                                    {genders.map(g => (
+                                        <button
+                                            key={g}
+                                            className={`${styles.sheetOptionBtn} ${selectedGender === g ? styles.activeOption : ''}`}
+                                            onClick={() => setSelectedGender(g)}
+                                        >
+                                            {g}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Category Options */}
+                            <div className={styles.sheetSection}>
+                                <h3>Category</h3>
+                                <div className={styles.sheetOptionsGrid}>
+                                    {categories.map(c => (
+                                        <button
+                                            key={c}
+                                            className={`${styles.sheetOptionBtn} ${selectedCategory === c ? styles.activeOption : ''}`}
+                                            onClick={() => setSelectedCategory(c)}
+                                        >
+                                            {c}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                        <div className={styles.bottomSheetFooter}>
+                            <button className={styles.resetBtn} onClick={() => {
+                                setSelectedGender('All');
+                                setSelectedCategory('All');
+                                setSortOption('newest');
+                            }}>
+                                Reset All
+                            </button>
+                            <button className={styles.applyBtn} onClick={() => setIsBottomSheetOpen(false)}>
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <QuickViewModal
                 product={quickViewProduct}
                 onClose={() => setQuickViewProduct(null)}

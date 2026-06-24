@@ -36,12 +36,26 @@ export default function ProductDetails() {
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
     const { toggleWishlist, isInWishlist } = useWishlist();
+    const [showStickyBar, setShowStickyBar] = useState(false);
 
     // Local Review State
     const [reviews, setReviews] = useState<Review[]>([]);
     const [revName, setRevName] = useState('');
     const [revRating, setRevRating] = useState(5);
     const [revComment, setRevComment] = useState('');
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const actionBtn = document.querySelector(`.${styles.actionButtons}`);
+            if (actionBtn) {
+                const rect = actionBtn.getBoundingClientRect();
+                // Show sticky bar once we scroll past the action buttons section
+                setShowStickyBar(rect.bottom < 0);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         fetch(`/api/products/${params.id}`)
@@ -310,7 +324,32 @@ export default function ProductDetails() {
                     </div>
                 )}
             </div>
+
+            {/* Sticky Mobile Buy Now Bar */}
+            <div className={`${styles.stickyBar} ${showStickyBar ? styles.stickyBarOpen : ''}`}>
+                <div className={styles.stickyBarContainer}>
+                    <div className={styles.stickyBarLeft}>
+                        {product.image && <img src={product.image} alt={product.name} className={styles.stickyBarImg} />}
+                        <div className={styles.stickyBarInfo}>
+                            <span className={styles.stickyBarName}>{product.name}</span>
+                            <span className={styles.stickyBarPrice}>${Number(product.price).toFixed(2)}</span>
+                        </div>
+                    </div>
+                    <div className={styles.stickyBarRight}>
+                        <button
+                            className={`${styles.stickyBuyBtn} sheenEffect`}
+                            onClick={() => {
+                                addToCart({ ...product, price: Number(product.price), id: product.id });
+                                window.location.href = '/checkout';
+                            }}
+                        >
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <Footer />
-        </div >
+        </div>
     );
 }
