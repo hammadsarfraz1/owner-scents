@@ -753,6 +753,14 @@
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
   }
+  .catCard {
+    height: 320px;
+  }
+  .catTitle {
+    font-size: 1.3rem;
+    padding: 0.8rem 2rem;
+    letter-spacing: 2px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -809,5 +817,13 @@
   }
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+  }
+  .catCard {
+    height: 350px;
+  }
+  .catTitle {
+    font-size: 1.2rem;
+    padding: 0.75rem 1.5rem;
+    letter-spacing: 2px;
   }
 }
