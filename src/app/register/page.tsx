@@ -95,7 +95,7 @@ export default function RegisterPage() {
 
                         <button
                             type="submit"
-                            className={styles.button}
+                            className={`${styles.button} sheenEffect`}
                             disabled={loading}
                         >
                             {loading ? 'Creating Account...' : 'Register'}

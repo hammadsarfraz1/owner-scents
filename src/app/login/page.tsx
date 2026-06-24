@@ -67,7 +67,7 @@ export default function LoginPage() {
 
                         <button
                             type="submit"
-                            className={styles.button}
+                            className={`${styles.button} sheenEffect`}
                             disabled={loading}
                         >
                             {loading ? 'Logging in...' : 'Sign In'}

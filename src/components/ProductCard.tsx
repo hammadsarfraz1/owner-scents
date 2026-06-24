@@ -96,7 +96,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
             </Link>
             <div className={styles.actions}>
                 <button
-                    className={styles.buyNowBtn}
+                    className={`${styles.buyNowBtn} sheenEffect`}
                     onClick={handleBuyNow}
                 >
                     Buy Now

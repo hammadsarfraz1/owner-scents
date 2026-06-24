@@ -175,12 +175,17 @@ function ShopContent() {
                         <p style={{ textAlign: 'center' }}>Loading scents...</p>
                     ) : (
                         <div className={styles.grid}>
-                            {filteredProducts.map((product) => (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onQuickView={setQuickViewProduct}
-                                />
+                            {filteredProducts.map((product, index) => (
+                                <div 
+                                    key={product.id} 
+                                    className="animateFadeInUp"
+                                    style={{ animationDelay: `${(index % 6) * 120}ms` }}
+                                >
+                                    <ProductCard
+                                        product={product}
+                                        onQuickView={setQuickViewProduct}
+                                    />
+                                </div>
                             ))}
                         </div>
                     )}

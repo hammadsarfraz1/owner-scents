@@ -95,26 +95,26 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={`container ${styles.heroContainer}`}>
           <div className={styles.heroLeft}>
-            <span className={styles.heroTagline}>THE HAUTE PARFUMERIE</span>
-            <h1 className={styles.title}>
+            <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
+            <h1 className={`${styles.title} animateFadeInUp delay100`}>
               ESSENCE OF<br />
               <span className={styles.glowingText}>AUTHORITY</span>
             </h1>
-            <p className={styles.subtitle}>Curating timeless fragrance collections for the distinguished individual.</p>
-            <div className={styles.heroActions}>
-              <Link href="/shop" className="btn">Shop Collection</Link>
+            <p className={`${styles.subtitle} animateFadeInUp delay200`}>Curating timeless fragrance collections for the distinguished individual.</p>
+            <div className={`${styles.heroActions} animateFadeInUp delay300`}>
+              <Link href="/shop" className="btn sheenEffect">Shop Collection</Link>
               <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
             </div>
             
             {/* Scent Tag Descriptors */}
-            <div className={styles.scentTags}>
+            <div className={`${styles.scentTags} animateFadeInUp delay400`}>
               <span>✦ OUD & LEATHER</span>
               <span>✦ ROSE & VANILLA</span>
               <span>✦ BERGAMOT & OCEAN</span>
             </div>
           </div>
 
-          <div className={styles.heroRight}>
+          <div className={`${styles.heroRight} animateFadeInScale delay200`}>
             <div 
               className={styles.stackContainer}
               onMouseMove={handleContainerMouseMove}

@@ -97,7 +97,7 @@ export default function CartDrawer() {
                             <span>Subtotal</span>
                             <span>${cartTotal.toFixed(2)}</span>
                         </div>
-                        <Link href="/checkout" className={styles.checkoutBtn} onClick={toggleCart}>
+                        <Link href="/checkout" className={`${styles.checkoutBtn} sheenEffect`} onClick={toggleCart}>
                             Proceed to Checkout
                         </Link>
                     </div>
