@@ -143,5 +143,45 @@ model HomepageConfig {
   whatsappNumber       String   @default("923001234567")
   showWhatsapp         Boolean  @default(true)
 
+  // Hero Section Customize
+  heroTitle                 String   @default("ESSENCE OF AUTHORITY")
+  heroSubtitle              String   @default("Curating timeless fragrance collections for the distinguished individual.")
+  heroButtonText            String   @default("Shop Collection")
+  heroScentFinderButtonText String   @default("Find Your Scent")
+  showHero                  Boolean  @default(true)
+
+  // Marquee Moving Stripe Customize
+  marqueeText               String   @default("LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ")
+  showMarquee               Boolean  @default(true)
+
+  // On Sale Section Customize
+  saleLabel                 String   @default("EXCLUSIVE OFFER")
+  saleTitle                 String   @default("Limited-Time Sale")
+  saleSubtitle              String   @default("Exceptional values on our most coveted fragrances. Available for a limited duration.")
+  showSale                  Boolean  @default(true)
+
+  // Explore Collections Section Customize
+  exploreTitle              String   @default("Explore Collections")
+  exploreSubtitle           String   @default("Discover our highly acclaimed and newly arrived fragrances.")
+  showExplore               Boolean  @default(true)
+
+  // Signature Scents Section Customize
+  signatureTitle            String   @default("Signature Scents")
+  signatureSubtitle         String   @default("Hand-crafted fragrances curated for modern authority.")
+  signatureButtonText       String   @default("Explore Full Catalog")
+  showSignature             Boolean  @default(true)
+
+  // Owner's Story Section Customize
+  storyLabel                String   @default("OUR LEGACY")
+  storyTitle                String   @default("The Owner's Story")
+  storyDescription          String   @default("Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.")
+  storyButtonText           String   @default("Read Our Philosophy")
+  showStory                 Boolean  @default(true)
+
+  // Client Appraisals Section Customize
+  testimonialsTitle         String   @default("Client Appraisals")
+  testimonialsSubtitle      String   @default("What the connoisseurs say about Owner Scents.")
+  showTestimonials          Boolean  @default(true)
+
   updatedAt       DateTime @updatedAt
 }

@@ -28,6 +28,32 @@ type HomepageConfig = {
     showPromo: boolean;
     whatsappNumber: string;
     showWhatsapp: boolean;
+    heroTitle: string;
+    heroSubtitle: string;
+    heroButtonText: string;
+    heroScentFinderButtonText: string;
+    showHero: boolean;
+    marqueeText: string;
+    showMarquee: boolean;
+    saleLabel: string;
+    saleTitle: string;
+    saleSubtitle: string;
+    showSale: boolean;
+    exploreTitle: string;
+    exploreSubtitle: string;
+    showExplore: boolean;
+    signatureTitle: string;
+    signatureSubtitle: string;
+    signatureButtonText: string;
+    showSignature: boolean;
+    storyLabel: string;
+    storyTitle: string;
+    storyDescription: string;
+    storyButtonText: string;
+    showStory: boolean;
+    testimonialsTitle: string;
+    testimonialsSubtitle: string;
+    showTestimonials: boolean;
 };
 
 export default function EditHomepage() {
@@ -68,6 +94,39 @@ export default function EditHomepage() {
     const [whatsappNumber, setWhatsappNumber] = useState('');
     const [showWhatsapp, setShowWhatsapp] = useState(true);
 
+    const [heroTitle, setHeroTitle] = useState('');
+    const [heroSubtitle, setHeroSubtitle] = useState('');
+    const [heroButtonText, setHeroButtonText] = useState('');
+    const [heroScentFinderButtonText, setHeroScentFinderButtonText] = useState('');
+    const [showHero, setShowHero] = useState(true);
+
+    const [marqueeText, setMarqueeText] = useState('');
+    const [showMarquee, setShowMarquee] = useState(true);
+
+    const [saleLabel, setSaleLabel] = useState('');
+    const [saleTitle, setSaleTitle] = useState('');
+    const [saleSubtitle, setSaleSubtitle] = useState('');
+    const [showSale, setShowSale] = useState(true);
+
+    const [exploreTitle, setExploreTitle] = useState('');
+    const [exploreSubtitle, setExploreSubtitle] = useState('');
+    const [showExplore, setShowExplore] = useState(true);
+
+    const [signatureTitle, setSignatureTitle] = useState('');
+    const [signatureSubtitle, setSignatureSubtitle] = useState('');
+    const [signatureButtonText, setSignatureButtonText] = useState('');
+    const [showSignature, setShowSignature] = useState(true);
+
+    const [storyLabel, setStoryLabel] = useState('');
+    const [storyTitle, setStoryTitle] = useState('');
+    const [storyDescription, setStoryDescription] = useState('');
+    const [storyButtonText, setStoryButtonText] = useState('');
+    const [showStory, setShowStory] = useState(true);
+
+    const [testimonialsTitle, setTestimonialsTitle] = useState('');
+    const [testimonialsSubtitle, setTestimonialsSubtitle] = useState('');
+    const [showTestimonials, setShowTestimonials] = useState(true);
+
     const fetchConfig = async () => {
         try {
             setLoading(true);
@@ -106,6 +165,39 @@ export default function EditHomepage() {
                 setShowPromo(data.showPromo !== undefined ? Boolean(data.showPromo) : true);
                 setWhatsappNumber(data.whatsappNumber || '923001234567');
                 setShowWhatsapp(data.showWhatsapp !== undefined ? Boolean(data.showWhatsapp) : true);
+
+                setHeroTitle(data.heroTitle || 'ESSENCE OF AUTHORITY');
+                setHeroSubtitle(data.heroSubtitle || 'Curating timeless fragrance collections for the distinguished individual.');
+                setHeroButtonText(data.heroButtonText || 'Shop Collection');
+                setHeroScentFinderButtonText(data.heroScentFinderButtonText || 'Find Your Scent');
+                setShowHero(data.showHero !== undefined ? Boolean(data.showHero) : true);
+
+                setMarqueeText(data.marqueeText || 'LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ');
+                setShowMarquee(data.showMarquee !== undefined ? Boolean(data.showMarquee) : true);
+
+                setSaleLabel(data.saleLabel || 'EXCLUSIVE OFFER');
+                setSaleTitle(data.saleTitle || 'Limited-Time Sale');
+                setSaleSubtitle(data.saleSubtitle || 'Exceptional values on our most coveted fragrances. Available for a limited duration.');
+                setShowSale(data.showSale !== undefined ? Boolean(data.showSale) : true);
+
+                setExploreTitle(data.exploreTitle || 'Explore Collections');
+                setExploreSubtitle(data.exploreSubtitle || 'Discover our highly acclaimed and newly arrived fragrances.');
+                setShowExplore(data.showExplore !== undefined ? Boolean(data.showExplore) : true);
+
+                setSignatureTitle(data.signatureTitle || 'Signature Scents');
+                setSignatureSubtitle(data.signatureSubtitle || 'Hand-crafted fragrances curated for modern authority.');
+                setSignatureButtonText(data.signatureButtonText || 'Explore Full Catalog');
+                setShowSignature(data.showSignature !== undefined ? Boolean(data.showSignature) : true);
+
+                setStoryLabel(data.storyLabel || 'OUR LEGACY');
+                setStoryTitle(data.storyTitle || 'The Owner\'s Story');
+                setStoryDescription(data.storyDescription || 'Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.');
+                setStoryButtonText(data.storyButtonText || 'Read Our Philosophy');
+                setShowStory(data.showStory !== undefined ? Boolean(data.showStory) : true);
+
+                setTestimonialsTitle(data.testimonialsTitle || 'Client Appraisals');
+                setTestimonialsSubtitle(data.testimonialsSubtitle || 'What the connoisseurs say about Owner Scents.');
+                setShowTestimonials(data.showTestimonials !== undefined ? Boolean(data.showTestimonials) : true);
             } else {
                 throw new Error('Failed to load configuration');
             }
@@ -138,7 +230,33 @@ export default function EditHomepage() {
             promoText,
             showPromo,
             whatsappNumber,
-            showWhatsapp
+            showWhatsapp,
+            heroTitle,
+            heroSubtitle,
+            heroButtonText,
+            heroScentFinderButtonText,
+            showHero,
+            marqueeText,
+            showMarquee,
+            saleLabel,
+            saleTitle,
+            saleSubtitle,
+            showSale,
+            exploreTitle,
+            exploreSubtitle,
+            showExplore,
+            signatureTitle,
+            signatureSubtitle,
+            signatureButtonText,
+            showSignature,
+            storyLabel,
+            storyTitle,
+            storyDescription,
+            storyButtonText,
+            showStory,
+            testimonialsTitle,
+            testimonialsSubtitle,
+            showTestimonials,
         };
 
         try {
@@ -299,6 +417,182 @@ export default function EditHomepage() {
                                 <input type="text" value={split2Link} onChange={(e) => setSplit2Link(e.target.value)} className={styles.input} required />
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                {/* Hero & Marquee Customization */}
+                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'var(--font-serif)', textTransform: 'uppercase', fontSize: '1.25rem', letterSpacing: '1px', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                        Hero & Marquee Customization
+                    </h2>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                        <input type="checkbox" id="showHero" checked={showHero} onChange={(e) => setShowHero(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                        <label htmlFor="showHero" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>Show Hero section on storefront</label>
+                    </div>
+
+                    {showHero && (
+                        <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Hero Main Title *</label>
+                                <input type="text" value={heroTitle} onChange={(e) => setHeroTitle(e.target.value)} className={styles.input} required />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Hero Subtitle / Description *</label>
+                                <textarea value={heroSubtitle} onChange={(e) => setHeroSubtitle(e.target.value)} className={styles.textarea} rows={2} required />
+                            </div>
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Shop Button Text *</label>
+                                    <input type="text" value={heroButtonText} onChange={(e) => setHeroButtonText(e.target.value)} className={styles.input} required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Scent Finder Button Text *</label>
+                                    <input type="text" value={heroScentFinderButtonText} onChange={(e) => setHeroScentFinderButtonText(e.target.value)} className={styles.input} required />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                        <input type="checkbox" id="showMarquee" checked={showMarquee} onChange={(e) => setShowMarquee(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                        <label htmlFor="showMarquee" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>Show Moving Marquee Stripe on storefront</label>
+                    </div>
+
+                    {showMarquee && (
+                        <div className={styles.formGroup} style={{ marginTop: '1rem' }}>
+                            <label className={styles.label}>Marquee Text (Ending with bullet/space, e.g. "LUXURY • TIMELESS • ") *</label>
+                            <input type="text" value={marqueeText} onChange={(e) => setMarqueeText(e.target.value)} className={styles.input} required />
+                        </div>
+                    )}
+                </div>
+
+                {/* Homepage Sections Customize */}
+                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'var(--font-serif)', textTransform: 'uppercase', fontSize: '1.25rem', letterSpacing: '1px', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                        Home Sections Customization
+                    </h2>
+
+                    {/* On Sale Section Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <input type="checkbox" id="showSale" checked={showSale} onChange={(e) => setShowSale(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showSale" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '700' }}>SHOW LIMITED-TIME SALE SECTION</label>
+                        </div>
+                        {showSale && (
+                            <>
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Section Small Label *</label>
+                                        <input type="text" value={saleLabel} onChange={(e) => setSaleLabel(e.target.value)} className={styles.input} required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Section Title *</label>
+                                        <input type="text" value={saleTitle} onChange={(e) => setSaleTitle(e.target.value)} className={styles.input} required />
+                                    </div>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Subtitle / Description *</label>
+                                    <input type="text" value={saleSubtitle} onChange={(e) => setSaleSubtitle(e.target.value)} className={styles.input} required />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Explore Collections Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <input type="checkbox" id="showExplore" checked={showExplore} onChange={(e) => setShowExplore(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showExplore" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '700' }}>SHOW EXPLORE COLLECTIONS SECTION</label>
+                        </div>
+                        {showExplore && (
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Title *</label>
+                                    <input type="text" value={exploreTitle} onChange={(e) => setExploreTitle(e.target.value)} className={styles.input} required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Subtitle *</label>
+                                    <input type="text" value={exploreSubtitle} onChange={(e) => setExploreSubtitle(e.target.value)} className={styles.input} required />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Signature Scents Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <input type="checkbox" id="showSignature" checked={showSignature} onChange={(e) => setShowSignature(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showSignature" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '700' }}>SHOW SIGNATURE SCENTS SECTION</label>
+                        </div>
+                        {showSignature && (
+                            <>
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Section Title *</label>
+                                        <input type="text" value={signatureTitle} onChange={(e) => setSignatureTitle(e.target.value)} className={styles.input} required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Button Text *</label>
+                                        <input type="text" value={signatureButtonText} onChange={(e) => setSignatureButtonText(e.target.value)} className={styles.input} required />
+                                    </div>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Subtitle *</label>
+                                    <input type="text" value={signatureSubtitle} onChange={(e) => setSignatureSubtitle(e.target.value)} className={styles.input} required />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Owner's Story Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <input type="checkbox" id="showStory" checked={showStory} onChange={(e) => setShowStory(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showStory" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '700' }}>SHOW OWNER'S STORY SECTION</label>
+                        </div>
+                        {showStory && (
+                            <>
+                                <div className={styles.formRow}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Story Label *</label>
+                                        <input type="text" value={storyLabel} onChange={(e) => setStoryLabel(e.target.value)} className={styles.input} required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Story Title *</label>
+                                        <input type="text" value={storyTitle} onChange={(e) => setStoryTitle(e.target.value)} className={styles.input} required />
+                                    </div>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Story Description Text *</label>
+                                    <textarea value={storyDescription} onChange={(e) => setStoryDescription(e.target.value)} className={styles.textarea} rows={3} required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>PHILOSOPHY Link Button Text *</label>
+                                    <input type="text" value={storyButtonText} onChange={(e) => setStoryButtonText(e.target.value)} className={styles.input} required />
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Client Appraisals (Testimonials) Settings */}
+                    <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <input type="checkbox" id="showTestimonials" checked={showTestimonials} onChange={(e) => setShowTestimonials(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showTestimonials" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '700' }}>SHOW CLIENT APPRAISALS SECTION</label>
+                        </div>
+                        {showTestimonials && (
+                            <div className={styles.formRow}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Title *</label>
+                                    <input type="text" value={testimonialsTitle} onChange={(e) => setTestimonialsTitle(e.target.value)} className={styles.input} required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Section Subtitle *</label>
+                                    <input type="text" value={testimonialsSubtitle} onChange={(e) => setTestimonialsSubtitle(e.target.value)} className={styles.input} required />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 

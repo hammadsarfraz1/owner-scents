@@ -185,6 +185,10 @@ export default function Home() {
     }
   ];
 
+  const titleWords = (config?.heroTitle || "ESSENCE OF AUTHORITY").split(' ');
+  const mainTitle = titleWords.slice(0, -1).join(' ');
+  const lastWord = titleWords[titleWords.length - 1] || '';
+
   return (
     <div className={styles.main}>
       {/* Intro Curtain Cover (Option A) */}
@@ -277,105 +281,106 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={`container ${styles.heroContainer}`}>
-          <div className={styles.heroLeft}>
-            <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
-            <h1 className={`${styles.title} animateFadeInUp delay100`}>
-              ESSENCE OF<br />
-              <span className={styles.glowingText}>AUTHORITY</span>
-            </h1>
-            <p className={`${styles.subtitle} animateFadeInUp delay200`}>Curating timeless fragrance collections for the distinguished individual.</p>
-            <div className={`${styles.heroActions} animateFadeInUp delay300`}>
-              <Link href="/shop" className="btn sheenEffect">Shop Collection</Link>
-              <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
+      {config?.showHero !== false && (
+        <section className={styles.hero}>
+          <div className={`container ${styles.heroContainer}`}>
+            <div className={styles.heroLeft}>
+              <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
+              <h1 className={`${styles.title} animateFadeInUp delay100`}>
+                {mainTitle}<br />
+                <span className={styles.glowingText}>{lastWord}</span>
+              </h1>
+              <p className={`${styles.subtitle} animateFadeInUp delay200`}>{config?.heroSubtitle || "Curating timeless fragrance collections for the distinguished individual."}</p>
+              <div className={`${styles.heroActions} animateFadeInUp delay300`}>
+                <Link href="/shop" className="btn sheenEffect">{config?.heroButtonText || "Shop Collection"}</Link>
+                <Link href="/scent-finder" className={styles.secondaryBtn}>{config?.heroScentFinderButtonText || "Find Your Scent"}</Link>
+              </div>
             </div>
-            
 
-          </div>
-
-          <div className={styles.heroRight}>
-            <div 
-              className={styles.stackContainer}
-              onMouseMove={handleContainerMouseMove}
-              onMouseLeave={handleContainerMouseLeave}
-            >
-              {[
-                {
-                  slug: 'rose',
-                  name: config?.card1Name || "Rose Elixir",
-                  edition: config?.card1Edition || "FLORAL ESSENCE",
-                  image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card1Link || "/shop",
-                  className: styles.leftCard
-                },
-                {
-                  slug: 'midnight',
-                  name: config?.card2Name || "Midnight OUD",
-                  edition: config?.card2Edition || "SIGNATURE EDITION",
-                  image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card2Link || "/shop",
-                  className: styles.centerCard
-                },
-                {
-                  slug: 'velvet',
-                  name: config?.card3Name || "Velvet Orchid",
-                  edition: config?.card3Edition || "ROYAL ORIENTAL",
-                  image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card3Link || "/shop",
-                  className: styles.rightCard
-                }
-              ].map((perfume) => {
-                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
-                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
-                const isActive = hoveredCard === perfume.slug;
-                
-                return (
-                  <Link 
-                    key={perfume.slug}
-                    href={linkHref}
-                    className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
-                    style={{
-                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
-                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
-                    } as React.CSSProperties}
-                  >
-                    <div className={styles.cardGlow} />
-                    <div className={styles.cardInner}>
-                      <img
-                        src={perfume.image}
-                        alt={perfume.name}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
-                      />
-                      <div className={styles.cardContent}>
-                        <h3>{perfume.name}</h3>
-                        <span>{perfume.edition}</span>
+            <div className={styles.heroRight}>
+              <div 
+                className={styles.stackContainer}
+                onMouseMove={handleContainerMouseMove}
+                onMouseLeave={handleContainerMouseLeave}
+              >
+                {[
+                  {
+                    slug: 'rose',
+                    name: config?.card1Name || "Rose Elixir",
+                    edition: config?.card1Edition || "FLORAL ESSENCE",
+                    image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+                    link: config?.card1Link || "/shop",
+                    className: styles.leftCard
+                  },
+                  {
+                    slug: 'midnight',
+                    name: config?.card2Name || "Midnight OUD",
+                    edition: config?.card2Edition || "SIGNATURE EDITION",
+                    image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
+                    link: config?.card2Link || "/shop",
+                    className: styles.centerCard
+                  },
+                  {
+                    slug: 'velvet',
+                    name: config?.card3Name || "Velvet Orchid",
+                    edition: config?.card3Edition || "ROYAL ORIENTAL",
+                    image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
+                    link: config?.card3Link || "/shop",
+                    className: styles.rightCard
+                  }
+                ].map((perfume) => {
+                  const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
+                  const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
+                  const isActive = hoveredCard === perfume.slug;
+                  
+                  return (
+                    <Link 
+                      key={perfume.slug}
+                      href={linkHref}
+                      className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
+                      style={{
+                        '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
+                        '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                      } as React.CSSProperties}
+                    >
+                      <div className={styles.cardGlow} />
+                      <div className={styles.cardInner}>
+                        <img
+                          src={perfume.image}
+                          alt={perfume.name}
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                        <div className={styles.cardContent}>
+                          <h3>{perfume.name}</h3>
+                          <span>{perfume.edition}</span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Marquee Stripe */}
-      <div className={styles.marquee}>
-        <div className={styles.track}>
-          <span>LUXURY • TIMELESS • ELEGANCE • BOLDNESS • </span>
-          <span>LUXURY • TIMELESS • ELEGANCE • BOLDNESS • </span>
-          <span>LUXURY • TIMELESS • ELEGANCE • BOLDNESS • </span>
-          <span>LUXURY • TIMELESS • ELEGANCE • BOLDNESS • </span>
+      {config?.showMarquee !== false && (
+        <div className={styles.marquee}>
+          <div className={styles.track}>
+            {Array(4).fill(config?.marqueeText || "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ").map((text, i) => (
+              <span key={i}>{text}</span>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Categories Split */}
       <section className={styles.categories}>
@@ -406,101 +411,113 @@ export default function Home() {
       </section>
 
       {/* On Sale Section */}
-      <section className={`container ${styles.featuredSection}`}>
-        <div className={styles.featuredHeader}>
-          <span className={styles.saleTagline} style={{ color: '#ef4444', letterSpacing: '4px', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', textShadow: '0 0 10px rgba(239, 68, 68, 0.3)', display: 'block', marginBottom: '0.5rem' }}>EXCLUSIVE OFFER</span>
-          <h2 style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.15)' }}>Limited-Time Sale</h2>
-          <p>Exceptional values on our most coveted fragrances. Available for a limited duration.</p>
-        </div>
+      {config?.showSale !== false && (
+        <section className={`container ${styles.featuredSection}`}>
+          <div className={styles.featuredHeader}>
+            <span className={styles.saleTagline} style={{ color: '#ef4444', letterSpacing: '4px', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', textShadow: '0 0 10px rgba(239, 68, 68, 0.3)', display: 'block', marginBottom: '0.5rem' }}>
+              {config?.saleLabel || "EXCLUSIVE OFFER"}
+            </span>
+            <h2 style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.15)' }}>{config?.saleTitle || "Limited-Time Sale"}</h2>
+            <p>{config?.saleSubtitle || "Exceptional values on our most coveted fragrances. Available for a limited duration."}</p>
+          </div>
 
-        <ProductCarousel 
-          products={onSaleProducts} 
-          title="" 
-          onQuickView={setQuickViewProduct} 
-        />
-      </section>
+          <ProductCarousel 
+            products={onSaleProducts} 
+            title="" 
+            onQuickView={setQuickViewProduct} 
+          />
+        </section>
+      )}
 
       {/* Explore Collections Section (Popular / Latest) */}
-      <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
-        <div className={styles.featuredHeader}>
-          <h2>Explore Collections</h2>
-          <p>Discover our highly acclaimed and newly arrived fragrances.</p>
+      {config?.showExplore !== false && (
+        <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
+          <div className={styles.featuredHeader}>
+            <h2>{config?.exploreTitle || "Explore Collections"}</h2>
+            <p>{config?.exploreSubtitle || "Discover our highly acclaimed and newly arrived fragrances."}</p>
 
-          <div className={styles.tabContainer}>
-            <button 
-              className={`${styles.tabBtn} ${activeTab === 'popular' ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab('popular')}
-            >
-              Popular
-            </button>
-            <button 
-              className={`${styles.tabBtn} ${activeTab === 'latest' ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab('latest')}
-            >
-              Latest
-            </button>
+            <div className={styles.tabContainer}>
+              <button 
+                className={`${styles.tabBtn} ${activeTab === 'popular' ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab('popular')}
+              >
+                Popular
+              </button>
+              <button 
+                className={`${styles.tabBtn} ${activeTab === 'latest' ? styles.activeTab : ''}`}
+                onClick={() => setActiveTab('latest')}
+              >
+                Latest
+              </button>
+            </div>
           </div>
-        </div>
 
-        <ProductCarousel 
-          key={activeTab}
-          products={
-            activeTab === 'popular' ? popularProducts :
-            latestProducts
-          } 
-          title="" 
-          onQuickView={setQuickViewProduct} 
-        />
-      </section>
+          <ProductCarousel 
+            key={activeTab}
+            products={
+              activeTab === 'popular' ? popularProducts :
+              latestProducts
+            } 
+            title="" 
+            onQuickView={setQuickViewProduct} 
+          />
+        </section>
+      )}
 
       {/* Signature Scents Section */}
-      <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
-        <div className={styles.featuredHeader}>
-          <h2>Signature Scents</h2>
-          <p>Hand-crafted fragrances curated for modern authority.</p>
-        </div>
+      {config?.showSignature !== false && (
+        <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
+          <div className={styles.featuredHeader}>
+            <h2>{config?.signatureTitle || "Signature Scents"}</h2>
+            <p>{config?.signatureSubtitle || "Hand-crafted fragrances curated for modern authority."}</p>
+          </div>
 
-        <ProductCarousel 
-          products={featuredProducts} 
-          title="" 
-          onQuickView={setQuickViewProduct} 
-        />
+          <ProductCarousel 
+            products={featuredProducts} 
+            title="" 
+            onQuickView={setQuickViewProduct} 
+          />
 
-        <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
-          <Link href="/shop" className={styles.viewAllBtn}>Explore Full Catalog</Link>
-        </div>
-      </section>
+          <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
+            <Link href="/shop" className={styles.viewAllBtn}>{config?.signatureButtonText || "Explore Full Catalog"}</Link>
+          </div>
+        </section>
+      )}
 
       {/* Story Teaser */}
-      <section className={styles.story}>
-        <div className={styles.storyOverlay} />
-        <div className={styles.storyContent}>
-          <span className={styles.storyLabel}>OUR LEGACY</span>
-          <h2>The Owner's Story</h2>
-          <p>Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.</p>
-          <Link href="/about" className={styles.storyLink}>Read Our Philosophy</Link>
-        </div>
-      </section>
+      {config?.showStory !== false && (
+        <section className={styles.story}>
+          <div className={styles.storyOverlay} />
+          <div className={styles.storyContent}>
+            <span className={styles.storyLabel}>{config?.storyLabel || "OUR LEGACY"}</span>
+            <h2>{config?.storyTitle || "The Owner's Story"}</h2>
+            <p>{config?.storyDescription || "Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe."}</p>
+            <Link href="/about" className={styles.storyLink}>{config?.storyButtonText || "Read Our Philosophy"}</Link>
+          </div>
+        </section>
+      )}
 
       {/* Testimonials Section */}
-      <section className={`container ${styles.testimonialsSection}`}>
-        <div className={styles.featuredHeader}>
-          <h2>Client Appraisals</h2>
-          <p>What the connoisseurs say about Owner Scents.</p>
-        </div>
-        <div className={styles.testimonialsGrid}>
-          {testimonials.map((t, idx) => (
-            <div key={idx} className={styles.testimonialCard}>
-              <div className={styles.quoteIcon}>“</div>
-              <p className={styles.quoteText}>{t.quote}</p>
-              <div className={styles.quoteAuthor}>
-                <strong>{t.author}</strong>
-                <span>{t.role}</span>
+      {config?.showTestimonials !== false && (
+        <section className={`container ${styles.testimonialsSection}`}>
+          <div className={styles.featuredHeader}>
+            <h2>{config?.testimonialsTitle || "Client Appraisals"}</h2>
+            <p>{config?.testimonialsSubtitle || "What the connoisseurs say about Owner Scents."}</p>
+          </div>
+          <div className={styles.testimonialsGrid}>
+            {testimonials.map((t, idx) => (
+              <div key={idx} className={styles.testimonialCard}>
+                <div className={styles.quoteIcon}>“</div>
+                <p className={styles.quoteText}>{t.quote}</p>
+                <div className={styles.quoteAuthor}>
+                  <strong>{t.author}</strong>
+                  <span>{t.role}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       <QuickViewModal
         product={quickViewProduct}
