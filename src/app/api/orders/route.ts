@@ -18,6 +18,12 @@ export async function POST(req: Request) {
         const { authOptions } = await import("@/lib/auth");
         const session = await getServerSession(authOptions);
 
+        // Query product prices from DB
+        const productIds = items.map((item: any) => item.productId);
+        const dbProducts = await prisma.product.findMany({
+            where: { id: { in: productIds } }
+        });
+
         const order = await prisma.order.create({
             data: {
                 shippingName: name,
@@ -33,11 +39,15 @@ export async function POST(req: Request) {
                 paymentStatus: 'PENDING',
                 userId: (session?.user as any)?.id || null, // Link to user if logged in
                 items: {
-                    create: items.map((item: any) => ({
-                        productId: item.productId,
-                        quantity: item.quantity,
-                        price: 0
-                    }))
+                    create: items.map((item: any) => {
+                        const dbProduct = dbProducts.find(p => p.id === item.productId);
+                        const price = dbProduct ? dbProduct.price : 0;
+                        return {
+                            productId: item.productId,
+                            quantity: item.quantity,
+                            price: price
+                        };
+                    })
                 }
             }
         });
