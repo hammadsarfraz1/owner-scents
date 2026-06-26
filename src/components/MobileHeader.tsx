@@ -12,27 +12,7 @@ export default function MobileHeader() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [allProducts, setAllProducts] = useState<any[]>([]);
-    const [scrollDir, setScrollDir] = useState("up");
-    const [lastScrollY, setLastScrollY] = useState(0);
     const router = useRouter();
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.pageYOffset;
-            if (currentScrollY <= 60) {
-                setScrollDir("up");
-                return;
-            }
-            if (currentScrollY > lastScrollY) {
-                setScrollDir("down");
-            } else {
-                setScrollDir("up");
-            }
-            setLastScrollY(currentScrollY);
-        };
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [lastScrollY]);
 
     useEffect(() => {
         if (isSearchOpen) {
@@ -60,7 +40,7 @@ export default function MobileHeader() {
 
     return (
         <>
-            <header className={`${styles.mobileHeader} ${scrollDir === 'down' ? styles.mobileHeaderHidden : ''}`}>
+            <header className={styles.mobileHeader}>
                 <div className={styles.topRow}>
                     <div className={styles.logo}>
                         <Link href="/">
