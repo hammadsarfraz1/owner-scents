@@ -22,7 +22,6 @@ type Product = {
     topNotes: string;
     heartNotes: string;
     baseNotes: string;
-    ingredients?: string;
 };
 
 type Review = {
@@ -271,13 +270,7 @@ export default function ProductDetails() {
                             </div>
                         </div>
 
-                        {/* Ingredients Section */}
-                        {product.ingredients && (
-                            <div style={{ marginTop: '2.5rem', background: 'var(--bg-secondary)', padding: '1.5rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                                <h3 style={{ textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '0.5rem', color: 'var(--accent)' }}>Ingredients</h3>
-                                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.6', fontFamily: 'var(--font-sans)' }}>{product.ingredients}</p>
-                            </div>
-                        )}
+
                     </div>
                 </div>
 

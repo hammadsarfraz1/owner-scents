@@ -39,6 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'All Orders', path: '/admin/orders', icon: '📦' },
         { name: 'Products', path: '/admin/products', icon: '✨' },
         { name: 'Categories', path: '/admin/categories', icon: '📁' },
+        { name: 'Scent Notes', path: '/admin/scent-notes', icon: '🌿' },
         { name: 'Reviews', path: '/admin/reviews', icon: '⭐' },
         { name: 'Edit Homepage', path: '/admin/homepage', icon: '🏠' },
     ];

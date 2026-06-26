@@ -3,23 +3,31 @@
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import styles from './ProductCard.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const SCENT_DESCRIPTIONS: Record<string, string> = {
-    "Bergamot": "Fresh, citrusy, and slightly spicy scent. Found in high-end top notes.",
-    "Grapefruit": "Bright, zesty, and energizing citrus note.",
-    "Jasmine": "Rich, warm, sweet floral note. Provides a luxurious heart.",
-    "Sage": "Herbal, clean, and earthy notes for a masculine/unisex touch.",
-    "Sandalwood": "Creamy, rich, exotic wood scent. A classic luxury base note.",
-    "Oud": "Deep, smoky, woody, and prestigious oriental resin note.",
-    "Rose": "Classic, romantic floral note with powdery and sweet facets.",
-    "Amber": "Warm, sweet, resinous, and cozy base note.",
-    "Vanilla": "Sweet, comforting, and warm balsamic note.",
-    "Patchouli": "Earthy, sweet, and dark musky note with wood tones.",
-    "Musk": "Sensual, clean, and animalic note that lingers on skin.",
-    "Lavender": "Aromatic, clean, floral, and calming herb note.",
-    "Cedarwood": "Dry, clean woody scent. Provides structure and longevity."
-};
+let cachedScentNotes: Record<string, string> | null = null;
+let scentNotesPromise: Promise<Record<string, string>> | null = null;
+
+function getScentNotes(): Promise<Record<string, string>> {
+    if (cachedScentNotes) return Promise.resolve(cachedScentNotes);
+    if (scentNotesPromise) return scentNotesPromise;
+
+    scentNotesPromise = fetch('/api/scent-notes')
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to fetch scent notes');
+            return res.json();
+        })
+        .then(data => {
+            cachedScentNotes = data;
+            return data;
+        })
+        .catch(err => {
+            console.error("Error loading scent notes:", err);
+            return {};
+        });
+
+    return scentNotesPromise;
+}
 
 export type Product = {
     id: string;
@@ -45,6 +53,11 @@ type ProductCardProps = {
 export default function ProductCard({ product, onQuickView }: ProductCardProps) {
     const { addToCart } = useCart();
     const [activeNoteInfo, setActiveNoteInfo] = useState<string | null>(null);
+    const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
+
+    useEffect(() => {
+        getScentNotes().then(setScentDescriptions);
+    }, []);
 
     const getBadges = () => {
         const notes: string[] = [];
@@ -193,7 +206,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     <div className={styles.badgeTooltip} onClick={(e) => e.stopPropagation()}>
                         <h4 className={styles.tooltipTitle}>{activeNoteInfo}</h4>
                         <p className={styles.tooltipDesc}>
-                            {SCENT_DESCRIPTIONS[activeNoteInfo] || `${activeNoteInfo} is a premium fragrance note that adds depth and character to this luxury blend.`}
+                            {scentDescriptions[activeNoteInfo] || `${activeNoteInfo} is a premium fragrance note that adds depth and character to this luxury blend.`}
                         </p>
                         <button className={styles.tooltipCloseBtn} onClick={(e) => {
                             e.preventDefault();
