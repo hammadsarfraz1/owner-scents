@@ -11,6 +11,7 @@ type Product = {
     id: string;
     name: string;
     price: string;
+    originalPrice: string | null;
     image: string;
     isOnSale?: boolean;
     salePrice?: number;
@@ -76,19 +77,21 @@ export default function WishlistPage() {
                                 </div>
                                 <div className={styles.info}>
                                     <h3>{product.name}</h3>
-                                    <p className={styles.productPrice}>
-                                        {product.isOnSale && product.salePrice ? (
-                                            <>
-                                                <span className={styles.salePrice}>Rs. {Number(product.salePrice).toLocaleString()}</span>
-                                                <span className={styles.originalPrice}>Rs. {Number(product.price).toLocaleString()}</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
-                                                <span className={styles.originalPrice}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
-                                            </>
-                                        )}
-                                    </p>
+                                    {product.originalPrice && Number(product.originalPrice) > 0 ? (
+                                        <p className={styles.productPrice}>
+                                            <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                                            <span className={styles.originalPrice}>Rs. {Number(product.originalPrice).toLocaleString()}</span>
+                                        </p>
+                                    ) : product.isOnSale && product.salePrice ? (
+                                        <p className={styles.productPrice}>
+                                            <span className={styles.salePrice}>Rs. {Number(product.salePrice).toLocaleString()}</span>
+                                            <span className={styles.originalPrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                                        </p>
+                                    ) : (
+                                        <p className={styles.productPrice}>
+                                            <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                                        </p>
+                                    )}
                                     <div className={styles.actions}>
                                         <Link href={`/shop/${product.id}`} className={styles.viewBtn}>View</Link>
                                         <button

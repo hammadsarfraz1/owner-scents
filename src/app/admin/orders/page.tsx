@@ -349,6 +349,10 @@ export default function AdminOrders() {
                                             <td style={{ padding: '0.5rem 0', fontWeight: '500' }}>{selectedOrder.city}</td>
                                         </tr>
                                         <tr>
+                                            <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)' }}>Postal Code:</td>
+                                            <td style={{ padding: '0.5rem 0', fontWeight: '500' }}>{selectedOrder.postalCode || 'N/A'}</td>
+                                        </tr>
+                                        <tr>
                                             <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)' }}>Country:</td>
                                             <td style={{ padding: '0.5rem 0' }}>{selectedOrder.country}</td>
                                         </tr>

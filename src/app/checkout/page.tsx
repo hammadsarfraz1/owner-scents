@@ -223,8 +223,9 @@ export default function CheckoutPage() {
                                 />
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Postal Code</label>
+                                <label className={styles.label}>Postal Code *</label>
                                 <input
+                                    required
                                     name="postalCode"
                                     value={formData.postalCode}
                                     className={styles.input}

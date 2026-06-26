@@ -9,7 +9,7 @@ export async function POST(req: Request) {
         const { name, email, phone, address, city, postalCode, country, items, total } = body;
 
         // Validation (Basic)
-        if (!name || !phone || !address || !city || !items || items.length === 0) {
+        if (!name || !phone || !address || !city || !postalCode || !items || items.length === 0) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
