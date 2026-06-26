@@ -14,12 +14,23 @@ export default function CartDrawer() {
     useEffect(() => {
         if (isCartOpen) {
             document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
+            
+            const preventScroll = (e: Event) => {
+                const drawer = document.querySelector(`.${styles.drawer}`);
+                if (drawer && !drawer.contains(e.target as Node)) {
+                    e.preventDefault();
+                }
+            };
+            
+            window.addEventListener('wheel', preventScroll, { passive: false });
+            window.addEventListener('touchmove', preventScroll, { passive: false });
+            
+            return () => {
+                document.body.style.overflow = 'unset';
+                window.removeEventListener('wheel', preventScroll);
+                window.removeEventListener('touchmove', preventScroll);
+            };
         }
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
     }, [isCartOpen]);
 
     const handleTouchStart = (e: React.TouchEvent) => {

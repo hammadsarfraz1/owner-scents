@@ -12,6 +12,8 @@ type Product = {
     name: string;
     price: string;
     image: string;
+    isOnSale?: boolean;
+    salePrice?: number;
 };
 
 export default function WishlistPage() {
@@ -74,7 +76,19 @@ export default function WishlistPage() {
                                 </div>
                                 <div className={styles.info}>
                                     <h3>{product.name}</h3>
-                                    <p>${Number(product.price).toFixed(2)}</p>
+                                    <p className={styles.productPrice}>
+                                        {product.isOnSale && product.salePrice ? (
+                                            <>
+                                                <span className={styles.salePrice}>${Number(product.salePrice).toFixed(2)}</span>
+                                                <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
+                                                <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                                            </>
+                                        )}
+                                    </p>
                                     <div className={styles.actions}>
                                         <Link href={`/shop/${product.id}`} className={styles.viewBtn}>View</Link>
                                         <button

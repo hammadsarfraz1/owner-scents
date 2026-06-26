@@ -140,7 +140,10 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                             <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
                         </p>
                     ) : (
-                        <p className={styles.productPrice}>${Number(product.price).toFixed(2)}</p>
+                        <p className={styles.productPrice}>
+                            <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
+                            <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                        </p>
                     )}
                     
                     {allBadges.length > 0 && (

@@ -147,7 +147,19 @@ export default function MobileHeader() {
                                                         {product.gender} • {product.category || 'Eau De Parfum'}
                                                     </span>
                                                 </div>
-                                                <span className={styles.resultPrice}>${Number(product.price).toFixed(2)}</span>
+                                                <span className={styles.resultPrice}>
+                                                    {product.isOnSale && product.salePrice ? (
+                                                        <>
+                                                            <span className={styles.salePrice}>${Number(product.salePrice).toFixed(2)}</span>
+                                                            <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
+                                                            <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                                                        </>
+                                                    )}
+                                                </span>
                                             </Link>
                                         ))}
                                     </div>

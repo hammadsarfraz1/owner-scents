@@ -30,6 +30,28 @@ function ShopContent() {
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
     useEffect(() => {
+        if (isBottomSheetOpen) {
+            document.body.style.overflow = 'hidden';
+            
+            const preventScroll = (e: Event) => {
+                const sheet = document.querySelector(`.${styles.bottomSheet}`);
+                if (sheet && !sheet.contains(e.target as Node)) {
+                    e.preventDefault();
+                }
+            };
+            
+            window.addEventListener('wheel', preventScroll, { passive: false });
+            window.addEventListener('touchmove', preventScroll, { passive: false });
+            
+            return () => {
+                document.body.style.overflow = '';
+                window.removeEventListener('wheel', preventScroll);
+                window.removeEventListener('touchmove', preventScroll);
+            };
+        }
+    }, [isBottomSheetOpen]);
+
+    useEffect(() => {
         const genderParam = searchParams.get('gender');
         const categoryParam = searchParams.get('category');
         if (genderParam) setSelectedGender(genderParam);

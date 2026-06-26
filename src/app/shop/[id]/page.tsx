@@ -8,6 +8,7 @@ import styles from './page.module.css';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 import { useParams } from 'next/navigation';
+import { useSession } from "next-auth/react";
 
 type Product = {
     id: string;
@@ -31,12 +32,14 @@ type Review = {
 
 export default function ProductDetails() {
     const params = useParams();
+    const { data: session } = useSession();
     const [product, setProduct] = useState<Product | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
     const { toggleWishlist, isInWishlist } = useWishlist();
     const [showStickyBar, setShowStickyBar] = useState(false);
+    const [hasPurchased, setHasPurchased] = useState(false);
 
     // Local Review State
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -47,6 +50,28 @@ export default function ProductDetails() {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [params.id]);
+
+    useEffect(() => {
+        if (!session) {
+            setHasPurchased(false);
+            return;
+        }
+        fetch('/api/user/orders')
+            .then(res => {
+                if (res.ok) return res.json();
+                return [];
+            })
+            .then(orders => {
+                const purchased = orders.some((order: any) => 
+                    order.items.some((item: any) => item.productId === params.id)
+                );
+                setHasPurchased(purchased);
+            })
+            .catch(err => {
+                console.error('Error checking purchase:', err);
+                setHasPurchased(false);
+            });
+    }, [session, params.id]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -186,7 +211,10 @@ export default function ProductDetails() {
                             <span className={styles.badge}>{product.category.toUpperCase()}</span>
                             <span className={styles.starText}>★ {avgRating} ({reviews.length} Reviews)</span>
                         </div>
-                        <div className={styles.price}>${Number(product.price).toFixed(2)}</div>
+                        <div className={styles.price}>
+                            <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
+                            <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                        </div>
 
                         <p className={styles.description}>{product.description}</p>
 
@@ -252,45 +280,55 @@ export default function ProductDetails() {
                         {/* Write review */}
                         <div className={styles.reviewFormCard}>
                             <h3>Add Your Review</h3>
-                            <form onSubmit={handleAddReview} className={styles.reviewForm}>
-                                <div className={styles.formGroup}>
-                                    <label>Your Name</label>
-                                    <input 
-                                        type="text" 
-                                        required 
-                                        value={revName} 
-                                        onChange={(e) => setRevName(e.target.value)} 
-                                        className={styles.input}
-                                        placeholder="Enter your name"
-                                    />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Rating</label>
-                                    <select 
-                                        value={revRating} 
-                                        onChange={(e) => setRevRating(Number(e.target.value))} 
-                                        className={styles.select}
-                                    >
-                                        <option value={5}>5 Stars - Excellent</option>
-                                        <option value={4}>4 Stars - Good</option>
-                                        <option value={3}>3 Stars - Average</option>
-                                        <option value={2}>2 Stars - Below Average</option>
-                                        <option value={1}>1 Star - Poor</option>
-                                    </select>
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label>Your Experience</label>
-                                    <textarea 
-                                        required 
-                                        rows={4} 
-                                        value={revComment} 
-                                        onChange={(e) => setRevComment(e.target.value)} 
-                                        className={styles.textarea}
-                                        placeholder="Describe the performance, projection, and scent note transition..."
-                                    />
-                                </div>
-                                <button type="submit" className={styles.submitReviewBtn}>Submit Review</button>
-                            </form>
+                            {!session ? (
+                                <p className={styles.reviewNotice} style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                                    Please <Link href="/login" style={{ textDecoration: 'underline', color: 'var(--accent)' }}>sign in</Link> and purchase this fragrance to leave a review.
+                                </p>
+                            ) : !hasPurchased ? (
+                                <p className={styles.reviewNotice} style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                                    Only verified buyers who have purchased this fragrance from Owner Scents can leave an appraisal.
+                                </p>
+                            ) : (
+                                <form onSubmit={handleAddReview} className={styles.reviewForm}>
+                                    <div className={styles.formGroup}>
+                                        <label>Your Name</label>
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            value={revName} 
+                                            onChange={(e) => setRevName(e.target.value)} 
+                                            className={styles.input}
+                                            placeholder="Enter your name"
+                                        />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label>Rating</label>
+                                        <select 
+                                            value={revRating} 
+                                            onChange={(e) => setRevRating(Number(e.target.value))} 
+                                            className={styles.select}
+                                        >
+                                            <option value={5}>5 Stars - Excellent</option>
+                                            <option value={4}>4 Stars - Good</option>
+                                            <option value={3}>3 Stars - Average</option>
+                                            <option value={2}>2 Stars - Below Average</option>
+                                            <option value={1}>1 Star - Poor</option>
+                                        </select>
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label>Your Experience</label>
+                                        <textarea 
+                                            required 
+                                            rows={4} 
+                                            value={revComment} 
+                                            onChange={(e) => setRevComment(e.target.value)} 
+                                            className={styles.textarea}
+                                            placeholder="Describe the performance, projection, and scent note transition..."
+                                        />
+                                    </div>
+                                    <button type="submit" className={styles.submitReviewBtn}>Submit Review</button>
+                                </form>
+                            )}
                         </div>
 
                         {/* List reviews */}
@@ -336,7 +374,10 @@ export default function ProductDetails() {
                         {product.image && <img src={product.image} alt={product.name} className={styles.stickyBarImg} />}
                         <div className={styles.stickyBarInfo}>
                             <span className={styles.stickyBarName}>{product.name}</span>
-                            <span className={styles.stickyBarPrice}>${Number(product.price).toFixed(2)}</span>
+                            <span className={styles.stickyBarPrice}>
+                                <span className={styles.salePrice} style={{ color: '#f472b6', fontWeight: 600 }}>${Number(product.price).toFixed(2)}</span>
+                                <span className={styles.originalPrice} style={{ textDecoration: 'line-through', opacity: 0.55, marginLeft: '0.5rem', fontSize: '0.75rem' }}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                            </span>
                         </div>
                     </div>
                     <div className={styles.stickyBarRight}>

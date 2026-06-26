@@ -11,6 +11,8 @@ type Product = {
     price: string;
     description?: string;
     image?: string;
+    isOnSale?: boolean;
+    salePrice?: number;
 };
 
 type Props = {
@@ -23,6 +25,38 @@ export default function QuickViewModal({ product, onClose }: Props) {
     const [touchStartY, setTouchStartY] = useState<number | null>(null);
     const [touchCurrentY, setTouchCurrentY] = useState<number | null>(null);
     const [imageError, setImageError] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Prevent body scroll and scroll events when open
+    useEffect(() => {
+        if (product) {
+            document.body.style.overflow = 'hidden';
+            
+            const preventScroll = (e: Event) => {
+                const modal = document.querySelector(`.${styles.modal}`);
+                if (modal && !modal.contains(e.target as Node)) {
+                    e.preventDefault();
+                }
+            };
+            
+            window.addEventListener('wheel', preventScroll, { passive: false });
+            window.addEventListener('touchmove', preventScroll, { passive: false });
+            
+            return () => {
+                document.body.style.overflow = '';
+                window.removeEventListener('wheel', preventScroll);
+                window.removeEventListener('touchmove', preventScroll);
+            };
+        }
+    }, [product]);
+
+    // Check window size on client
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Reset image error state whenever product changes
     useEffect(() => {
@@ -32,11 +66,12 @@ export default function QuickViewModal({ product, onClose }: Props) {
     if (!product) return null;
 
     const handleTouchStart = (e: React.TouchEvent) => {
+        if (isMobile) return;
         setTouchStartY(e.targetTouches[0].clientY);
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        if (touchStartY === null) return;
+        if (isMobile || touchStartY === null) return;
         const currentY = e.targetTouches[0].clientY;
         const diffY = currentY - touchStartY;
         // Only allow swiping down (out of screen on mobile bottom sheet layout)
@@ -46,6 +81,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
     };
 
     const handleTouchEnd = () => {
+        if (isMobile) return;
         if (touchStartY !== null && touchCurrentY !== null) {
             const diffY = touchCurrentY - touchStartY;
             if (diffY > 100) {
@@ -56,7 +92,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
         setTouchCurrentY(null);
     };
 
-    const swipeStyle = touchStartY !== null && touchCurrentY !== null
+    const swipeStyle = !isMobile && touchStartY !== null && touchCurrentY !== null
         ? { transform: `translateY(${Math.max(0, touchCurrentY - touchStartY)}px)`, transition: 'none' }
         : {};
 
@@ -94,7 +130,17 @@ export default function QuickViewModal({ product, onClose }: Props) {
 
                 <div className={styles.detailsSection}>
                     <h2 className={styles.title}>{product.name}</h2>
-                    <p className={styles.price}>${Number(product.price).toFixed(2)}</p>
+                    {product.isOnSale && product.salePrice ? (
+                        <p className={styles.price}>
+                            <span className={styles.salePrice}>${Number(product.salePrice).toFixed(2)}</span>
+                            <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
+                        </p>
+                    ) : (
+                        <p className={styles.price}>
+                            <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
+                            <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                        </p>
+                    )}
 
                     <p className={styles.description}>
                         {product.description || "A luxurious fragrance that embodies elegance and sophistication. Experience the essence of Owner Scents."}
@@ -103,7 +149,8 @@ export default function QuickViewModal({ product, onClose }: Props) {
                     <button
                         className={styles.addToCartBtn}
                         onClick={() => {
-                            addToCart({ ...product, price: Number(product.price), image: product.image || '' });
+                            const finalPrice = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
+                            addToCart({ ...product, price: finalPrice, image: product.image || '' });
                             onClose();
                         }}
                     >

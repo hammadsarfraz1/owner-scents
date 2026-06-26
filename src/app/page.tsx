@@ -291,12 +291,7 @@ export default function Home() {
               <Link href="/scent-finder" className={styles.secondaryBtn}>Find Your Scent</Link>
             </div>
             
-            {/* Scent Tag Descriptors */}
-            <div className={`${styles.scentTags} animateFadeInUp delay400`}>
-              <span>✦ OUD & LEATHER</span>
-              <span>✦ ROSE & VANILLA</span>
-              <span>✦ BERGAMOT & OCEAN</span>
-            </div>
+
           </div>
 
           <div className={styles.heroRight}>

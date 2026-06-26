@@ -364,6 +364,21 @@
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+}
+
+.salePrice {
+    color: #f472b6 !important;
+    font-weight: 600;
+}
+
+.originalPrice {
+    text-decoration: line-through;
+    opacity: 0.55;
+    font-size: 0.7rem;
 }
 
 .noResults {

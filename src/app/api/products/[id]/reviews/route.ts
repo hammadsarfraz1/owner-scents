@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function GET(
     req: Request,
@@ -31,6 +33,33 @@ export async function POST(
 
         if (!name || rating === undefined || !comment) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
+
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user || !session.user.email) {
+            return NextResponse.json({ error: 'You must be signed in to submit a review' }, { status: 401 });
+        }
+
+        const userId = (session.user as any).id;
+        const userEmail = session.user.email;
+
+        // Check if the user has purchased the product
+        const hasPurchased = await prisma.order.findFirst({
+            where: {
+                OR: [
+                    { userId: userId || undefined },
+                    { email: userEmail }
+                ],
+                items: {
+                    some: {
+                        productId: id
+                    }
+                }
+            }
+        });
+
+        if (!hasPurchased) {
+            return NextResponse.json({ error: 'You can only review products you have purchased' }, { status: 403 });
         }
 
         const ratingNum = Number(rating);
