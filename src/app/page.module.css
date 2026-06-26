@@ -294,10 +294,6 @@
   border-top: 1px solid var(--border-color);
 }
 
-.mobileMarqueeOnly {
-  display: none;
-}
-
 .track {
   display: inline-block;
   animation: scroll 25s linear infinite;
@@ -632,38 +628,17 @@
 }
 
 @media (max-width: 968px) {
-  .mobileMarqueeOnly {
-    display: block;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    margin-top: 0;
-    margin-bottom: 2rem;
-    order: 1;
-  }
-  .desktopMarqueeOnly {
-    display: none;
-  }
-
   .hero {
     min-height: auto;
-    padding: 2.5rem 0 2rem;
+    padding: 3rem 0 2rem;
   }
   .heroContainer {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 2rem;
-  }
-  .heroRight {
-    order: 2;
   }
   .heroLeft {
     align-items: center;
     text-align: center;
-    order: 3;
   }
   .title {
     font-size: 3.2rem;
