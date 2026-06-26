@@ -25,6 +25,7 @@ export type Product = {
     id: string;
     name: string;
     price: string;
+    originalPrice?: string | number | null;
     image: string;
     gender?: string;
     category?: string;
@@ -134,7 +135,12 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                 </div>
                 <div className={styles.cardInfo}>
                     <h3 className={styles.productName}>{product.name}</h3>
-                    {product.isOnSale && product.salePrice ? (
+                    {product.originalPrice && Number(product.originalPrice) > 0 ? (
+                        <p className={styles.productPrice}>
+                            <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                            <span className={styles.originalPrice}>Rs. {Number(product.originalPrice).toLocaleString()}</span>
+                        </p>
+                    ) : product.isOnSale && product.salePrice ? (
                         <p className={styles.productPrice}>
                             <span className={styles.salePrice}>Rs. {Number(product.salePrice).toLocaleString()}</span>
                             <span className={styles.originalPrice}>Rs. {Number(product.price).toLocaleString()}</span>
@@ -142,7 +148,6 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     ) : (
                         <p className={styles.productPrice}>
                             <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
-                            <span className={styles.originalPrice}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
                         </p>
                     )}
                     

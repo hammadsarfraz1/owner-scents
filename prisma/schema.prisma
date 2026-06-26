@@ -8,22 +8,24 @@ datasource db {
 }
 
 model Product {
-  id          String      @id @default(cuid())
-  name        String
-  description String
-  price       Decimal
-  image       String
-  slug        String      @unique
-  gender      String      @default("Unisex")
-  category    String      @default("Signature")
-  topNotes    String      @default("")
-  heartNotes  String      @default("")
-  baseNotes   String      @default("")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  OrderItems  OrderItem[]
+  id            String      @id @default(cuid())
+  name          String
+  description   String
+  price         Decimal
+  originalPrice Decimal?
+  isVisible     Boolean     @default(true)
+  image         String
+  slug          String      @unique
+  gender        String      @default("Unisex")
+  category      String      @default("Signature")
+  topNotes      String      @default("")
+  heartNotes    String      @default("")
+  baseNotes     String      @default("")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  OrderItems    OrderItem[]
   WishlistItems Wishlist[]
-  reviews     Review[]
+  reviews       Review[]
 }
 
 model Order {
@@ -88,6 +90,7 @@ model Wishlist {
 model Category {
   id        String   @id @default(cuid())
   name      String   @unique
+  isVisible Boolean  @default(true)
   createdAt DateTime @default(now())
 }
 
@@ -131,6 +134,14 @@ model HomepageConfig {
   split2Title     String   @default("FOR HER")
   split2Image     String   @default("https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=1000&q=80")
   split2Link      String   @default("/shop?gender=Women")
+
+  // Dynamic Global Store Settings
+  shippingPrice         Decimal  @default(250)
+  freeShippingThreshold Decimal  @default(3000)
+  promoText            String   @default("Enjoy Free Shipping on Orders Above Rs. 3,000")
+  showPromo            Boolean  @default(true)
+  whatsappNumber       String   @default("923001234567")
+  showWhatsapp         Boolean  @default(true)
 
   updatedAt       DateTime @updatedAt
 }

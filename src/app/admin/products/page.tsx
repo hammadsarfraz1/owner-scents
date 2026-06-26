@@ -8,6 +8,8 @@ type Product = {
     name: string;
     description: string;
     price: string;
+    originalPrice: string | null;
+    isVisible: boolean;
     image: string;
     slug: string;
     gender: string;
@@ -33,6 +35,8 @@ export default function AdminProducts() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
+    const [originalPrice, setOriginalPrice] = useState('');
+    const [isVisible, setIsVisible] = useState(true);
     const [image, setImage] = useState('');
     const [gender, setGender] = useState('Unisex');
     const [category, setCategory] = useState('');
@@ -81,6 +85,8 @@ export default function AdminProducts() {
         setName('');
         setDescription('');
         setPrice('');
+        setOriginalPrice('');
+        setIsVisible(true);
         setImage('');
         setGender('Unisex');
         if (categories.length > 0) {
@@ -100,6 +106,8 @@ export default function AdminProducts() {
         setName(product.name);
         setDescription(product.description);
         setPrice(Number(product.price).toString());
+        setOriginalPrice(product.originalPrice ? Number(product.originalPrice).toString() : '');
+        setIsVisible(product.isVisible !== undefined ? Boolean(product.isVisible) : true);
         setImage(product.image);
         setGender(product.gender);
         setCategory(product.category);
@@ -125,6 +133,8 @@ export default function AdminProducts() {
             name,
             description,
             price: Number(price),
+            originalPrice: originalPrice ? Number(originalPrice) : null,
+            isVisible: Boolean(isVisible),
             image,
             gender,
             category,
@@ -201,13 +211,14 @@ export default function AdminProducts() {
                             <th className={styles.th}>Category</th>
                             <th className={styles.th}>Gender</th>
                             <th className={styles.th}>Price</th>
+                            <th className={styles.th}>Status</th>
                             <th className={styles.th} style={{ textAlign: 'right' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.length === 0 ? (
                             <tr>
-                                <td className={styles.td} colSpan={6} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                <td className={styles.td} colSpan={7} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                                     No products found. Add your first fragrance!
                                 </td>
                             </tr>
@@ -224,7 +235,21 @@ export default function AdminProducts() {
                                     <td className={styles.td} style={{ fontWeight: '500' }}>{product.name}</td>
                                     <td className={styles.td}>{product.category}</td>
                                     <td className={styles.td}>{product.gender}</td>
-                                    <td className={styles.td}>Rs. {Number(product.price).toLocaleString()}</td>
+                                    <td className={styles.td}>
+                                        <div>Rs. {Number(product.price).toLocaleString()}</div>
+                                        {product.originalPrice && Number(product.originalPrice) > 0 && (
+                                            <div style={{ textDecoration: 'line-through', opacity: 0.5, fontSize: '0.72rem' }}>
+                                                Rs. {Number(product.originalPrice).toLocaleString()}
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td className={styles.td}>
+                                        {product.isVisible ? (
+                                            <span style={{ color: '#10b981', background: '#10b9810d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #10b981' }}>Visible</span>
+                                        ) : (
+                                            <span style={{ color: '#9ca3af', background: '#9ca3af0d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #9ca3af' }}>Hidden</span>
+                                        )}
+                                    </td>
                                     <td className={styles.td} style={{ textAlign: 'right' }}>
                                         <button 
                                             onClick={() => openEditModal(product)} 
@@ -264,27 +289,36 @@ export default function AdminProducts() {
                         <form onSubmit={handleSubmit}>
                             {error && <div style={{ color: '#ef4444', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
 
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Name *</label>
+                                <input 
+                                    type="text" 
+                                    value={name} 
+                                    onChange={(e) => setName(e.target.value)} 
+                                    className={styles.input}
+                                    required 
+                                />
+                            </div>
+
                             <div className={styles.formRow}>
                                 <div className={styles.formGroup}>
-                                    <label className={styles.label}>Name *</label>
+                                    <label className={styles.label}>Price (PKR) *</label>
                                     <input 
-                                        type="text" 
-                                        value={name} 
-                                        onChange={(e) => setName(e.target.value)} 
+                                        type="number" 
+                                        value={price} 
+                                        onChange={(e) => setPrice(e.target.value)} 
                                         className={styles.input}
                                         required 
                                     />
                                 </div>
 
                                 <div className={styles.formGroup}>
-                                    <label className={styles.label}>Price ($) *</label>
+                                    <label className={styles.label}>Original Cut Price (PKR) (Optional)</label>
                                     <input 
                                         type="number" 
-                                        step="0.01"
-                                        value={price} 
-                                        onChange={(e) => setPrice(e.target.value)} 
+                                        value={originalPrice} 
+                                        onChange={(e) => setOriginalPrice(e.target.value)} 
                                         className={styles.input}
-                                        required 
                                     />
                                 </div>
                             </div>
@@ -341,6 +375,19 @@ export default function AdminProducts() {
                                         )}
                                     </select>
                                 </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', marginTop: '0.5rem' }}>
+                                <input 
+                                    type="checkbox" 
+                                    id="isVisible" 
+                                    checked={isVisible} 
+                                    onChange={(e) => setIsVisible(e.target.checked)} 
+                                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                />
+                                <label htmlFor="isVisible" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>
+                                    Visible on storefront (Check to show, uncheck to hide)
+                                </label>
                             </div>
 
                             <div style={{ marginTop: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>

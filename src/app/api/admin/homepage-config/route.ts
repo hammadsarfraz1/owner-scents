@@ -33,6 +33,12 @@ export async function PUT(req: Request) {
                 split2Title: body.split2Title,
                 split2Image: body.split2Image,
                 split2Link: body.split2Link,
+                shippingPrice: body.shippingPrice !== undefined ? Number(body.shippingPrice) : undefined,
+                freeShippingThreshold: body.freeShippingThreshold !== undefined ? Number(body.freeShippingThreshold) : undefined,
+                promoText: body.promoText !== undefined ? body.promoText : undefined,
+                showPromo: body.showPromo !== undefined ? Boolean(body.showPromo) : undefined,
+                whatsappNumber: body.whatsappNumber !== undefined ? body.whatsappNumber : undefined,
+                showWhatsapp: body.showWhatsapp !== undefined ? Boolean(body.showWhatsapp) : undefined,
             },
             create: {
                 id: 'singleton',
@@ -54,6 +60,12 @@ export async function PUT(req: Request) {
                 split2Title: body.split2Title,
                 split2Image: body.split2Image,
                 split2Link: body.split2Link,
+                shippingPrice: body.shippingPrice !== undefined ? Number(body.shippingPrice) : 250,
+                freeShippingThreshold: body.freeShippingThreshold !== undefined ? Number(body.freeShippingThreshold) : 3000,
+                promoText: body.promoText !== undefined ? body.promoText : "Enjoy Free Shipping on Orders Above Rs. 3,000",
+                showPromo: body.showPromo !== undefined ? Boolean(body.showPromo) : true,
+                whatsappNumber: body.whatsappNumber !== undefined ? body.whatsappNumber : "923001234567",
+                showWhatsapp: body.showWhatsapp !== undefined ? Boolean(body.showWhatsapp) : true,
             }
         });
 

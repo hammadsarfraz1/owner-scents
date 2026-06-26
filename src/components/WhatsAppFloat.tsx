@@ -1,11 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import styles from './WhatsAppFloat.module.css';
 
 export default function WhatsAppFloat() {
     const [isOpen, setIsOpen] = useState(false);
+    const [config, setConfig] = useState<any>(null);
+
+    useEffect(() => {
+        fetch('/api/homepage-config')
+            .then(res => res.json())
+            .then(data => setConfig(data))
+            .catch(console.error);
+    }, []);
+
+    const showWhatsapp = config ? config.showWhatsapp : true;
+    const whatsappNumber = config ? config.whatsappNumber : "923001234567";
 
     const options = [
         { label: "Help me select a fragrance", text: "Hello! I would love to get some guidance in selecting a luxury fragrance that suits my tastes." },
@@ -13,6 +24,8 @@ export default function WhatsAppFloat() {
         { label: "Corporate gifting / Bulk orders", text: "Hello! I am interested in corporate gifting or bulk purchasing options." },
         { label: "Chat with an advisor", text: "Hello! I have a question and would like to speak with a fragrance advisor." }
     ];
+
+    if (!showWhatsapp) return null;
 
     return (
         <div className={styles.container}>
@@ -39,7 +52,7 @@ export default function WhatsAppFloat() {
                             {options.map((opt, i) => (
                                 <a
                                     key={i}
-                                    href={`https://wa.me/1234567890?text=${encodeURIComponent(opt.text)}`}
+                                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(opt.text)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.optionLink}

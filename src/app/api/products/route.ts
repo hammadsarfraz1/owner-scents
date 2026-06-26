@@ -5,7 +5,21 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
-        const products = await prisma.product.findMany();
+        // Fetch categories that are explicitly hidden
+        const hiddenCategories = await prisma.category.findMany({
+            where: { isVisible: false },
+            select: { name: true }
+        });
+        const hiddenNames = hiddenCategories.map(c => c.name);
+
+        const products = await prisma.product.findMany({
+            where: {
+                isVisible: true,
+                category: {
+                    notIn: hiddenNames
+                }
+            }
+        });
         return NextResponse.json(products);
     } catch (error) {
         console.error('Error fetching products:', error);

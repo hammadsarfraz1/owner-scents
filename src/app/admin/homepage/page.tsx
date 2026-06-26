@@ -22,6 +22,12 @@ type HomepageConfig = {
     split2Title: string;
     split2Image: string;
     split2Link: string;
+    shippingPrice: string | number;
+    freeShippingThreshold: string | number;
+    promoText: string;
+    showPromo: boolean;
+    whatsappNumber: string;
+    showWhatsapp: boolean;
 };
 
 export default function EditHomepage() {
@@ -55,6 +61,13 @@ export default function EditHomepage() {
     const [split2Image, setSplit2Image] = useState('');
     const [split2Link, setSplit2Link] = useState('');
 
+    const [shippingPrice, setShippingPrice] = useState('');
+    const [freeShippingThreshold, setFreeShippingThreshold] = useState('');
+    const [promoText, setPromoText] = useState('');
+    const [showPromo, setShowPromo] = useState(true);
+    const [whatsappNumber, setWhatsappNumber] = useState('');
+    const [showWhatsapp, setShowWhatsapp] = useState(true);
+
     const fetchConfig = async () => {
         try {
             setLoading(true);
@@ -86,6 +99,13 @@ export default function EditHomepage() {
                 setSplit2Title(data.split2Title);
                 setSplit2Image(data.split2Image);
                 setSplit2Link(data.split2Link);
+
+                setShippingPrice(data.shippingPrice !== undefined ? Number(data.shippingPrice).toString() : '250');
+                setFreeShippingThreshold(data.freeShippingThreshold !== undefined ? Number(data.freeShippingThreshold).toString() : '3000');
+                setPromoText(data.promoText || 'Enjoy Free Shipping on Orders Above Rs. 3,000');
+                setShowPromo(data.showPromo !== undefined ? Boolean(data.showPromo) : true);
+                setWhatsappNumber(data.whatsappNumber || '923001234567');
+                setShowWhatsapp(data.showWhatsapp !== undefined ? Boolean(data.showWhatsapp) : true);
             } else {
                 throw new Error('Failed to load configuration');
             }
@@ -112,7 +132,13 @@ export default function EditHomepage() {
             card2Name, card2Edition, card2Image, card2Link,
             card3Name, card3Edition, card3Image, card3Link,
             split1Title, split1Image, split1Link,
-            split2Title, split2Image, split2Link
+            split2Title, split2Image, split2Link,
+            shippingPrice: Number(shippingPrice),
+            freeShippingThreshold: Number(freeShippingThreshold),
+            promoText,
+            showPromo,
+            whatsappNumber,
+            showWhatsapp
         };
 
         try {
@@ -272,6 +298,54 @@ export default function EditHomepage() {
                                 <label className={styles.label}>Target Link *</label>
                                 <input type="text" value={split2Link} onChange={(e) => setSplit2Link(e.target.value)} className={styles.input} required />
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Global Store Settings */}
+                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px', marginBottom: '2.5rem' }}>
+                    <h2 style={{ fontFamily: 'var(--font-serif)', textTransform: 'uppercase', fontSize: '1.25rem', letterSpacing: '1px', marginBottom: '1.5rem', color: 'var(--accent)' }}>
+                        Global Store Settings
+                    </h2>
+
+                    {/* Shipping Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <h4 style={{ textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '1rem' }}>Shipping Configuration</h4>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Shipping Price (PKR) *</label>
+                                <input type="number" value={shippingPrice} onChange={(e) => setShippingPrice(e.target.value)} className={styles.input} required />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Free Shipping Threshold (PKR) *</label>
+                                <input type="number" value={freeShippingThreshold} onChange={(e) => setFreeShippingThreshold(e.target.value)} className={styles.input} required />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Promo Bar Settings */}
+                    <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
+                        <h4 style={{ textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '1rem' }}>Promotional Bar</h4>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Promo Banner Text *</label>
+                            <input type="text" value={promoText} onChange={(e) => setPromoText(e.target.value)} className={styles.input} required />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+                            <input type="checkbox" id="showPromo" checked={showPromo} onChange={(e) => setShowPromo(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showPromo" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>Show Promo Bar on storefront</label>
+                        </div>
+                    </div>
+
+                    {/* WhatsApp Widget Settings */}
+                    <div>
+                        <h4 style={{ textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '1rem' }}>WhatsApp Concierge Widget</h4>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>WhatsApp Number (Include Country Code, e.g. 923001234567) *</label>
+                            <input type="text" value={whatsappNumber} onChange={(e) => setWhatsappNumber(e.target.value)} className={styles.input} required />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+                            <input type="checkbox" id="showWhatsapp" checked={showWhatsapp} onChange={(e) => setShowWhatsapp(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer' }} />
+                            <label htmlFor="showWhatsapp" style={{ cursor: 'pointer', fontSize: '0.9rem' }}>Show WhatsApp Floating Widget on storefront</label>
                         </div>
                     </div>
                 </div>

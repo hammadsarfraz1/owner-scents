@@ -6,6 +6,7 @@ import styles from '../admin.module.css';
 type Category = {
     id: string;
     name: string;
+    isVisible: boolean;
     createdAt: string;
 };
 
@@ -15,6 +16,12 @@ export default function AdminCategories() {
     const [newCategoryName, setNewCategoryName] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
+
+    // Editing states
+    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+    const [editName, setEditName] = useState('');
+    const [editIsVisible, setEditIsVisible] = useState(true);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const fetchCategories = async () => {
         try {
@@ -37,6 +44,47 @@ export default function AdminCategories() {
     useEffect(() => {
         fetchCategories();
     }, []);
+
+    const openEditModal = (category: Category) => {
+        setEditingCategory(category);
+        setEditName(category.name);
+        setEditIsVisible(category.isVisible !== undefined ? Boolean(category.isVisible) : true);
+        setError('');
+        setIsEditModalOpen(true);
+    };
+
+    const handleEditCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editName.trim() || !editingCategory) return;
+
+        setSubmitting(true);
+        setError('');
+
+        try {
+            const res = await fetch(`/api/admin/categories/${editingCategory.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    name: editName, 
+                    isVisible: editIsVisible 
+                })
+            });
+
+            if (res.ok) {
+                setIsEditModalOpen(false);
+                setEditingCategory(null);
+                fetchCategories();
+            } else {
+                const data = await res.json();
+                setError(data.error || 'Failed to update category.');
+            }
+        } catch (err) {
+            console.error(err);
+            setError('Network error, please try again.');
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     const handleAddCategory = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -137,13 +185,14 @@ export default function AdminCategories() {
                             <thead>
                                 <tr>
                                     <th className={styles.th}>Category Name</th>
+                                    <th className={styles.th}>Status</th>
                                     <th className={styles.th} style={{ textAlign: 'right' }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {categories.length === 0 ? (
                                     <tr>
-                                        <td className={styles.td} colSpan={2} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                        <td className={styles.td} colSpan={3} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                                             No categories found. Create one on the left!
                                         </td>
                                     </tr>
@@ -151,7 +200,21 @@ export default function AdminCategories() {
                                     categories.map((c) => (
                                         <tr key={c.id} className={styles.tr}>
                                             <td className={styles.td} style={{ fontWeight: '500' }}>{c.name}</td>
+                                            <td className={styles.td}>
+                                                {c.isVisible ? (
+                                                    <span style={{ color: '#10b981', background: '#10b9810d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #10b981' }}>Visible</span>
+                                                ) : (
+                                                    <span style={{ color: '#9ca3af', background: '#9ca3af0d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #9ca3af' }}>Hidden</span>
+                                                )}
+                                            </td>
                                             <td className={styles.td} style={{ textAlign: 'right' }}>
+                                                <button 
+                                                    onClick={() => openEditModal(c)}
+                                                    className={styles.btnSecondary}
+                                                    style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem', marginRight: '0.5rem' }}
+                                                >
+                                                    Edit
+                                                </button>
                                                 <button 
                                                     onClick={() => handleDeleteCategory(c.id)}
                                                     className={styles.btnDanger}
@@ -168,6 +231,65 @@ export default function AdminCategories() {
                     </div>
                 </div>
             </div>
+            {/* Edit Category Modal */}
+            {isEditModalOpen && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent} style={{ maxWidth: '450px' }}>
+                        <div className={styles.modalHeader}>
+                            <h2 className={styles.modalTitle}>Edit Category</h2>
+                            <button onClick={() => setIsEditModalOpen(false)} className={styles.modalClose}>
+                                &times;
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleEditCategory}>
+                            {error && <div style={{ color: '#ef4444', marginBottom: '1rem', fontSize: '0.85rem' }}>{error}</div>}
+
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Category Name *</label>
+                                <input 
+                                    type="text" 
+                                    value={editName} 
+                                    onChange={(e) => setEditName(e.target.value)} 
+                                    className={styles.input}
+                                    required 
+                                />
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', marginTop: '1rem' }}>
+                                <input 
+                                    type="checkbox" 
+                                    id="editIsVisible" 
+                                    checked={editIsVisible} 
+                                    onChange={(e) => setEditIsVisible(e.target.checked)} 
+                                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                />
+                                <label htmlFor="editIsVisible" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>
+                                    Visible on storefront (Check to show, uncheck to hide)
+                                </label>
+                            </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+                                <button 
+                                    type="button" 
+                                    onClick={() => setIsEditModalOpen(false)} 
+                                    className={styles.btnSecondary}
+                                    disabled={submitting}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    className={styles.btnPrimary}
+                                    disabled={submitting}
+                                >
+                                    {submitting ? 'Saving...' : 'Save Category'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

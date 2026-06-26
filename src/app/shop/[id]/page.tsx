@@ -14,6 +14,7 @@ type Product = {
     id: string;
     name: string;
     price: string;
+    originalPrice?: string | number | null;
     image: string;
     description: string;
     gender: string;
@@ -213,7 +214,9 @@ export default function ProductDetails() {
                         </div>
                         <div className={styles.price}>
                             <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
-                            <span className={styles.originalPrice}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
+                            {product.originalPrice && Number(product.originalPrice) > 0 && (
+                                <span className={styles.originalPrice}>Rs. {Number(product.originalPrice).toLocaleString()}</span>
+                            )}
                         </div>
 
                         <p className={styles.description}>{product.description}</p>
@@ -376,7 +379,9 @@ export default function ProductDetails() {
                             <span className={styles.stickyBarName}>{product.name}</span>
                             <span className={styles.stickyBarPrice}>
                                 <span className={styles.salePrice} style={{ color: '#f472b6', fontWeight: 600 }}>Rs. {Number(product.price).toLocaleString()}</span>
-                                <span className={styles.originalPrice} style={{ textDecoration: 'line-through', opacity: 0.55, marginLeft: '0.5rem', fontSize: '0.75rem' }}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
+                                {product.originalPrice && Number(product.originalPrice) > 0 && (
+                                    <span className={styles.originalPrice} style={{ textDecoration: 'line-through', opacity: 0.55, marginLeft: '0.5rem', fontSize: '0.75rem' }}>Rs. {Number(product.originalPrice).toLocaleString()}</span>
+                                )}
                             </span>
                         </div>
                     </div>

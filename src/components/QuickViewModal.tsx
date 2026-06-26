@@ -9,6 +9,7 @@ type Product = {
     id: string;
     name: string;
     price: string;
+    originalPrice?: string | number | null;
     description?: string;
     image?: string;
     isOnSale?: boolean;
@@ -130,7 +131,12 @@ export default function QuickViewModal({ product, onClose }: Props) {
 
                 <div className={styles.detailsSection}>
                     <h2 className={styles.title}>{product.name}</h2>
-                    {product.isOnSale && product.salePrice ? (
+                    {product.originalPrice && Number(product.originalPrice) > 0 ? (
+                        <p className={styles.price}>
+                            <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                            <span className={styles.originalPrice}>Rs. {Number(product.originalPrice).toLocaleString()}</span>
+                        </p>
+                    ) : product.isOnSale && product.salePrice ? (
                         <p className={styles.price}>
                             <span className={styles.salePrice}>Rs. {Number(product.salePrice).toLocaleString()}</span>
                             <span className={styles.originalPrice}>Rs. {Number(product.price).toLocaleString()}</span>
@@ -138,7 +144,6 @@ export default function QuickViewModal({ product, onClose }: Props) {
                     ) : (
                         <p className={styles.price}>
                             <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
-                            <span className={styles.originalPrice}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
                         </p>
                     )}
 

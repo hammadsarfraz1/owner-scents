@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import styles from './page.module.css';
@@ -13,6 +13,19 @@ export default function CheckoutPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<'COD' | 'CARD'>('COD');
+    const [config, setConfig] = useState<any>(null);
+
+    useEffect(() => {
+        fetch('/api/homepage-config')
+            .then(res => res.json())
+            .then(data => setConfig(data))
+            .catch(console.error);
+    }, []);
+
+    const shippingPrice = config ? Number(config.shippingPrice) : 250;
+    const freeShippingThreshold = config ? Number(config.freeShippingThreshold) : 3000;
+    const shippingCost = cartTotal >= freeShippingThreshold ? 0 : shippingPrice;
+    const grandTotal = cartTotal + shippingCost;
     
     // Address Details
     const [formData, setFormData] = useState({
@@ -103,7 +116,7 @@ export default function CheckoutPage() {
                         productId: item.id,
                         quantity: item.quantity
                     })),
-                    total: cartTotal.toString(),
+                    total: grandTotal.toString(),
                     paymentMethod: paymentMethod,
                     paymentStatus: paymentMethod === 'CARD' ? 'PAID' : 'PENDING'
                 })
@@ -307,12 +320,16 @@ export default function CheckoutPage() {
 
                         <div className={styles.summaryRow}>
                             <span>Shipping</span>
-                            <span style={{ color: 'var(--accent)', fontWeight: 500 }}>FREE</span>
+                            {shippingCost === 0 ? (
+                                <span style={{ color: 'var(--accent)', fontWeight: 500 }}>FREE</span>
+                            ) : (
+                                <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>Rs. {shippingCost.toLocaleString()}</span>
+                            )}
                         </div>
 
                         <div className={styles.totalRow}>
-                            <span>Subtotal Total</span>
-                            <span>Rs. {cartTotal.toLocaleString()}</span>
+                            <span>Total</span>
+                            <span>Rs. {grandTotal.toLocaleString()}</span>
                         </div>
 
                         <button
@@ -320,7 +337,7 @@ export default function CheckoutPage() {
                             className={styles.submitBtn}
                             disabled={loading}
                         >
-                            {loading ? 'Validating Payment & Placing Order...' : `Pay & Place Order - Rs. ${cartTotal.toLocaleString()}`}
+                            {loading ? 'Validating Payment & Placing Order...' : `Pay & Place Order - Rs. ${grandTotal.toLocaleString()}`}
                         </button>
                     </div>
                 </form>

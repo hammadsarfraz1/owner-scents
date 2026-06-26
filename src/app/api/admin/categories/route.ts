@@ -25,7 +25,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { name } = body;
+        const { name, isVisible } = body;
 
         if (!name || typeof name !== 'string') {
             return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -43,7 +43,10 @@ export async function POST(req: Request) {
         }
 
         const category = await prisma.category.create({
-            data: { name: cleanName }
+            data: { 
+                name: cleanName,
+                isVisible: isVisible !== undefined ? Boolean(isVisible) : true
+            }
         });
 
         return NextResponse.json(category, { status: 201 });
