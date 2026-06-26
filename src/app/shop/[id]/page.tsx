@@ -42,6 +42,20 @@ export default function ProductDetails() {
     const [showStickyBar, setShowStickyBar] = useState(false);
     const [hasPurchased, setHasPurchased] = useState(false);
 
+    // Dynamic Scent Notes
+    const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
+    const [activeNote, setActiveNote] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetch('/api/scent-notes')
+            .then(res => {
+                if (res.ok) return res.json();
+                return {};
+            })
+            .then(setScentDescriptions)
+            .catch(err => console.error('Error fetching scent notes:', err));
+    }, []);
+
     // Local Review State
     const [reviews, setReviews] = useState<Review[]>([]);
     const [revName, setRevName] = useState('');
@@ -187,6 +201,15 @@ export default function ProductDetails() {
         ? (reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1) 
         : "5.0";
 
+    const parseNotes = (notesString: string) => {
+        if (!notesString) return [];
+        return notesString.split(',').map(n => n.trim()).filter(Boolean);
+    };
+
+    const topNotesList = parseNotes(product.topNotes || "Bergamot, Grapefruit");
+    const heartNotesList = parseNotes(product.heartNotes || "Jasmine, Sage");
+    const baseNotesList = parseNotes(product.baseNotes || "Sandalwood, Patchouli");
+
     return (
         <div className={styles.main}>
             <Navbar />
@@ -252,21 +275,70 @@ export default function ProductDetails() {
                                 <div className={`${styles.pyramidTier} ${styles.tierTop}`}>
                                     <div className={styles.tierGlass}>
                                         <span className={styles.tierName}>TOP NOTES</span>
-                                        <p className={styles.tierValue}>{product.topNotes || "Bergamot, Grapefruit"}</p>
+                                        <div className={styles.tierValue}>
+                                            {topNotesList.map(note => (
+                                                <button
+                                                    key={note}
+                                                    onClick={() => setActiveNote(activeNote === note ? null : note)}
+                                                    className={`${styles.notePill} ${activeNote === note ? styles.activeNotePill : ''}`}
+                                                >
+                                                    {note}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={`${styles.pyramidTier} ${styles.tierHeart}`}>
                                     <div className={styles.tierGlass}>
                                         <span className={styles.tierName}>HEART NOTES</span>
-                                        <p className={styles.tierValue}>{product.heartNotes || "Jasmine, Sage"}</p>
+                                        <div className={styles.tierValue}>
+                                            {heartNotesList.map(note => (
+                                                <button
+                                                    key={note}
+                                                    onClick={() => setActiveNote(activeNote === note ? null : note)}
+                                                    className={`${styles.notePill} ${activeNote === note ? styles.activeNotePill : ''}`}
+                                                >
+                                                    {note}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={`${styles.pyramidTier} ${styles.tierBase}`}>
                                     <div className={styles.tierGlass}>
                                         <span className={styles.tierName}>BASE NOTES</span>
-                                        <p className={styles.tierValue}>{product.baseNotes || "Sandalwood, Patchouli"}</p>
+                                        <div className={styles.tierValue}>
+                                            {baseNotesList.map(note => (
+                                                <button
+                                                    key={note}
+                                                    onClick={() => setActiveNote(activeNote === note ? null : note)}
+                                                    className={`${styles.notePill} ${activeNote === note ? styles.activeNotePill : ''}`}
+                                                >
+                                                    {note}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* Active Scent Note Detail Box */}
+                            <div className={styles.noteDetailContainer}>
+                                {activeNote ? (
+                                    <div className={`${styles.noteDetailCard} animateFadeInUp`}>
+                                        <div className={styles.noteDetailHeader}>
+                                            <h4 className={styles.noteDetailTitle}>{activeNote}</h4>
+                                            <button className={styles.noteDetailClose} onClick={() => setActiveNote(null)}>&times;</button>
+                                        </div>
+                                        <p className={styles.noteDetailDesc}>
+                                            {scentDescriptions[activeNote] || `${activeNote} is a premium fragrance note that adds depth and character to this luxury blend.`}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className={styles.noteDetailPlaceholder}>
+                                        <span>🌿 Tap any note inside the pyramid to explore its scent profile details.</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

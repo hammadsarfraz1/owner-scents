@@ -327,6 +327,108 @@
     font-weight: 300;
     margin: 0;
     line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.notePill {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-family: var(--font-sans);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+.notePill:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: rgba(197, 160, 89, 0.08);
+    transform: scale(1.05);
+}
+
+.activeNotePill {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #000 !important;
+    font-weight: 600;
+    box-shadow: 0 0 12px var(--accent-gold-glow);
+}
+
+/* Scent Note Detail Box */
+.noteDetailContainer {
+    margin-top: 2rem;
+    width: 100%;
+    min-height: 90px;
+}
+
+.noteDetailCard {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 1.25rem 1.75rem;
+    box-shadow: 0 8px 30px rgba(197, 160, 89, 0.12);
+    border-left: 4px solid var(--accent);
+}
+
+.noteDetailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.noteDetailTitle {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.noteDetailClose {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.noteDetailClose:hover {
+    color: var(--accent);
+}
+
+.noteDetailDesc {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.noteDetailPlaceholder {
+    border: 1px dashed var(--border-color);
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    font-family: var(--font-sans);
 }
 
 /* Reviews Section */
