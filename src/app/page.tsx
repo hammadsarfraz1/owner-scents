@@ -7,16 +7,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProductCarousel from '@/components/ProductCarousel';
 import QuickViewModal from '@/components/QuickViewModal';
+import { Product } from '@/components/ProductCard';
 import styles from './page.module.css';
-
-type Product = {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-  gender?: string;
-  category?: string;
-};
 
 let hasSeenIntroGlobal = false;
 

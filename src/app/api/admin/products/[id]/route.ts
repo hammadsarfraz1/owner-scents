@@ -15,7 +15,7 @@ export async function PUT(
 
         const { id } = await params;
         const body = await req.json();
-        const { name, description, price, originalPrice, isVisible, image, image2, image3, gender, category, topNotes, heartNotes, baseNotes } = body;
+        const { name, description, price, originalPrice, isVisible, image, homepageImage, quickViewImage, image2, image3, gender, category, topNotes, heartNotes, baseNotes } = body;
 
         const product = await prisma.product.findUnique({ where: { id } });
         if (!product) {
@@ -41,6 +41,8 @@ export async function PUT(
                 originalPrice: originalPrice !== undefined ? (originalPrice ? Number(originalPrice) : null) : product.originalPrice,
                 isVisible: isVisible !== undefined ? Boolean(isVisible) : product.isVisible,
                 image: image !== undefined ? image : product.image,
+                homepageImage: homepageImage !== undefined ? homepageImage : product.homepageImage,
+                quickViewImage: quickViewImage !== undefined ? quickViewImage : product.quickViewImage,
                 image2: image2 !== undefined ? image2 : product.image2,
                 image3: image3 !== undefined ? image3 : product.image3,
                 slug,

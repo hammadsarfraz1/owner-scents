@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { name, description, price, originalPrice, isVisible, image, image2, image3, gender, category, topNotes, heartNotes, baseNotes } = body;
+        const { name, description, price, originalPrice, isVisible, image, homepageImage, quickViewImage, image2, image3, gender, category, topNotes, heartNotes, baseNotes } = body;
 
         if (!name || !description || price === undefined || !image) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -52,6 +52,8 @@ export async function POST(req: Request) {
                 originalPrice: originalPrice ? Number(originalPrice) : null,
                 isVisible: isVisible !== undefined ? Boolean(isVisible) : true,
                 image,
+                homepageImage: homepageImage || '',
+                quickViewImage: quickViewImage || '',
                 image2: image2 || '',
                 image3: image3 || '',
                 slug,

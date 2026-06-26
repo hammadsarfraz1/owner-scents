@@ -11,6 +11,8 @@ type Product = {
     originalPrice: string | null;
     isVisible: boolean;
     image: string;
+    homepageImage?: string;
+    quickViewImage?: string;
     image2?: string;
     image3?: string;
     slug: string;
@@ -40,6 +42,8 @@ export default function AdminProducts() {
     const [originalPrice, setOriginalPrice] = useState('');
     const [isVisible, setIsVisible] = useState(true);
     const [image, setImage] = useState('');
+    const [homepageImage, setHomepageImage] = useState('');
+    const [quickViewImage, setQuickViewImage] = useState('');
     const [image2, setImage2] = useState('');
     const [image3, setImage3] = useState('');
     const [gender, setGender] = useState('Unisex');
@@ -92,6 +96,8 @@ export default function AdminProducts() {
         setOriginalPrice('');
         setIsVisible(true);
         setImage('');
+        setHomepageImage('');
+        setQuickViewImage('');
         setImage2('');
         setImage3('');
         setGender('Unisex');
@@ -115,6 +121,8 @@ export default function AdminProducts() {
         setOriginalPrice(product.originalPrice ? Number(product.originalPrice).toString() : '');
         setIsVisible(product.isVisible !== undefined ? Boolean(product.isVisible) : true);
         setImage(product.image);
+        setHomepageImage(product.homepageImage || '');
+        setQuickViewImage(product.quickViewImage || '');
         setImage2(product.image2 || '');
         setImage3(product.image3 || '');
         setGender(product.gender);
@@ -144,6 +152,8 @@ export default function AdminProducts() {
             originalPrice: originalPrice ? Number(originalPrice) : null,
             isVisible: Boolean(isVisible),
             image,
+            homepageImage,
+            quickViewImage,
             image2,
             image3,
             gender,
@@ -345,11 +355,12 @@ export default function AdminProducts() {
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Image URL (Main/Card) *</label>
+                                <label className={styles.label}>Image URL (Detail Page Main View) *</label>
                                 <input 
                                     type="text" 
                                     value={image} 
                                     onChange={(e) => setImage(e.target.value)} 
+                                    placeholder="High-res portrait preview"
                                     className={styles.input}
                                     required 
                                 />
@@ -357,17 +368,40 @@ export default function AdminProducts() {
 
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                                 <div className={styles.formGroup} style={{ marginBottom: 0 }}>
-                                    <label className={styles.label}>Image URL 2 (Optional)</label>
+                                    <label className={styles.label}>Homepage Card Image URL (Optional)</label>
                                     <input 
                                         type="text" 
-                                        value={image2} 
-                                        onChange={(e) => setImage2(e.target.value)} 
-                                        placeholder="Secondary view"
+                                        value={homepageImage} 
+                                        onChange={(e) => setHomepageImage(e.target.value)} 
+                                        placeholder="Card sized view"
                                         className={styles.input}
                                     />
                                 </div>
                                 <div className={styles.formGroup} style={{ marginBottom: 0 }}>
-                                    <label className={styles.label}>Image URL 3 (Optional)</label>
+                                    <label className={styles.label}>QuickView Image URL (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        value={quickViewImage} 
+                                        onChange={(e) => setQuickViewImage(e.target.value)} 
+                                        placeholder="QuickView modal view"
+                                        className={styles.input}
+                                    />
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <label className={styles.label}>Gallery Image URL 2 (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        value={image2} 
+                                        onChange={(e) => setImage2(e.target.value)} 
+                                        placeholder="Secondary detail view"
+                                        className={styles.input}
+                                    />
+                                </div>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <label className={styles.label}>Gallery Image URL 3 (Optional)</label>
                                     <input 
                                         type="text" 
                                         value={image3} 

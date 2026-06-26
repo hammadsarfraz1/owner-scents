@@ -35,6 +35,10 @@ export type Product = {
     price: string;
     originalPrice?: string | number | null;
     image: string;
+    homepageImage?: string;
+    quickViewImage?: string;
+    image2?: string;
+    image3?: string;
     gender?: string;
     category?: string;
     topNotes?: string;
@@ -55,9 +59,31 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     const [activeNoteInfo, setActiveNoteInfo] = useState<string | null>(null);
     const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
 
+    const slides = [
+        product.homepageImage || product.image,
+        product.image2,
+        product.image3
+    ].filter(Boolean) as string[];
+
+    const [activeSlideIdx, setActiveSlideIdx] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
     useEffect(() => {
         getScentNotes().then(setScentDescriptions);
     }, []);
+
+    useEffect(() => {
+        if (!isHovered || slides.length <= 1) {
+            setActiveSlideIdx(0);
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setActiveSlideIdx((prev) => (prev + 1) % slides.length);
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [isHovered, slides.length]);
 
     const getBadges = () => {
         const notes: string[] = [];
@@ -100,7 +126,11 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     return (
         <div className={styles.card}>
             <Link href={`/shop/${product.id}`} className={styles.linkWrapper}>
-                <div className={styles.imageContainer}>
+                <div 
+                    className={styles.imageContainer}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
                     {product.gender && (
                         <span className={`${styles.badge} ${styles[product.gender.toLowerCase()] || ''}`}>
                             {product.gender.toUpperCase()}
@@ -111,14 +141,41 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                             SALE
                         </span>
                     )}
-                    {product.image ? (
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            className={styles.productImage}
-                        />
+                    {slides.length > 0 ? (
+                        slides.map((slide, idx) => (
+                            <img
+                                key={slide}
+                                src={slide}
+                                alt={`${product.name} - slide ${idx}`}
+                                className={`${styles.productImage} ${idx === activeSlideIdx ? styles.activeImage : ''}`}
+                                style={{
+                                    opacity: idx === activeSlideIdx ? 1 : 0,
+                                    zIndex: idx === activeSlideIdx ? 1 : 0,
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                }}
+                            />
+                        ))
                     ) : (
                         <span className={styles.fallbackName}>{product.name}</span>
+                    )}
+
+                    {slides.length > 1 && (
+                        <div className={styles.dotsContainer}>
+                            {slides.map((_, idx) => (
+                                <button
+                                    key={idx}
+                                    className={`${styles.dot} ${idx === activeSlideIdx ? styles.activeDot : ''}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setActiveSlideIdx(idx);
+                                    }}
+                                    aria-label={`Go to slide ${idx + 1}`}
+                                />
+                            ))}
+                        </div>
                     )}
                     
                     {/* Quick Add Button */}

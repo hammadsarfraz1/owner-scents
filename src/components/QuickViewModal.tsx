@@ -12,6 +12,9 @@ type Product = {
     originalPrice?: string | number | null;
     description?: string;
     image?: string;
+    quickViewImage?: string;
+    image2?: string;
+    image3?: string;
     isOnSale?: boolean;
     salePrice?: number;
 };
@@ -27,6 +30,12 @@ export default function QuickViewModal({ product, onClose }: Props) {
     const [touchCurrentY, setTouchCurrentY] = useState<number | null>(null);
     const [imageError, setImageError] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+
+    const slides = product
+        ? [product.quickViewImage || product.image, product.image2, product.image3].filter(Boolean) as string[]
+        : [];
+
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     // Prevent body scroll and scroll events when open
     useEffect(() => {
@@ -62,6 +71,7 @@ export default function QuickViewModal({ product, onClose }: Props) {
     // Reset image error state whenever product changes
     useEffect(() => {
         setImageError(false);
+        setCurrentIndex(0);
     }, [product]);
 
     if (!product) return null;
@@ -112,13 +122,67 @@ export default function QuickViewModal({ product, onClose }: Props) {
                 <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">&times;</button>
 
                 <div className={styles.imageSection}>
-                    {product.image && !imageError ? (
-                        <img 
-                            src={product.image} 
-                            alt={product.name} 
-                            className={styles.modalImage} 
-                            onError={() => setImageError(true)}
-                        />
+                    {slides.length > 0 && !imageError ? (
+                        <div className={styles.carouselContainer}>
+                            {slides.map((slide, idx) => (
+                                <img
+                                    key={slide}
+                                    src={slide}
+                                    alt={`${product.name} - slide ${idx}`}
+                                    className={`${styles.modalImage} ${idx === currentIndex ? styles.activeSlide : ''}`}
+                                    style={{
+                                        opacity: idx === currentIndex ? 1 : 0,
+                                        zIndex: idx === currentIndex ? 2 : 1,
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        transition: 'opacity 0.5s ease'
+                                    }}
+                                    onError={() => setImageError(true)}
+                                />
+                            ))}
+                            
+                            {slides.length > 1 && (
+                                <>
+                                    <button 
+                                        className={`${styles.navBtn} ${styles.prevBtn}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+                                        }}
+                                        aria-label="Previous slide"
+                                    >
+                                        &#8592;
+                                    </button>
+                                    <button 
+                                        className={`${styles.navBtn} ${styles.nextBtn}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setCurrentIndex((prev) => (prev + 1) % slides.length);
+                                        }}
+                                        aria-label="Next slide"
+                                    >
+                                        &#8594;
+                                    </button>
+                                    
+                                    <div className={styles.modalDots}>
+                                        {slides.map((_, idx) => (
+                                            <span 
+                                                key={idx}
+                                                className={`${styles.modalDot} ${idx === currentIndex ? styles.activeModalDot : ''}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCurrentIndex(idx);
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     ) : (
                         <div className={styles.fallbackContainer}>
                             <div className={styles.fallbackInitial}>
