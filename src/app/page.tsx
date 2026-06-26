@@ -413,8 +413,8 @@ export default function Home() {
       {/* Featured Section - CAROUSEL */}
       <section className={`container ${styles.featuredSection}`}>
         <div className={styles.featuredHeader}>
-          <h2>Signature Scents</h2>
-          <p>Hand-crafted fragrances curated for modern authority.</p>
+          <h2>Explore Collections</h2>
+          <p>Discover our highly acclaimed, newly arrived, and specially priced fragrances.</p>
 
           <div className={styles.tabContainer}>
             <button 
@@ -445,6 +445,20 @@ export default function Home() {
             activeTab === 'latest' ? latestProducts :
             onSaleProducts
           } 
+          title="" 
+          onQuickView={setQuickViewProduct} 
+        />
+      </section>
+
+      {/* Signature Scents Section */}
+      <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
+        <div className={styles.featuredHeader}>
+          <h2>Signature Scents</h2>
+          <p>Hand-crafted fragrances curated for modern authority.</p>
+        </div>
+
+        <ProductCarousel 
+          products={featuredProducts} 
           title="" 
           onQuickView={setQuickViewProduct} 
         />
