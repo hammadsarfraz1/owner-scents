@@ -35,7 +35,7 @@ export default function Cart() {
                                     <tr key={item.id}>
                                         <td style={{ textAlign: 'left' }}>{item.name}</td>
                                         <td>{item.quantity}</td>
-                                        <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                        <td>Rs. {(item.price * item.quantity).toLocaleString()}</td>
                                         <td>
                                             <button
                                                 onClick={() => removeFromCart(item.id)}
@@ -50,7 +50,7 @@ export default function Cart() {
                         </table>
 
                         <div className={styles.summary}>
-                            <h3>Total: ${cartTotal.toFixed(2)}</h3>
+                            <h3>Total: Rs. {cartTotal.toLocaleString()}</h3>
                             <div className={styles.actions}>
                                 <button onClick={clearCart} style={{ marginRight: '1rem', background: 'none', border: 'none', cursor: 'pointer' }}>Clear Cart</button>
                                 <Link href="/checkout" className="btn" style={{ display: 'inline-block', textDecoration: 'none' }}>Checkout</Link>

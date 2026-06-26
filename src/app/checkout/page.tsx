@@ -300,7 +300,7 @@ export default function CheckoutPage() {
                             {cart.map(item => (
                                 <div key={item.id} className={styles.summaryRow}>
                                     <span className={styles.itemName}>{item.name} x {item.quantity}</span>
-                                    <span className={styles.itemPrice}>${(Number(item.price) * item.quantity).toFixed(2)}</span>
+                                    <span className={styles.itemPrice}>Rs. {(Number(item.price) * item.quantity).toLocaleString()}</span>
                                 </div>
                             ))}
                         </div>
@@ -312,7 +312,7 @@ export default function CheckoutPage() {
 
                         <div className={styles.totalRow}>
                             <span>Subtotal Total</span>
-                            <span>${cartTotal.toFixed(2)}</span>
+                            <span>Rs. {cartTotal.toLocaleString()}</span>
                         </div>
 
                         <button
@@ -320,7 +320,7 @@ export default function CheckoutPage() {
                             className={styles.submitBtn}
                             disabled={loading}
                         >
-                            {loading ? 'Validating Payment & Placing Order...' : `Pay & Place Order - $${cartTotal.toFixed(2)}`}
+                            {loading ? 'Validating Payment & Placing Order...' : `Pay & Place Order - Rs. ${cartTotal.toLocaleString()}`}
                         </button>
                     </div>
                 </form>

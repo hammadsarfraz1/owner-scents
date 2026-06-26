@@ -105,7 +105,7 @@ export default function CartDrawer() {
                                 <div className={styles.itemDetails}>
                                     <div className={styles.itemName}>{item.name}</div>
                                     <div className={styles.itemPrice}>
-                                        ${Number(item.price).toFixed(2)}
+                                        Rs. {Number(item.price).toLocaleString()}
                                     </div>
                                     <div className={styles.quantityControls}>
                                         <button 
@@ -125,7 +125,7 @@ export default function CartDrawer() {
                                 </div>
                                 <div className={styles.itemRight}>
                                     <div className={styles.itemTotal}>
-                                        ${(Number(item.price) * item.quantity).toFixed(2)}
+                                        Rs. {(Number(item.price) * item.quantity).toLocaleString()}
                                     </div>
                                     <button
                                         onClick={() => removeFromCart(item.id)}
@@ -144,7 +144,7 @@ export default function CartDrawer() {
                     <div className={styles.footer}>
                         <div className={styles.totalRow}>
                             <span>Subtotal</span>
-                            <span>${cartTotal.toFixed(2)}</span>
+                            <span>Rs. {cartTotal.toLocaleString()}</span>
                         </div>
                         <Link href="/checkout" className={`${styles.checkoutBtn} sheenEffect`} onClick={toggleCart}>
                             Proceed to Checkout

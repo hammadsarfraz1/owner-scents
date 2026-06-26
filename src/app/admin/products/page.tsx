@@ -224,7 +224,7 @@ export default function AdminProducts() {
                                     <td className={styles.td} style={{ fontWeight: '500' }}>{product.name}</td>
                                     <td className={styles.td}>{product.category}</td>
                                     <td className={styles.td}>{product.gender}</td>
-                                    <td className={styles.td}>${Number(product.price).toFixed(2)}</td>
+                                    <td className={styles.td}>Rs. {Number(product.price).toLocaleString()}</td>
                                     <td className={styles.td} style={{ textAlign: 'right' }}>
                                         <button 
                                             onClick={() => openEditModal(product)} 

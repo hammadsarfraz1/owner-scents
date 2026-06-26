@@ -132,13 +132,13 @@ export default function QuickViewModal({ product, onClose }: Props) {
                     <h2 className={styles.title}>{product.name}</h2>
                     {product.isOnSale && product.salePrice ? (
                         <p className={styles.price}>
-                            <span className={styles.salePrice}>${Number(product.salePrice).toFixed(2)}</span>
-                            <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
+                            <span className={styles.salePrice}>Rs. {Number(product.salePrice).toLocaleString()}</span>
+                            <span className={styles.originalPrice}>Rs. {Number(product.price).toLocaleString()}</span>
                         </p>
                     ) : (
                         <p className={styles.price}>
-                            <span className={styles.salePrice}>${Number(product.price).toFixed(2)}</span>
-                            <span className={styles.originalPrice}>${(Number(product.price) * 1.3).toFixed(2)}</span>
+                            <span className={styles.salePrice}>Rs. {Number(product.price).toLocaleString()}</span>
+                            <span className={styles.originalPrice}>Rs. {(Number(product.price) * 1.3).toLocaleString()}</span>
                         </p>
                     )}
 

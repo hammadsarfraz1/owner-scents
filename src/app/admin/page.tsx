@@ -38,7 +38,7 @@ export default function AdminDashboard() {
                 <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
                     <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase' }}>Total Revenue</h3>
                     <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--gold-highlight)', marginTop: '0.5rem' }}>
-                        ${Number(stats.totalRevenue).toFixed(2)}
+                        Rs. {Number(stats.totalRevenue).toLocaleString()}
                     </p>
                 </div>
 
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
                                 <tr key={order.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
                                     <td style={{ padding: '1rem' }}>#{order.id.slice(-6)}</td>
                                     <td style={{ padding: '1rem' }}>{order.shippingName}</td>
-                                    <td style={{ padding: '1rem' }}>${Number(order.total).toFixed(2)}</td>
+                                    <td style={{ padding: '1rem' }}>Rs. {Number(order.total).toLocaleString()}</td>
                                     <td style={{ padding: '1rem' }}>{order.status}</td>
                                 </tr>
                             ))}

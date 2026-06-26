@@ -89,7 +89,7 @@ export default function ProfilePage() {
                                     </div>
                                     <div className={styles.totalRow}>
                                         <span>Total</span>
-                                        <span className={styles.totalPrice}>${Number(order.total).toFixed(2)}</span>
+                                        <span className={styles.totalPrice}>Rs. {Number(order.total).toLocaleString()}</span>
                                     </div>
                                 </div>
                             ))}
