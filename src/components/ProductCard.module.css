@@ -23,7 +23,8 @@
 }
 
 .imageContainer {
-    height: 380px;
+    width: 100%;
+    aspect-ratio: 0.75;
     background-color: var(--bg-tertiary);
     display: flex;
     align-items: center;
@@ -309,16 +310,7 @@
     border-radius: 4px;
 }
 
-@media (max-width: 968px) {
-    .imageContainer {
-        height: 300px;
-    }
-}
-
 @media (max-width: 768px) {
-    .imageContainer {
-        height: 250px;
-    }
     .quickAddBtn {
         right: 1rem !important;
         bottom: 1rem;
@@ -345,9 +337,6 @@
 }
 
 @media (max-width: 480px) {
-    .imageContainer {
-        height: 200px;
-    }
     .cardInfo {
         padding: 1rem;
     }

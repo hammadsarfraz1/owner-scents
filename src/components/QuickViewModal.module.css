@@ -239,7 +239,8 @@
     }
 
     .imageSection {
-        height: 320px;
+        width: 100%;
+        aspect-ratio: 0.75;
         position: relative;
         border-radius: 8px;
         overflow: hidden;
