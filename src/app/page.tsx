@@ -18,12 +18,14 @@ type Product = {
   category?: string;
 };
 
+let hasSeenIntroGlobal = false;
+
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [config, setConfig] = useState<any>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [isCoverActive, setIsCoverActive] = useState(true);
-  const [renderCover, setRenderCover] = useState(true);
+  const [isCoverActive, setIsCoverActive] = useState(!hasSeenIntroGlobal);
+  const [renderCover, setRenderCover] = useState(!hasSeenIntroGlobal);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -63,6 +65,7 @@ export default function Home() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
+      hasSeenIntroGlobal = true;
       // Unmount the cover completely after the slide transition completes
       const timer = setTimeout(() => {
         setRenderCover(false);

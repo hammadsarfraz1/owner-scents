@@ -54,7 +54,9 @@ function ShopContent() {
 
     const filteredProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesGender = selectedGender === 'All' || product.gender === selectedGender;
+        const matchesGender = selectedGender === 'All' || 
+            product.gender === selectedGender || 
+            ((selectedGender === 'Men' || selectedGender === 'Women') && product.gender === 'Unisex');
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
         return matchesSearch && matchesGender && matchesCategory;
     }).sort((a: Product, b: Product) => {

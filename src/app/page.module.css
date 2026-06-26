@@ -703,29 +703,29 @@
     box-sizing: border-box;
   }
   .stackContainer {
-    height: 350px;
-    max-width: 360px;
+    height: 380px;
+    max-width: 390px;
   }
   .leftCard {
-    width: 170px;
-    height: 230px;
-    transform: translate3d(-140px, 20px, -120px) rotateY(35deg) scale(0.75);
+    width: 190px;
+    height: 260px;
+    transform: translate3d(-160px, 20px, -120px) rotateY(35deg) scale(0.75);
     opacity: 0;
   }
   .centerCard {
-    width: 200px;
-    height: 270px;
+    width: 225px;
+    height: 305px;
     transform: translate3d(0, 70px, -80px) scale(0.8);
     opacity: 0;
   }
   .rightCard {
-    width: 170px;
-    height: 230px;
-    transform: translate3d(140px, 20px, -120px) rotateY(-35deg) scale(0.75);
+    width: 190px;
+    height: 260px;
+    transform: translate3d(160px, 20px, -120px) rotateY(-35deg) scale(0.75);
     opacity: 0;
   }
   .leftCard.cardLoaded {
-    transform: translate3d(-55px, 0, -70px) rotateY(12deg) scale(0.9);
+    transform: translate3d(-95px, 0, -80px) rotateY(15deg) scale(0.9);
     opacity: 0.6;
   }
   .centerCard.cardLoaded {
@@ -733,22 +733,22 @@
     opacity: 1;
   }
   .rightCard.cardLoaded {
-    transform: translate3d(55px, 0, -70px) rotateY(-12deg) scale(0.9);
+    transform: translate3d(95px, 0, -80px) rotateY(-15deg) scale(0.9);
     opacity: 0.6;
   }
   .stackContainer:hover .leftCard.cardLoaded {
-    transform: translate3d(-75px, -5px, -30px) rotateY(8deg) scale(0.92);
+    transform: translate3d(-115px, -5px, -30px) rotateY(8deg) scale(0.92);
     opacity: 0.8;
   }
   .stackContainer:hover .rightCard.cardLoaded {
-    transform: translate3d(75px, -5px, -30px) rotateY(-8deg) scale(0.92);
+    transform: translate3d(115px, -5px, -30px) rotateY(-8deg) scale(0.92);
     opacity: 0.8;
   }
   .leftCard.activeCard {
-    transform: perspective(1000px) translate3d(-80px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(-120px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .rightCard.activeCard {
-    transform: perspective(1000px) translate3d(80px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(120px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
@@ -768,29 +768,29 @@
     font-size: 2rem;
   }
   .stackContainer {
-    height: 290px;
-    max-width: 290px;
+    height: 340px;
+    max-width: 350px;
   }
   .leftCard {
-    width: 135px;
-    height: 185px;
-    transform: translate3d(-100px, 15px, -100px) rotateY(30deg) scale(0.75);
+    width: 160px;
+    height: 220px;
+    transform: translate3d(-120px, 15px, -100px) rotateY(30deg) scale(0.75);
     opacity: 0;
   }
   .centerCard {
-    width: 160px;
-    height: 215px;
+    width: 185px;
+    height: 250px;
     transform: translate3d(0, 50px, -60px) scale(0.8);
     opacity: 0;
   }
   .rightCard {
-    width: 135px;
-    height: 185px;
-    transform: translate3d(100px, 15px, -100px) rotateY(-30deg) scale(0.75);
+    width: 160px;
+    height: 220px;
+    transform: translate3d(120px, 15px, -100px) rotateY(-30deg) scale(0.75);
     opacity: 0;
   }
   .leftCard.cardLoaded {
-    transform: translate3d(-40px, 0, -60px) rotateY(10deg) scale(0.9);
+    transform: translate3d(-85px, 0, -60px) rotateY(10deg) scale(0.9);
     opacity: 0.55;
   }
   .centerCard.cardLoaded {
@@ -798,22 +798,22 @@
     opacity: 1;
   }
   .rightCard.cardLoaded {
-    transform: translate3d(40px, 0, -60px) rotateY(-10deg) scale(0.9);
+    transform: translate3d(85px, 0, -60px) rotateY(-10deg) scale(0.9);
     opacity: 0.55;
   }
   .stackContainer:hover .leftCard.cardLoaded {
-    transform: translate3d(-55px, -5px, -20px) rotateY(6deg) scale(0.92);
+    transform: translate3d(-100px, -5px, -20px) rotateY(6deg) scale(0.92);
     opacity: 0.75;
   }
   .stackContainer:hover .rightCard.cardLoaded {
-    transform: translate3d(55px, -5px, -20px) rotateY(-6deg) scale(0.92);
+    transform: translate3d(100px, -5px, -20px) rotateY(-6deg) scale(0.92);
     opacity: 0.75;
   }
   .leftCard.activeCard {
-    transform: perspective(1000px) translate3d(-60px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(-105px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .rightCard.activeCard {
-    transform: perspective(1000px) translate3d(60px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(105px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
   }
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
@@ -883,6 +883,7 @@
     color: #ffffff !important; /* Force white independently of theme */
     max-width: 700px;
     margin: 0;
+    text-align: center;
 }
 
 /* Scroll indicator */
