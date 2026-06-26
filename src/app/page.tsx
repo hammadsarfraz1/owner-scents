@@ -30,7 +30,7 @@ export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeTab, setActiveTab] = useState<'popular' | 'latest' | 'onsale'>('popular');
+  const [activeTab, setActiveTab] = useState<'popular' | 'latest'>('popular');
   const [popularProducts, setPopularProducts] = useState<Product[]>([]);
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
   const [onSaleProducts, setOnSaleProducts] = useState<Product[]>([]);
@@ -410,11 +410,26 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Featured Section - CAROUSEL */}
+      {/* On Sale Section */}
       <section className={`container ${styles.featuredSection}`}>
         <div className={styles.featuredHeader}>
+          <span className={styles.saleTagline} style={{ color: '#ef4444', letterSpacing: '4px', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', textShadow: '0 0 10px rgba(239, 68, 68, 0.3)', display: 'block', marginBottom: '0.5rem' }}>EXCLUSIVE OFFER</span>
+          <h2 style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.15)' }}>Limited-Time Sale</h2>
+          <p>Exceptional values on our most coveted fragrances. Available for a limited duration.</p>
+        </div>
+
+        <ProductCarousel 
+          products={onSaleProducts} 
+          title="" 
+          onQuickView={setQuickViewProduct} 
+        />
+      </section>
+
+      {/* Explore Collections Section (Popular / Latest) */}
+      <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
+        <div className={styles.featuredHeader}>
           <h2>Explore Collections</h2>
-          <p>Discover our highly acclaimed, newly arrived, and specially priced fragrances.</p>
+          <p>Discover our highly acclaimed and newly arrived fragrances.</p>
 
           <div className={styles.tabContainer}>
             <button 
@@ -429,12 +444,6 @@ export default function Home() {
             >
               Latest
             </button>
-            <button 
-              className={`${styles.tabBtn} ${activeTab === 'onsale' ? styles.activeTab : ''}`}
-              onClick={() => setActiveTab('onsale')}
-            >
-              On Sale
-            </button>
           </div>
         </div>
 
@@ -442,8 +451,7 @@ export default function Home() {
           key={activeTab}
           products={
             activeTab === 'popular' ? popularProducts :
-            activeTab === 'latest' ? latestProducts :
-            onSaleProducts
+            latestProducts
           } 
           title="" 
           onQuickView={setQuickViewProduct} 
