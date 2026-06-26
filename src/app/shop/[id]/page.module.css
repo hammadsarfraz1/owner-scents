@@ -29,13 +29,12 @@
 
 .imageContainer {
     background: var(--bg-secondary);
-    aspect-ratio: 0.85;
+    aspect-ratio: 0.75;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border: 1px solid var(--border-color);
-    max-height: min(70vh, 520px);
 }
 
 .productImage {
@@ -757,6 +756,8 @@
     flex-direction: column;
     gap: 1.25rem;
     width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
 }
 
 .thumbnailGrid {

@@ -275,72 +275,6 @@
     right: 1rem;
 }
 
-/* Hover Notes Overlay */
-.notesOverlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 35%;
-    background: rgba(12, 12, 14, 0.82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid var(--border-color);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transform: translateY(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 1.25rem;
-    z-index: 5;
-}
-
-.imageContainer:hover .notesOverlay {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.notesOverlayContent {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    width: 100%;
-    text-align: left;
-}
-
-.overlayTitle {
-    font-family: var(--font-serif);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--accent);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.15rem;
-    margin-bottom: 0.1rem;
-}
-
-.overlayNote {
-    font-size: 0.68rem;
-    color: var(--text-secondary);
-    line-height: 1.2;
-    font-weight: 300;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.overlayLabel {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.62rem;
-    letter-spacing: 1px;
-    color: var(--text-primary);
-    display: inline-block;
-    width: 40px;
-}
-
 /* Dots Indicator Styles */
 .dotsContainer {
     position: absolute;
@@ -350,11 +284,6 @@
     display: flex;
     gap: 8px;
     z-index: 15;
-    transition: bottom 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.imageContainer:hover .dotsContainer {
-    bottom: calc(35% + 12px);
 }
 
 .dot {

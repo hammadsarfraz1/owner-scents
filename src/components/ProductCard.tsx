@@ -187,21 +187,6 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                         +
                     </button>
 
-                    {/* Hover Notes Overlay */}
-                    <div className={styles.notesOverlay}>
-                        <div className={styles.notesOverlayContent}>
-                            <span className={styles.overlayTitle}>Scent Profile</span>
-                            <div className={styles.overlayNote}>
-                                <span className={styles.overlayLabel}>Top:</span> {product.topNotes || "Bergamot, Grapefruit"}
-                            </div>
-                            <div className={styles.overlayNote}>
-                                <span className={styles.overlayLabel}>Heart:</span> {product.heartNotes || "Jasmine, Sage"}
-                            </div>
-                            <div className={styles.overlayNote}>
-                                <span className={styles.overlayLabel}>Base:</span> {product.baseNotes || "Sandalwood, Oud"}
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div className={styles.cardInfo}>
                     <h3 className={styles.productName}>{product.name}</h3>
