@@ -30,6 +30,10 @@ export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<'popular' | 'latest' | 'onsale'>('popular');
+  const [popularProducts, setPopularProducts] = useState<Product[]>([]);
+  const [latestProducts, setLatestProducts] = useState<Product[]>([]);
+  const [onSaleProducts, setOnSaleProducts] = useState<Product[]>([]);
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -136,7 +140,25 @@ export default function Home() {
 
     fetch('/api/products?t=' + Date.now())
       .then(res => res.json())
-      .then(data => setFeaturedProducts(data.slice(0, 6)))
+      .then(data => {
+        // 1. Popular: Sort by length of name to mix signature and popular items
+        const popular = [...data].sort((a, b) => b.name.length - a.name.length).slice(0, 6);
+        setPopularProducts(popular);
+
+        // 2. Latest: Sort by createdAt descending
+        const latest = [...data].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()).slice(0, 6);
+        setLatestProducts(latest);
+
+        // 3. On Sale: 15% discount on selected products
+        const sale = data.slice(1, 5).map((p: any) => ({
+          ...p,
+          isOnSale: true,
+          salePrice: Number(p.price) * 0.85
+        }));
+        setOnSaleProducts(sale);
+
+        setFeaturedProducts(data.slice(0, 6));
+      })
       .catch(console.error);
 
     fetch('/api/homepage-config?t=' + Date.now())
@@ -393,9 +415,39 @@ export default function Home() {
         <div className={styles.featuredHeader}>
           <h2>Signature Scents</h2>
           <p>Hand-crafted fragrances curated for modern authority.</p>
+
+          <div className={styles.tabContainer}>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'popular' ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab('popular')}
+            >
+              Popular
+            </button>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'latest' ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab('latest')}
+            >
+              Latest
+            </button>
+            <button 
+              className={`${styles.tabBtn} ${activeTab === 'onsale' ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab('onsale')}
+            >
+              On Sale
+            </button>
+          </div>
         </div>
 
-        <ProductCarousel products={featuredProducts} title="" onQuickView={setQuickViewProduct} />
+        <ProductCarousel 
+          key={activeTab}
+          products={
+            activeTab === 'popular' ? popularProducts :
+            activeTab === 'latest' ? latestProducts :
+            onSaleProducts
+          } 
+          title="" 
+          onQuickView={setQuickViewProduct} 
+        />
 
         <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
           <Link href="/shop" className={styles.viewAllBtn}>Explore Full Catalog</Link>

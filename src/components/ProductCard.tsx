@@ -32,6 +32,8 @@ export type Product = {
     heartNotes?: string;
     baseNotes?: string;
     description?: string;
+    isOnSale?: boolean;
+    salePrice?: number;
 };
 
 type ProductCardProps = {
@@ -61,14 +63,16 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
     const handleBuyNow = (e: React.MouseEvent) => {
         e.preventDefault();
-        addToCart({ ...product, price: Number(product.price) });
+        const priceToUse = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
+        addToCart({ ...product, price: priceToUse });
         window.location.href = '/checkout';
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addToCart({ ...product, price: Number(product.price) });
+        const priceToUse = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
+        addToCart({ ...product, price: priceToUse });
     };
 
     const handleQuickView = (e: React.MouseEvent) => {
@@ -86,6 +90,11 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     {product.gender && (
                         <span className={`${styles.badge} ${styles[product.gender.toLowerCase()] || ''}`}>
                             {product.gender.toUpperCase()}
+                        </span>
+                    )}
+                    {product.isOnSale && (
+                        <span className={styles.saleBadge}>
+                            SALE
                         </span>
                     )}
                     {product.image ? (
@@ -125,7 +134,14 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                 </div>
                 <div className={styles.cardInfo}>
                     <h3 className={styles.productName}>{product.name}</h3>
-                    <p className={styles.productPrice}>${Number(product.price).toFixed(2)}</p>
+                    {product.isOnSale && product.salePrice ? (
+                        <p className={styles.productPrice}>
+                            <span className={styles.salePrice}>${Number(product.salePrice).toFixed(2)}</span>
+                            <span className={styles.originalPrice}>${Number(product.price).toFixed(2)}</span>
+                        </p>
+                    ) : (
+                        <p className={styles.productPrice}>${Number(product.price).toFixed(2)}</p>
+                    )}
                     
                     {allBadges.length > 0 && (
                         <div className={styles.scentBadgesContainer}>
