@@ -297,6 +297,17 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Mobile-only Marquee Stripe */}
+            {config?.showMarquee !== false && (
+              <div className={`${styles.marquee} ${styles.mobileMarqueeOnly}`}>
+                <div className={styles.track}>
+                  {Array(4).fill(config?.marqueeText || "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ").map((text, i) => (
+                    <span key={i}>{text}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className={styles.heroRight}>
               <div 
                 className={styles.stackContainer}
@@ -371,9 +382,9 @@ export default function Home() {
         </section>
       )}
 
-      {/* Marquee Stripe */}
+      {/* Desktop-only Marquee Stripe */}
       {config?.showMarquee !== false && (
-        <div className={styles.marquee}>
+        <div className={`${styles.marquee} ${styles.desktopMarqueeOnly}`}>
           <div className={styles.track}>
             {Array(4).fill(config?.marqueeText || "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ").map((text, i) => (
               <span key={i}>{text}</span>
