@@ -15,7 +15,7 @@ export async function PUT(
 
         const { id } = await params;
         const body = await req.json();
-        const { name, description, price, originalPrice, isVisible, image, gender, category, topNotes, heartNotes, baseNotes } = body;
+        const { name, description, price, originalPrice, isVisible, image, gender, category, topNotes, heartNotes, baseNotes, ingredients } = body;
 
         const product = await prisma.product.findUnique({ where: { id } });
         if (!product) {
@@ -46,7 +46,8 @@ export async function PUT(
                 category: category !== undefined ? category : product.category,
                 topNotes: topNotes !== undefined ? topNotes : product.topNotes,
                 heartNotes: heartNotes !== undefined ? heartNotes : product.heartNotes,
-                baseNotes: baseNotes !== undefined ? baseNotes : product.baseNotes
+                baseNotes: baseNotes !== undefined ? baseNotes : product.baseNotes,
+                ingredients: ingredients !== undefined ? ingredients : product.ingredients
             }
         });
 

@@ -17,6 +17,7 @@ type Product = {
     topNotes: string;
     heartNotes: string;
     baseNotes: string;
+    ingredients?: string;
 };
 
 type Category = {
@@ -43,6 +44,7 @@ export default function AdminProducts() {
     const [topNotes, setTopNotes] = useState('');
     const [heartNotes, setHeartNotes] = useState('');
     const [baseNotes, setBaseNotes] = useState('');
+    const [ingredients, setIngredients] = useState('');
 
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
@@ -97,6 +99,7 @@ export default function AdminProducts() {
         setTopNotes('');
         setHeartNotes('');
         setBaseNotes('');
+        setIngredients('');
         setError('');
         setIsModalOpen(true);
     };
@@ -114,6 +117,7 @@ export default function AdminProducts() {
         setTopNotes(product.topNotes);
         setHeartNotes(product.heartNotes);
         setBaseNotes(product.baseNotes);
+        setIngredients(product.ingredients || '');
         setError('');
         setIsModalOpen(true);
     };
@@ -140,7 +144,8 @@ export default function AdminProducts() {
             category,
             topNotes,
             heartNotes,
-            baseNotes
+            baseNotes,
+            ingredients
         };
 
         try {
@@ -425,6 +430,17 @@ export default function AdminProducts() {
                                         />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+                                <label className={styles.label}>Ingredients Description</label>
+                                <textarea 
+                                    value={ingredients} 
+                                    onChange={(e) => setIngredients(e.target.value)} 
+                                    className={styles.textarea}
+                                    placeholder="e.g. Alcohol Denat., Aqua (Water), Parfum (Fragrance), Limonene, Linalool"
+                                    rows={2}
+                                />
                             </div>
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>

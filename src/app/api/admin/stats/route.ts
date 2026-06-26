@@ -19,6 +19,7 @@ export async function GET(req: Request) {
             prisma.order.count(),
             prisma.order.count({ where: { status: 'PENDING' } }),
             prisma.order.aggregate({
+                where: { paymentStatus: 'PAID' },
                 _sum: { total: true }
             }),
             prisma.order.findMany({
