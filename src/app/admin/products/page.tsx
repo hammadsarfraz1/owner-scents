@@ -11,6 +11,8 @@ type Product = {
     originalPrice: string | null;
     isVisible: boolean;
     image: string;
+    image2?: string;
+    image3?: string;
     slug: string;
     gender: string;
     category: string;
@@ -38,6 +40,8 @@ export default function AdminProducts() {
     const [originalPrice, setOriginalPrice] = useState('');
     const [isVisible, setIsVisible] = useState(true);
     const [image, setImage] = useState('');
+    const [image2, setImage2] = useState('');
+    const [image3, setImage3] = useState('');
     const [gender, setGender] = useState('Unisex');
     const [category, setCategory] = useState('');
     const [topNotes, setTopNotes] = useState('');
@@ -88,6 +92,8 @@ export default function AdminProducts() {
         setOriginalPrice('');
         setIsVisible(true);
         setImage('');
+        setImage2('');
+        setImage3('');
         setGender('Unisex');
         if (categories.length > 0) {
             setCategory(categories[0].name);
@@ -109,6 +115,8 @@ export default function AdminProducts() {
         setOriginalPrice(product.originalPrice ? Number(product.originalPrice).toString() : '');
         setIsVisible(product.isVisible !== undefined ? Boolean(product.isVisible) : true);
         setImage(product.image);
+        setImage2(product.image2 || '');
+        setImage3(product.image3 || '');
         setGender(product.gender);
         setCategory(product.category);
         setTopNotes(product.topNotes);
@@ -136,6 +144,8 @@ export default function AdminProducts() {
             originalPrice: originalPrice ? Number(originalPrice) : null,
             isVisible: Boolean(isVisible),
             image,
+            image2,
+            image3,
             gender,
             category,
             topNotes,
@@ -335,7 +345,7 @@ export default function AdminProducts() {
                             </div>
 
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Image URL *</label>
+                                <label className={styles.label}>Image URL (Main/Card) *</label>
                                 <input 
                                     type="text" 
                                     value={image} 
@@ -343,6 +353,29 @@ export default function AdminProducts() {
                                     className={styles.input}
                                     required 
                                 />
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <label className={styles.label}>Image URL 2 (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        value={image2} 
+                                        onChange={(e) => setImage2(e.target.value)} 
+                                        placeholder="Secondary view"
+                                        className={styles.input}
+                                    />
+                                </div>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <label className={styles.label}>Image URL 3 (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        value={image3} 
+                                        onChange={(e) => setImage3(e.target.value)} 
+                                        placeholder="Box packaging / alternative view"
+                                        className={styles.input}
+                                    />
+                                </div>
                             </div>
 
                             <div className={styles.formRow}>

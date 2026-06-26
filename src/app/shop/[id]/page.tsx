@@ -16,6 +16,8 @@ type Product = {
     price: string;
     originalPrice?: string | number | null;
     image: string;
+    image2?: string;
+    image3?: string;
     description: string;
     gender: string;
     category: string;
@@ -45,6 +47,7 @@ export default function ProductDetails() {
     // Dynamic Scent Notes
     const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
     const [activeNote, setActiveNote] = useState<string | null>(null);
+    const [activeImage, setActiveImage] = useState<string | null>(null);
 
     useEffect(() => {
         fetch('/api/scent-notes')
@@ -106,6 +109,7 @@ export default function ProductDetails() {
             .then((res) => res.json())
             .then((data) => {
                 setProduct(data);
+                setActiveImage(data.image);
                 setLoading(false);
             })
             .catch((err) => {
@@ -216,11 +220,44 @@ export default function ProductDetails() {
             <div className={styles.content}>
                 <div className={styles.grid}>
                     {/* Image Section */}
-                    <div className={styles.imageContainer}>
-                        {product.image ? (
-                            <img src={product.image} alt={product.name} className={styles.productImage} />
-                        ) : (
-                            <div className={styles.placeholderImage}>{product.name}</div>
+                    <div className={styles.imageSectionWrapper}>
+                        <div className={styles.imageContainer}>
+                            {activeImage || product.image ? (
+                                <img src={activeImage || product.image} alt={product.name} className={styles.productImage} />
+                            ) : (
+                                <div className={styles.placeholderImage}>{product.name}</div>
+                            )}
+                        </div>
+
+                        {/* Thumbnail Selector Grid */}
+                        {(product.image2 || product.image3) && (
+                            <div className={styles.thumbnailGrid}>
+                                <button 
+                                    className={`${styles.thumbnailBtn} ${(activeImage === product.image || !activeImage) ? styles.activeThumbnail : ''}`}
+                                    onClick={() => setActiveImage(product.image)}
+                                    aria-label="View main image"
+                                >
+                                    <img src={product.image} alt="Thumbnail 1" className={styles.thumbnailImg} />
+                                </button>
+                                {product.image2 && (
+                                    <button 
+                                        className={`${styles.thumbnailBtn} ${activeImage === product.image2 ? styles.activeThumbnail : ''}`}
+                                        onClick={() => setActiveImage(product.image2 || null)}
+                                        aria-label="View second image"
+                                    >
+                                        <img src={product.image2} alt="Thumbnail 2" className={styles.thumbnailImg} />
+                                    </button>
+                                )}
+                                {product.image3 && (
+                                    <button 
+                                        className={`${styles.thumbnailBtn} ${activeImage === product.image3 ? styles.activeThumbnail : ''}`}
+                                        onClick={() => setActiveImage(product.image3 || null)}
+                                        aria-label="View third image"
+                                    >
+                                        <img src={product.image3} alt="Thumbnail 3" className={styles.thumbnailImg} />
+                                    </button>
+                                )}
+                            </div>
                         )}
                     </div>
 
