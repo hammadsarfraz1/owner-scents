@@ -32,18 +32,7 @@ function ProductHorizontalRow({ title, products, onQuickView }: { title: string,
     return (
         <div className={styles.categorySection}>
             <div className={styles.categorySectionHeader}>
-                <div className={styles.titleWrapper}>
-                    <h2 className={styles.categorySectionTitle}>{title}</h2>
-                    <span className={styles.categoryCountBadge}>{products.length} {products.length === 1 ? 'Fragrance' : 'Fragrances'}</span>
-                </div>
-                <div className={styles.scrollNavBtns}>
-                    <button onClick={() => scroll('left')} className={styles.scrollNavBtn} aria-label="Scroll left">
-                        <ChevronLeft size={18} />
-                    </button>
-                    <button onClick={() => scroll('right')} className={styles.scrollNavBtn} aria-label="Scroll right">
-                        <ChevronRight size={18} />
-                    </button>
-                </div>
+                <h2 className={styles.categorySectionTitle}>{title}</h2>
             </div>
             <div className={styles.horizontalScrollRow} ref={rowRef}>
                 {products.map((product) => (
