@@ -1,72 +1,454 @@
 .container {
-    padding: 10rem 2rem 5rem;
-    max-width: 800px;
+    padding: 8rem 1.5rem 5rem;
+    max-width: 850px;
     margin: 0 auto;
-    min-height: 80vh;
-    text-align: center;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.badgeWrapper {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.iconRing {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(197, 160, 89, 0.15) 0%, rgba(197, 160, 89, 0.05) 100%);
+    border: 1px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.25), inset 0 0 15px rgba(197, 160, 89, 0.15);
+    animation: pulseGlow 3s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.checkIcon {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(197, 160, 89, 0.6));
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 20px rgba(197, 160, 89, 0.2), inset 0 0 10px rgba(197, 160, 89, 0.1);
+        transform: scale(0.98);
+    }
+    100% {
+        box-shadow: 0 0 35px rgba(197, 160, 89, 0.35), inset 0 0 20px rgba(197, 160, 89, 0.2);
+        transform: scale(1.02);
+    }
+}
+
+.title {
+    font-family: var(--font-serif), serif;
+    font-size: 2.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    text-align: center;
+    background: linear-gradient(180deg, #FFFFFF 0%, #D1D5DB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-family: var(--font-sans);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 580px;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+}
+
+/* Loading Box */
+.loadingBox, .loadingFull {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.loadingFull {
+    min-height: 50vh;
+    justify-content: center;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(197, 160, 89, 0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Main Order Card */
+.orderCard {
+    width: 100%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 160, 89, 0.05);
+    margin-bottom: 2rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.3s ease;
+}
+
+.orderCard:hover {
+    border-color: var(--accent);
+}
+
+.cardHeader {
+    padding: 1.25rem 1.75rem;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerTitleGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--accent);
+}
+
+.headerIcon {
+    color: var(--accent);
+}
+
+.cardHeader h2 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.refBadge {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* Items List */
+.itemsList {
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.itemRow {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.itemRow:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.itemImgWrapper {
+    width: 70px;
+    height: 84px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.icon {
-    font-size: 4rem;
-    color: var(--gold-highlight);
-    margin-bottom: 2rem;
-    animation: scaleIn 0.5s ease-out;
+.itemImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-.title {
-    font-family: var(--font-cinzel), serif;
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
+.itemRow:hover .itemImg {
+    transform: scale(1.06);
+}
+
+.itemDetails {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.itemName {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.itemMeta {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tag {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(197, 160, 89, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.itemQty {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    margin-top: 0.15rem;
+}
+
+.itemPrice {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-gold-glow);
+    white-space: nowrap;
+}
+
+/* Card Footer */
+.cardFooter {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.shippingSummary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summaryBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.blockHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.blockText {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.statusPaid {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+.statusPending {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.totalLabel {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     color: var(--text-primary);
 }
 
-.message {
+.totalValue {
     font-family: var(--font-sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 0 12px var(--accent-gold-glow);
+}
+
+/* Info Banner */
+.infoBanner {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    width: 100%;
+}
+
+.infoBanner p {
+    margin: 0;
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin-bottom: 3rem;
+    line-height: 1.5;
+}
+
+/* Action Group Buttons */
+.actionGroup {
+    display: flex;
+    gap: 1.25rem;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primaryBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2.25rem;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
+}
+
+.primaryBtn:hover {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.3);
+}
+
+.secondaryBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 2rem;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.secondaryBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(197, 160, 89, 0.08);
+    transform: translateY(-2px);
+}
+
+.fallbackMsg {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
 }
 
 .orderId {
     color: var(--text-primary);
     font-weight: bold;
-    background: var(--bg-card);
-    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    padding: 0.3rem 0.75rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    margin: 0 0.5rem;
 }
 
-.button {
-    padding: 1rem 2.5rem;
-    background: var(--text-primary);
-    color: var(--bg-primary);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-family: var(--font-sans);
-    transition: all 0.3s ease;
-}
-
-.button:hover {
-    background: var(--gold-highlight);
-    transform: translateY(-2px);
-}
-
-@keyframes scaleIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
+@media (max-width: 640px) {
+    .container {
+        padding: 6rem 1rem 4rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .shippingSummary {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .itemRow {
+        gap: 0.85rem;
     }
 
-    100% {
-        transform: scale(1);
-        opacity: 1;
+    .itemImgWrapper {
+        width: 55px;
+        height: 66px;
+    }
+
+    .itemName {
+        font-size: 0.95rem;
+    }
+
+    .itemPrice {
+        font-size: 0.95rem;
+    }
+
+    .actionGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .primaryBtn, .secondaryBtn {
+        width: 100%;
+        justify-content: center;
     }
 }
