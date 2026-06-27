@@ -4,11 +4,16 @@ import { useCart } from '@/context/CartContext';
 import styles from './CartDrawer.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { ShoppingBag, Trash2, ArrowRight, Truck, Plus, Minus, Sparkles, X } from 'lucide-react';
 
 export default function CartDrawer() {
     const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, cartTotal } = useCart();
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
     const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
+
+    const freeShippingThreshold = 3000;
+    const amountForFreeShipping = Math.max(0, freeShippingThreshold - cartTotal);
+    const shippingProgress = Math.min(100, (cartTotal / freeShippingThreshold) * 100);
 
     // Prevent scrolling when cart is open
     useEffect(() => {
@@ -41,7 +46,6 @@ export default function CartDrawer() {
         if (touchStartX === null) return;
         const currentX = e.targetTouches[0].clientX;
         const diffX = currentX - touchStartX;
-        // Only allow swiping right (out of screen)
         if (diffX > 0) {
             setTouchCurrentX(currentX);
         }
@@ -50,7 +54,6 @@ export default function CartDrawer() {
     const handleTouchEnd = () => {
         if (touchStartX !== null && touchCurrentX !== null) {
             const diffX = touchCurrentX - touchStartX;
-            // Dismiss if swiped more than 100px
             if (diffX > 100) {
                 toggleCart();
             }
@@ -80,16 +83,45 @@ export default function CartDrawer() {
                 onTouchEnd={handleTouchEnd}
             >
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Your Bag ({cart.length})</h2>
-                    <button onClick={toggleCart} className={styles.closeBtn}>&times;</button>
+                    <div className={styles.titleGroup}>
+                        <ShoppingBag size={20} className={styles.titleIcon} />
+                        <h2 className={styles.title}>Your Bag ({cart.length})</h2>
+                    </div>
+                    <button onClick={toggleCart} className={styles.closeBtn} aria-label="Close cart drawer">
+                        <X size={20} />
+                    </button>
                 </div>
+
+                {cart.length > 0 && (
+                    <div className={styles.shippingBanner}>
+                        <div className={styles.shippingHeader}>
+                            <div className={styles.shippingTitleGroup}>
+                                <Truck size={15} className={styles.truckIcon} />
+                                <span>
+                                    {amountForFreeShipping > 0 ? (
+                                        <>Add <strong>Rs. {amountForFreeShipping.toLocaleString()}</strong> for FREE Shipping</>
+                                    ) : (
+                                        <strong style={{ color: '#34d399' }}>FREE Express Shipping Unlocked!</strong>
+                                    )}
+                                </span>
+                            </div>
+                        </div>
+                        <div className={styles.progressBarBg}>
+                            <div 
+                                className={styles.progressBarFill} 
+                                style={{ width: `${shippingProgress}%` }} 
+                            />
+                        </div>
+                    </div>
+                )}
 
                 <div className={styles.items}>
                     {cart.length === 0 ? (
                         <div className={styles.empty}>
-                            <p>Your bag is empty.</p>
+                            <ShoppingBag size={48} className={styles.emptyIcon} />
+                            <p>Your bag is currently empty.</p>
                             <Link href="/shop" className={styles.shopNowLink} onClick={toggleCart}>
-                                Shop the collection
+                                Explore Fragrance Collection <ArrowRight size={14} />
                             </Link>
                         </div>
                     ) : (
@@ -111,15 +143,17 @@ export default function CartDrawer() {
                                         <button 
                                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                                             className={styles.qtyBtn}
+                                            aria-label="Decrease quantity"
                                         >
-                                            -
+                                            <Minus size={12} />
                                         </button>
                                         <span className={styles.qtyVal}>{item.quantity}</span>
                                         <button 
                                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                             className={styles.qtyBtn}
+                                            aria-label="Increase quantity"
                                         >
-                                            +
+                                            <Plus size={12} />
                                         </button>
                                     </div>
                                 </div>
@@ -132,7 +166,7 @@ export default function CartDrawer() {
                                         className={styles.removeBtn}
                                         aria-label="Remove item"
                                     >
-                                        &times;
+                                        <Trash2 size={16} />
                                     </button>
                                 </div>
                             </div>
@@ -144,10 +178,13 @@ export default function CartDrawer() {
                     <div className={styles.footer}>
                         <div className={styles.totalRow}>
                             <span>Subtotal</span>
-                            <span>Rs. {cartTotal.toLocaleString()}</span>
+                            <span className={styles.totalVal}>Rs. {cartTotal.toLocaleString()}</span>
                         </div>
+                        <Link href="/cart" className={styles.viewCartLink} onClick={toggleCart}>
+                            View Full Cart Page
+                        </Link>
                         <Link href="/checkout" className={`${styles.checkoutBtn} sheenEffect`} onClick={toggleCart}>
-                            Proceed to Checkout
+                            Proceed to Checkout <ArrowRight size={16} />
                         </Link>
                     </div>
                 )}
