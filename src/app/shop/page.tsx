@@ -265,21 +265,7 @@ function ShopContent() {
                         </div>
                     ) : (
                         <div className={styles.categoryRowsContainer}>
-                            {/* 1. GENDER HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
-                            {selectedGender === 'All' && activeGendersToDisplay.map(genderName => {
-                                const genderProducts = filteredProducts.filter(p => p.gender === genderName || (p.gender === 'Unisex' && genderName !== 'Unisex'));
-                                if (genderProducts.length === 0) return null;
-                                return (
-                                    <ProductHorizontalRow 
-                                        key={`gender-${genderName}`} 
-                                        title={`${genderName}'s Collection`} 
-                                        products={genderProducts} 
-                                        onQuickView={setQuickViewProduct} 
-                                    />
-                                );
-                            })}
-
-                            {/* 2. CATEGORY HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
+                            {/* CATEGORY HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
                             {activeCategoriesToDisplay.map(catName => {
                                 const catProducts = filteredProducts.filter(p => p.category === catName);
                                 if (catProducts.length === 0) return null;
