@@ -136,7 +136,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     const handleBuyNow = (e: React.MouseEvent) => {
         e.preventDefault();
         const priceToUse = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
-        addToCart({ ...product, price: priceToUse });
+        addToCart({ ...product, price: priceToUse }, false);
         window.location.href = '/cart';
     };
 

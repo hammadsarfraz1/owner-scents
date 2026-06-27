@@ -17,7 +17,7 @@ type CartItem = Product & {
 
 type CartContextType = {
     cart: CartItem[];
-    addToCart: (product: Product) => void;
+    addToCart: (product: Product, openDrawer?: boolean) => void;
     removeFromCart: (productId: string) => void;
     updateQuantity: (productId: string, quantity: number) => void;
     clearCart: () => void;
@@ -46,7 +46,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addToCart = (product: Product) => {
+    const addToCart = (product: Product, openDrawer: boolean = true) => {
         setCart((prevCart) => {
             const existingItem = prevCart.find((item) => item.id === product.id);
             if (existingItem) {
@@ -58,7 +58,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
             return [...prevCart, { ...product, quantity: 1 }];
         });
-        setIsCartOpen(true); // Open cart when adding item
+        if (openDrawer) {
+            setIsCartOpen(true);
+        }
     };
 
     const removeFromCart = (productId: string) => {

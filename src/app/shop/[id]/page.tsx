@@ -285,7 +285,7 @@ export default function ProductDetails() {
                             <button
                                 className={styles.buyNowBtn}
                                 onClick={() => {
-                                    addToCart({ ...product, price: Number(product.price), id: product.id });
+                                    addToCart({ ...product, price: Number(product.price), id: product.id }, false);
                                     window.location.href = '/cart';
                                 }}
                             >
@@ -500,7 +500,7 @@ export default function ProductDetails() {
                         <button
                             className={`${styles.stickyBuyBtn} sheenEffect`}
                             onClick={() => {
-                                addToCart({ ...product, price: Number(product.price), id: product.id });
+                                addToCart({ ...product, price: Number(product.price), id: product.id }, false);
                                 window.location.href = '/cart';
                             }}
                         >
