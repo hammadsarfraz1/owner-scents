@@ -10,6 +10,7 @@ type Product = {
     price: string;
     originalPrice: string | null;
     isVisible: boolean;
+    isExclusiveOffer?: boolean;
     image: string;
     homepageImage?: string;
     quickViewImage?: string;
@@ -41,6 +42,7 @@ export default function AdminProducts() {
     const [price, setPrice] = useState('');
     const [originalPrice, setOriginalPrice] = useState('');
     const [isVisible, setIsVisible] = useState(true);
+    const [isExclusiveOffer, setIsExclusiveOffer] = useState(false);
     const [image, setImage] = useState('');
     const [homepageImage, setHomepageImage] = useState('');
     const [quickViewImage, setQuickViewImage] = useState('');
@@ -95,6 +97,7 @@ export default function AdminProducts() {
         setPrice('');
         setOriginalPrice('');
         setIsVisible(true);
+        setIsExclusiveOffer(false);
         setImage('');
         setHomepageImage('');
         setQuickViewImage('');
@@ -120,6 +123,7 @@ export default function AdminProducts() {
         setPrice(Number(product.price).toString());
         setOriginalPrice(product.originalPrice ? Number(product.originalPrice).toString() : '');
         setIsVisible(product.isVisible !== undefined ? Boolean(product.isVisible) : true);
+        setIsExclusiveOffer(Boolean(product.isExclusiveOffer));
         setImage(product.image);
         setHomepageImage(product.homepageImage || '');
         setQuickViewImage(product.quickViewImage || '');
@@ -132,6 +136,25 @@ export default function AdminProducts() {
         setBaseNotes(product.baseNotes);
         setError('');
         setIsModalOpen(true);
+    };
+
+    const handleToggleExclusive = async (product: Product) => {
+        const nextState = !product.isExclusiveOffer;
+        try {
+            const res = await fetch(`/api/admin/products/${product.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isExclusiveOffer: nextState })
+            });
+            if (res.ok) {
+                fetchData();
+            } else {
+                alert('Failed to update Exclusive Offer status.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error updating product.');
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -151,6 +174,7 @@ export default function AdminProducts() {
             price: Number(price),
             originalPrice: originalPrice ? Number(originalPrice) : null,
             isVisible: Boolean(isVisible),
+            isExclusiveOffer: Boolean(isExclusiveOffer),
             image,
             homepageImage,
             quickViewImage,
@@ -231,14 +255,15 @@ export default function AdminProducts() {
                             <th className={styles.th}>Category</th>
                             <th className={styles.th}>Gender</th>
                             <th className={styles.th}>Price</th>
-                            <th className={styles.th}>Status</th>
+                            <th className={styles.th}>Visibility</th>
+                            <th className={styles.th}>Exclusive Offer</th>
                             <th className={styles.th} style={{ textAlign: 'right' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.length === 0 ? (
                             <tr>
-                                <td className={styles.td} colSpan={7} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                <td className={styles.td} colSpan={8} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                                     No products found. Add your first fragrance!
                                 </td>
                             </tr>
@@ -269,6 +294,24 @@ export default function AdminProducts() {
                                         ) : (
                                             <span style={{ color: '#9ca3af', background: '#9ca3af0d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #9ca3af' }}>Hidden</span>
                                         )}
+                                    </td>
+                                    <td className={styles.td}>
+                                        <button
+                                            onClick={() => handleToggleExclusive(product)}
+                                            style={{
+                                                background: product.isExclusiveOffer ? 'rgba(197, 160, 89, 0.15)' : 'transparent',
+                                                color: product.isExclusiveOffer ? 'var(--accent)' : 'var(--text-tertiary)',
+                                                border: product.isExclusiveOffer ? '1px solid var(--accent)' : '1px solid var(--border-color)',
+                                                padding: '0.25rem 0.65rem',
+                                                borderRadius: '20px',
+                                                fontSize: '0.72rem',
+                                                fontWeight: '600',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                        >
+                                            {product.isExclusiveOffer ? '⭐ In Exclusive List' : '+ Add to Exclusive'}
+                                        </button>
                                     </td>
                                     <td className={styles.td} style={{ textAlign: 'right' }}>
                                         <button 
@@ -444,17 +487,32 @@ export default function AdminProducts() {
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', marginTop: '0.5rem' }}>
-                                <input 
-                                    type="checkbox" 
-                                    id="isVisible" 
-                                    checked={isVisible} 
-                                    onChange={(e) => setIsVisible(e.target.checked)} 
-                                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-                                />
-                                <label htmlFor="isVisible" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>
-                                    Visible on storefront (Check to show, uncheck to hide)
-                                </label>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem', background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <input 
+                                        type="checkbox" 
+                                        id="isVisible" 
+                                        checked={isVisible} 
+                                        onChange={(e) => setIsVisible(e.target.checked)} 
+                                        style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                    />
+                                    <label htmlFor="isVisible" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '500' }}>
+                                        Visible on storefront (Check to show, uncheck to hide)
+                                    </label>
+                                </div>
+                                
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <input 
+                                        type="checkbox" 
+                                        id="isExclusiveOffer" 
+                                        checked={isExclusiveOffer} 
+                                        onChange={(e) => setIsExclusiveOffer(e.target.checked)} 
+                                        style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                                    />
+                                    <label htmlFor="isExclusiveOffer" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600', color: 'var(--accent)' }}>
+                                        ⭐ Add to Exclusive Offer List (Featured on Homepage Limited-Time Sale)
+                                    </label>
+                                </div>
                             </div>
 
                             <div style={{ marginTop: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
@@ -493,8 +551,6 @@ export default function AdminProducts() {
                                     </div>
                                 </div>
                             </div>
-
-
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2rem' }}>
                                 <button 

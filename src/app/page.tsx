@@ -141,11 +141,15 @@ export default function Home() {
         const latest = [...data].sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()).slice(0, 6);
         setLatestProducts(latest);
 
-        // 3. On Sale: 15% discount on selected products
-        const sale = data.slice(1, 5).map((p: any) => ({
+        // 3. On Sale / Exclusive Offer: Selected by Admin in Admin Panel
+        let exclusive = data.filter((p: any) => p.isExclusiveOffer === true);
+        if (exclusive.length === 0) {
+          exclusive = data.slice(0, 4);
+        }
+        const sale = exclusive.map((p: any) => ({
           ...p,
           isOnSale: true,
-          salePrice: Number(p.price) * 0.85
+          salePrice: p.originalPrice && Number(p.originalPrice) > 0 ? Number(p.price) : Number(p.price) * 0.85
         }));
         setOnSaleProducts(sale);
 
