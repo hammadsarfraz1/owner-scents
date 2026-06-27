@@ -56,6 +56,7 @@
     min-height: 0; /* ESSENTIAL FOR CHROME FLEXBOX INNER SCROLLING */
     overflow-y: auto;
     padding-right: 0.35rem;
+    padding-bottom: 1.25rem;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) transparent;
     overscroll-behavior: contain;
@@ -91,8 +92,11 @@
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 14px;
-    overflow: hidden;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.filterFolder:not(.folderOpen) {
+    overflow: hidden;
 }
 
 .filterFolder:hover {
@@ -149,9 +153,10 @@
 }
 
 .folderOpen .folderContent {
-    max-height: 400px;
-    padding: 0.85rem 1rem 1.1rem;
+    max-height: 1000px;
+    padding: 0.85rem 1rem 1.35rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: visible;
 }
 
 .filterPillsGrid {
