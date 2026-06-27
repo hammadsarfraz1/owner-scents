@@ -89,7 +89,7 @@ export async function PUT(req: Request) {
                 split2Link: body.split2Link,
                 shippingPrice: body.shippingPrice !== undefined ? Number(body.shippingPrice) : 250,
                 freeShippingThreshold: body.freeShippingThreshold !== undefined ? Number(body.freeShippingThreshold) : 3000,
-                promoText: body.promoText !== undefined ? body.promoText : "Enjoy Free Shipping on Orders Above Rs. 3,000",
+                promoText: body.promoText !== undefined ? body.promoText : "",
                 showPromo: body.showPromo !== undefined ? Boolean(body.showPromo) : true,
                 whatsappNumber: body.whatsappNumber !== undefined ? body.whatsappNumber : "923001234567",
                 showWhatsapp: body.showWhatsapp !== undefined ? Boolean(body.showWhatsapp) : true,
