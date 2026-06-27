@@ -244,10 +244,6 @@ function ShopContent() {
                                 })}
                             </div>
 
-                            {/* Standard Grid View for All Filtered Products */}
-                            <div className={styles.allProductsGridHeader}>
-                                <h2>All Matching Products ({filteredProducts.length})</h2>
-                            </div>
                             <div className={styles.grid}>
                                 {filteredProducts.map((product, index) => (
                                     <div 
