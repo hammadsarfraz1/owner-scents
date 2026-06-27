@@ -8,6 +8,7 @@ import styles from './admin.module.css';
 import { 
     LayoutDashboard, 
     ShoppingBag, 
+    BarChart3,
     Package, 
     FolderTree, 
     Sparkles, 
@@ -82,6 +83,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             items: [
                 { name: 'Dashboard', path: '/owner-portal-5412', icon: LayoutDashboard },
                 { name: 'All Orders', path: '/owner-portal-5412/orders', icon: ShoppingBag },
+                { name: 'Analytics', path: '/owner-portal-5412/analytics', icon: BarChart3 },
             ]
         },
         {
