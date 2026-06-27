@@ -21,15 +21,15 @@
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(139, 92, 246, 0.2);
     border-radius: 20px;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     position: sticky;
-    top: 7rem;
-    max-height: calc(100vh - 8.5rem);
+    top: 5.5rem;
+    max-height: calc(100vh - 7rem);
     align-self: start;
     box-shadow: 0 12px 35px rgba(139, 92, 246, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
     overflow: hidden;
 }
 
@@ -43,7 +43,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding-bottom: 0.85rem;
+    padding-bottom: 0.75rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
 }
@@ -51,7 +51,9 @@
 .sidebarScrollContent {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
+    flex: 1 1 auto;
+    min-height: 0; /* ESSENTIAL FOR CHROME FLEXBOX INNER SCROLLING */
     overflow-y: auto;
     padding-right: 0.35rem;
     scrollbar-width: thin;
