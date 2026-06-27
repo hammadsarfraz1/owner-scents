@@ -17,56 +17,7 @@ type CategoryItem = {
     isVisible: boolean;
 };
 
-function HorizontalFilterSlider({ 
-    title, 
-    items, 
-    selectedItem, 
-    onSelect 
-}: { 
-    title: string; 
-    items: string[]; 
-    selectedItem: string; 
-    onSelect: (item: string) => void; 
-}) {
-    const sliderRef = useRef<HTMLDivElement>(null);
-
-    const scroll = (direction: 'left' | 'right') => {
-        if (sliderRef.current) {
-            const scrollAmount = direction === 'left' ? -280 : 280;
-            sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-    };
-
-    return (
-        <div className={styles.topFilterSliderBar}>
-            <div className={styles.sliderBarHeader}>
-                <span className={styles.sliderBarTitle}>{title}</span>
-                <div className={styles.sliderNavBtns}>
-                    <button onClick={() => scroll('left')} className={styles.sliderNavBtn} aria-label={`Scroll ${title} left`}>
-                        <ChevronLeft size={15} />
-                    </button>
-                    <button onClick={() => scroll('right')} className={styles.sliderNavBtn} aria-label={`Scroll ${title} right`}>
-                        <ChevronRight size={15} />
-                    </button>
-                </div>
-            </div>
-            <div className={styles.sliderTrack} ref={sliderRef}>
-                {items.map((item) => (
-                    <button
-                        key={item}
-                        className={`${styles.sliderPillCard} ${selectedItem === item ? styles.activeSliderPillCard : ''}`}
-                        onClick={() => onSelect(item)}
-                    >
-                        <span>{item}</span>
-                        {selectedItem === item && <span className={styles.sliderActiveDot} />}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-}
-
-function CategoryHorizontalRow({ title, products, onQuickView }: { title: string, products: Product[], onQuickView: (p: Product) => void }) {
+function ProductHorizontalRow({ title, products, onQuickView }: { title: string, products: Product[], onQuickView: (p: Product) => void }) {
     const rowRef = useRef<HTMLDivElement>(null);
 
     const scroll = (direction: 'left' | 'right') => {
@@ -186,7 +137,11 @@ function ShopContent() {
         return 0;
     });
 
-    // Determine categories to display strictly as category rows
+    // Determine Genders and Categories to display as horizontal product rows
+    const activeGendersToDisplay = selectedGender === 'All'
+        ? ['Men', 'Women', 'Unisex']
+        : [selectedGender];
+
     const activeCategoriesToDisplay = selectedCategory === 'All' 
         ? allUniqueCategories
         : [selectedCategory];
@@ -273,7 +228,7 @@ function ShopContent() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                     <div className={styles.catalogHeader}>
                         <h1 className={styles.title}>
-                            {selectedCategory === 'All' ? 'All Fragrances' : selectedCategory}
+                            {selectedCategory === 'All' ? (selectedGender === 'All' ? 'All Fragrances' : `${selectedGender}'s Collection`) : selectedCategory}
                         </h1>
                         <select
                             value={sortOption}
@@ -297,22 +252,6 @@ function ShopContent() {
                         </select>
                     </div>
 
-                    {/* Separate Interactive Sliders for Gender & Category */}
-                    <div className={styles.slidersWrapper}>
-                        <HorizontalFilterSlider 
-                            title="Filter By Gender" 
-                            items={genders} 
-                            selectedItem={selectedGender} 
-                            onSelect={setSelectedGender} 
-                        />
-                        <HorizontalFilterSlider 
-                            title="Filter By Category" 
-                            items={categoryNames} 
-                            selectedItem={selectedCategory} 
-                            onSelect={setSelectedCategory} 
-                        />
-                    </div>
-
                     {loading ? (
                         <div className={styles.grid}>
                             {[...Array(6)].map((_, i) => (
@@ -325,13 +264,28 @@ function ShopContent() {
                             ))}
                         </div>
                     ) : (
-                        /* Strict Category-Wise Presentation ONLY */
                         <div className={styles.categoryRowsContainer}>
+                            {/* 1. GENDER HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
+                            {selectedGender === 'All' && activeGendersToDisplay.map(genderName => {
+                                const genderProducts = filteredProducts.filter(p => p.gender === genderName || (p.gender === 'Unisex' && genderName !== 'Unisex'));
+                                if (genderProducts.length === 0) return null;
+                                return (
+                                    <ProductHorizontalRow 
+                                        key={`gender-${genderName}`} 
+                                        title={`${genderName}'s Collection`} 
+                                        products={genderProducts} 
+                                        onQuickView={setQuickViewProduct} 
+                                    />
+                                );
+                            })}
+
+                            {/* 2. CATEGORY HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
                             {activeCategoriesToDisplay.map(catName => {
                                 const catProducts = filteredProducts.filter(p => p.category === catName);
+                                if (catProducts.length === 0) return null;
                                 return (
-                                    <CategoryHorizontalRow 
-                                        key={catName} 
+                                    <ProductHorizontalRow 
+                                        key={`cat-${catName}`} 
                                         title={catName} 
                                         products={catProducts} 
                                         onQuickView={setQuickViewProduct} 
