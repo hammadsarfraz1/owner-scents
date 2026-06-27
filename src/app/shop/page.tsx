@@ -22,7 +22,7 @@ function CategoryHorizontalRow({ title, products, onQuickView }: { title: string
 
     const scroll = (direction: 'left' | 'right') => {
         if (rowRef.current) {
-            const scrollAmount = direction === 'left' ? -340 : 340;
+            const scrollAmount = direction === 'left' ? -360 : 360;
             rowRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };
@@ -32,7 +32,10 @@ function CategoryHorizontalRow({ title, products, onQuickView }: { title: string
     return (
         <div className={styles.categorySection}>
             <div className={styles.categorySectionHeader}>
-                <h2 className={styles.categorySectionTitle}>{title}</h2>
+                <div className={styles.titleWrapper}>
+                    <h2 className={styles.categorySectionTitle}>{title}</h2>
+                    <span className={styles.categoryCountBadge}>{products.length} {products.length === 1 ? 'Fragrance' : 'Fragrances'}</span>
+                </div>
                 <div className={styles.scrollNavBtns}>
                     <button onClick={() => scroll('left')} className={styles.scrollNavBtn} aria-label="Scroll left">
                         <ChevronLeft size={18} />
