@@ -13,22 +13,52 @@
     gap: 3rem;
 }
 
-/* Sidebar Styling */
+/* Revamped Luxury Sidebar Control Panel */
 .sidebar {
-    width: 260px;
-    padding-right: 2.5rem;
-    border-right: 1px solid var(--border-color);
+    width: 270px;
+    background: linear-gradient(180deg, rgba(20, 20, 26, 0.65) 0%, rgba(12, 12, 16, 0.85) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1.5rem;
     position: sticky;
     top: 7rem;
     height: fit-content;
     align-self: start;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sidebarHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebarHeaderIcon {
+    color: var(--accent);
+}
+
+.sidebarHeader h2 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+    margin: 0;
 }
 
 .filterFolder {
-    margin-bottom: 2rem;
+    background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .filterFolder:hover {
@@ -39,21 +69,41 @@
     width: 100%;
     background: transparent;
     border: none;
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: var(--text-primary);
     font-family: var(--font-serif);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
-.folderArrow {
-    font-size: 0.75rem;
+.folderHeader:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.folderHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.folderHeaderIcon {
+    color: var(--accent);
+}
+
+.folderChevron {
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.chevronRotated {
+    transform: rotate(180deg);
     color: var(--accent);
 }
 
@@ -61,74 +111,81 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), padding 0.4s ease;
-    padding: 0 1.5rem;
-    display: flex;
-    flex-direction: column;
+    padding: 0 1rem;
 }
 
 .folderOpen .folderContent {
-    max-height: 300px;
-    padding: 1.25rem 1.5rem;
-    border-top: 1px solid rgba(168, 85, 247, 0.1);
+    max-height: 400px;
+    padding: 0.85rem 1rem 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.filterLabel {
+.filterPillsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.filterPillBtn {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    font-size: 0.9rem;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    transition: all 0.3s ease;
-    padding: 0.25rem 0;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.78rem;
     font-family: var(--font-sans);
     letter-spacing: 0.5px;
-}
-
-.filterLabel:hover {
-    color: var(--accent);
-    padding-left: 0.25rem;
-}
-
-/* Custom Radio Button Design */
-.filterLabel input {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 1.15rem;
-    height: 1.15rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
-    border-radius: 50%;
-    margin: 0;
-    display: grid;
-    place-content: center;
-    transition: all 0.3s ease;
+    text-transform: uppercase;
     cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: left;
 }
 
-.filterLabel input::before {
-    content: "";
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: 0.25s transform cubic-bezier(0.25, 0.8, 0.25, 1);
-    background-color: var(--accent);
-}
-
-.filterLabel input:checked {
+.filterPillBtn:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 5px var(--accent-gold-glow);
-}
-
-.filterLabel input:checked::before {
-    transform: scale(1);
-}
-
-.filterLabel:has(input:checked) {
     color: var(--text-primary);
-    font-weight: 500;
+    transform: translateX(3px);
+    background: var(--bg-secondary);
+}
+
+.activePill {
+    background: var(--accent) !important;
+    color: var(--accent-text) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 12px var(--accent-gold-glow);
+    font-weight: 700;
+}
+
+.pillActiveDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-text);
+    box-shadow: 0 0 6px var(--accent-text);
+}
+
+.resetFiltersBtn {
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    color: var(--text-tertiary);
+    padding: 0.65rem;
+    border-radius: 8px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 0.25rem;
+}
+
+.resetFiltersBtn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
 }
 
 /* Grid & Card Styles */

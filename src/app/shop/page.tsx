@@ -9,7 +9,7 @@ import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
 import ProductCard, { Product } from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
-import { X, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, SlidersHorizontal, ChevronLeft, ChevronRight, Filter, Users, Layers, ChevronDown } from 'lucide-react';
 
 type CategoryItem = {
     id: string;
@@ -149,26 +149,35 @@ function ShopContent() {
 
                 {/* Sidebar Filters */}
                 <aside className={styles.sidebar}>
+                    <div className={styles.sidebarHeader}>
+                        <Filter size={16} className={styles.sidebarHeaderIcon} />
+                        <h2>Refine Selection</h2>
+                    </div>
+
                     <div className={`${styles.filterFolder} ${genderFolderOpen ? styles.folderOpen : ''}`}>
                         <button 
                             className={styles.folderHeader} 
                             onClick={() => setGenderFolderOpen(!genderFolderOpen)}
                         >
-                            <span>Gender</span>
-                            <span className={styles.folderArrow}>{genderFolderOpen ? '−' : '+'}</span>
+                            <div className={styles.folderHeaderLeft}>
+                                <Users size={16} className={styles.folderHeaderIcon} />
+                                <span>Gender</span>
+                            </div>
+                            <ChevronDown size={16} className={`${styles.folderChevron} ${genderFolderOpen ? styles.chevronRotated : ''}`} />
                         </button>
                         <div className={styles.folderContent}>
-                            {genders.map(g => (
-                                <label key={g} className={styles.filterLabel}>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        checked={selectedGender === g}
-                                        onChange={() => setSelectedGender(g)}
-                                    />
-                                    {g}
-                                </label>
-                            ))}
+                            <div className={styles.filterPillsGrid}>
+                                {genders.map(g => (
+                                    <button
+                                        key={g}
+                                        className={`${styles.filterPillBtn} ${selectedGender === g ? styles.activePill : ''}`}
+                                        onClick={() => setSelectedGender(g)}
+                                    >
+                                        <span>{g}</span>
+                                        {selectedGender === g && <span className={styles.pillActiveDot} />}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
@@ -177,23 +186,39 @@ function ShopContent() {
                             className={styles.folderHeader} 
                             onClick={() => setCategoryFolderOpen(!categoryFolderOpen)}
                         >
-                            <span>Category</span>
-                            <span className={styles.folderArrow}>{categoryFolderOpen ? '−' : '+'}</span>
+                            <div className={styles.folderHeaderLeft}>
+                                <Layers size={16} className={styles.folderHeaderIcon} />
+                                <span>Category</span>
+                            </div>
+                            <ChevronDown size={16} className={`${styles.folderChevron} ${categoryFolderOpen ? styles.chevronRotated : ''}`} />
                         </button>
                         <div className={styles.folderContent}>
-                            {categoryNames.map(c => (
-                                <label key={c} className={styles.filterLabel}>
-                                    <input
-                                        type="radio"
-                                        name="category"
-                                        checked={selectedCategory === c}
-                                        onChange={() => setSelectedCategory(c)}
-                                    />
-                                    {c}
-                                </label>
-                            ))}
+                            <div className={styles.filterPillsGrid}>
+                                {categoryNames.map(c => (
+                                    <button
+                                        key={c}
+                                        className={`${styles.filterPillBtn} ${selectedCategory === c ? styles.activePill : ''}`}
+                                        onClick={() => setSelectedCategory(c)}
+                                    >
+                                        <span>{c}</span>
+                                        {selectedCategory === c && <span className={styles.pillActiveDot} />}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
+
+                    {(selectedGender !== 'All' || selectedCategory !== 'All') && (
+                        <button 
+                            className={styles.resetFiltersBtn}
+                            onClick={() => {
+                                setSelectedGender('All');
+                                setSelectedCategory('All');
+                            }}
+                        >
+                            Reset All Filters
+                        </button>
+                    )}
                 </aside>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
