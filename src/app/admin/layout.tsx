@@ -16,22 +16,42 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (status === 'loading') return;
 
         if (status === 'unauthenticated') {
-            router.push('/login');
+            router.push('/login?callbackUrl=/admin');
             return;
         }
 
         const userRole = (session?.user as any)?.role;
-        // Basic check: in a real app, ensure 'role' is passed correctly in session
-        if (userRole !== 'ADMIN') {
-            // If they are logged in but not admin, redirect home
-            router.push('/');
-        } else {
+        if (userRole === 'ADMIN') {
             setIsAuthorized(true);
         }
     }, [session, status, router]);
 
-    if (status === 'loading' || !isAuthorized) {
-        return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Checking Access...</div>;
+    if (status === 'loading') {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+                Checking Admin Access...
+            </div>
+        );
+    }
+
+    const userRole = (session?.user as any)?.role;
+    if (status === 'authenticated' && userRole !== 'ADMIN') {
+        return (
+            <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)', color: 'var(--text-primary)', padding: '2rem', textAlign: 'center' }}>
+                <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#ef4444' }}>Admin Access Required</h2>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', maxWidth: '400px' }}>
+                    You are logged in as <strong>{session?.user?.email}</strong>, which does not have Admin permissions.
+                </p>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    <Link href="/login?callbackUrl=/admin" style={{ padding: '0.75rem 1.5rem', background: 'var(--accent)', color: '#fff', borderRadius: '6px', textDecoration: 'none', fontWeight: 600 }}>
+                        Sign in as Admin
+                    </Link>
+                    <Link href="/" style={{ padding: '0.75rem 1.5rem', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '6px', textDecoration: 'none' }}>
+                        Back to Home
+                    </Link>
+                </div>
+            </div>
+        );
     }
 
     const navItems = [
