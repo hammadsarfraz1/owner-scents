@@ -193,9 +193,12 @@ export default function Home() {
     }
   ];
 
-  const titleWords = (config?.heroTitle || "ESSENCE OF AUTHORITY").split(' ');
-  const mainTitle = titleWords.slice(0, -1).join(' ');
-  const lastWord = titleWords[titleWords.length - 1] || '';
+  const getVal = (val: string | undefined, defaultVal: string) => val !== undefined ? val : defaultVal;
+
+  const rawHeroTitle = getVal(config?.heroTitle, "ESSENCE OF AUTHORITY");
+  const titleWords = rawHeroTitle ? rawHeroTitle.split(' ') : [];
+  const mainTitle = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : (titleWords[0] || '');
+  const lastWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : '';
 
   const dismissCover = () => {
     if (isCoverActive) {
@@ -304,14 +307,21 @@ export default function Home() {
           <div className={`container ${styles.heroContainer}`}>
             <div className={styles.heroLeft}>
               <span className={`${styles.heroTagline} animateFadeInUp`}>THE HAUTE PARFUMERIE</span>
-              <h1 className={`${styles.title} animateFadeInUp delay100`}>
-                {mainTitle}<br />
-                <span className={styles.glowingText}>{lastWord}</span>
-              </h1>
-              <p className={`${styles.subtitle} animateFadeInUp delay200`}>{config?.heroSubtitle || "Curating timeless fragrance collections for the distinguished individual."}</p>
+              {rawHeroTitle && (
+                <h1 className={`${styles.title} animateFadeInUp delay100`}>
+                  {mainTitle}{lastWord ? <><br /><span className={styles.glowingText}>{lastWord}</span></> : ''}
+                </h1>
+              )}
+              {getVal(config?.heroSubtitle, "Curating timeless fragrance collections for the distinguished individual.") && (
+                <p className={`${styles.subtitle} animateFadeInUp delay200`}>{getVal(config?.heroSubtitle, "Curating timeless fragrance collections for the distinguished individual.")}</p>
+              )}
               <div className={`${styles.heroActions} animateFadeInUp delay300`}>
-                <Link href="/shop" className="btn sheenEffect">{config?.heroButtonText || "Shop Collection"}</Link>
-                <Link href="/scent-finder" className={styles.secondaryBtn}>{config?.heroScentFinderButtonText || "Find Your Scent"}</Link>
+                {getVal(config?.heroButtonText, "Shop Collection") && (
+                  <Link href="/shop" className="btn sheenEffect">{getVal(config?.heroButtonText, "Shop Collection")}</Link>
+                )}
+                {getVal(config?.heroScentFinderButtonText, "Find Your Scent") && (
+                  <Link href="/scent-finder" className={styles.secondaryBtn}>{getVal(config?.heroScentFinderButtonText, "Find Your Scent")}</Link>
+                )}
               </div>
             </div>
 
@@ -324,26 +334,26 @@ export default function Home() {
                 {[
                   {
                     slug: 'rose',
-                    name: config?.card1Name || "Rose Elixir",
-                    edition: config?.card1Edition || "FLORAL ESSENCE",
-                    image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
-                    link: config?.card1Link || "/shop",
+                    name: getVal(config?.card1Name, "Rose Elixir"),
+                    edition: getVal(config?.card1Edition, "FLORAL ESSENCE"),
+                    image: getVal(config?.card1Image, "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80"),
+                    link: getVal(config?.card1Link, "/shop"),
                     className: styles.leftCard
                   },
                   {
                     slug: 'midnight',
-                    name: config?.card2Name || "Midnight OUD",
-                    edition: config?.card2Edition || "SIGNATURE EDITION",
-                    image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
-                    link: config?.card2Link || "/shop",
+                    name: getVal(config?.card2Name, "Midnight OUD"),
+                    edition: getVal(config?.card2Edition, "SIGNATURE EDITION"),
+                    image: getVal(config?.card2Image, "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80"),
+                    link: getVal(config?.card2Link, "/shop"),
                     className: styles.centerCard
                   },
                   {
                     slug: 'velvet',
-                    name: config?.card3Name || "Velvet Orchid",
-                    edition: config?.card3Edition || "ROYAL ORIENTAL",
-                    image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
-                    link: config?.card3Link || "/shop",
+                    name: getVal(config?.card3Name, "Velvet Orchid"),
+                    edition: getVal(config?.card3Edition, "ROYAL ORIENTAL"),
+                    image: getVal(config?.card3Image, "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80"),
+                    link: getVal(config?.card3Link, "/shop"),
                     className: styles.rightCard
                   }
                 ].map((perfume) => {
@@ -376,8 +386,8 @@ export default function Home() {
                           }}
                         />
                         <div className={styles.cardContent}>
-                          <h3>{perfume.name}</h3>
-                          <span>{perfume.edition}</span>
+                          {perfume.name && <h3>{perfume.name}</h3>}
+                          {perfume.edition && <span>{perfume.edition}</span>}
                         </div>
                       </div>
                     </Link>
@@ -390,10 +400,10 @@ export default function Home() {
       )}
 
       {/* Marquee Stripe */}
-      {config?.showMarquee !== false && (
+      {config?.showMarquee !== false && getVal(config?.marqueeText, "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ") && (
         <div className={styles.marquee}>
           <div className={styles.track}>
-            {Array(4).fill(config?.marqueeText || "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ").map((text, i) => (
+            {Array(4).fill(getVal(config?.marqueeText, "LUXURY • TIMELESS • ELEGANCE • BOLDNESS • ")).map((text, i) => (
               <span key={i}>{text}</span>
             ))}
           </div>
@@ -403,28 +413,28 @@ export default function Home() {
       {/* Categories Split */}
       <section className={styles.categories}>
         <Link 
-          href={config?.split1Link || "/shop?gender=Men"} 
+          href={getVal(config?.split1Link, "/shop?gender=Men")} 
           className={`${styles.catCard}`}
           style={{ 
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${config?.split1Image || 'https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&w=1000&q=80'})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${getVal(config?.split1Image, 'https://images.unsplash.com/photo-1615655406736-b37c4fabf923?auto=format&fit=crop&w=1000&q=80')})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         >
           <div className={styles.catOverlay} />
-          <span className={styles.catTitle}>{config?.split1Title || "FOR HIM"}</span>
+          {getVal(config?.split1Title, "FOR HIM") && <span className={styles.catTitle}>{getVal(config?.split1Title, "FOR HIM")}</span>}
         </Link>
         <Link 
-          href={config?.split2Link || "/shop?gender=Women"} 
+          href={getVal(config?.split2Link, "/shop?gender=Women")} 
           className={`${styles.catCard}`}
           style={{ 
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${config?.split2Image || 'https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=1000&q=80'})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${getVal(config?.split2Image, 'https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=1000&q=80')})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         >
           <div className={styles.catOverlay} />
-          <span className={styles.catTitle}>{config?.split2Title || "FOR HER"}</span>
+          {getVal(config?.split2Title, "FOR HER") && <span className={styles.catTitle}>{getVal(config?.split2Title, "FOR HER")}</span>}
         </Link>
       </section>
 
@@ -432,11 +442,15 @@ export default function Home() {
       {config?.showSale !== false && (
         <section className={`container ${styles.featuredSection}`}>
           <div className={styles.featuredHeader}>
-            <span className={styles.saleTagline} style={{ color: '#ef4444', letterSpacing: '4px', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', textShadow: '0 0 10px rgba(239, 68, 68, 0.3)', display: 'block', marginBottom: '0.5rem' }}>
-              {config?.saleLabel || "EXCLUSIVE OFFER"}
-            </span>
-            <h2 style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.15)' }}>{config?.saleTitle || "Limited-Time Sale"}</h2>
-            <p>{config?.saleSubtitle || "Exceptional values on our most coveted fragrances. Available for a limited duration."}</p>
+            {getVal(config?.saleLabel, "EXCLUSIVE OFFER") && (
+              <span className={styles.saleTagline} style={{ color: '#ef4444', letterSpacing: '4px', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', textShadow: '0 0 10px rgba(239, 68, 68, 0.3)', display: 'block', marginBottom: '0.5rem' }}>
+                {getVal(config?.saleLabel, "EXCLUSIVE OFFER")}
+              </span>
+            )}
+            {getVal(config?.saleTitle, "Limited-Time Sale") && <h2 style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.15)' }}>{getVal(config?.saleTitle, "Limited-Time Sale")}</h2>}
+            {getVal(config?.saleSubtitle, "Exceptional values on our most coveted fragrances. Available for a limited duration.") && (
+              <p>{getVal(config?.saleSubtitle, "Exceptional values on our most coveted fragrances. Available for a limited duration.")}</p>
+            )}
           </div>
 
           <ProductCarousel 
@@ -451,8 +465,10 @@ export default function Home() {
       {config?.showExplore !== false && (
         <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
           <div className={styles.featuredHeader}>
-            <h2>{config?.exploreTitle || "Explore Collections"}</h2>
-            <p>{config?.exploreSubtitle || "Discover our highly acclaimed and newly arrived fragrances."}</p>
+            {getVal(config?.exploreTitle, "Explore Collections") && <h2>{getVal(config?.exploreTitle, "Explore Collections")}</h2>}
+            {getVal(config?.exploreSubtitle, "Discover our highly acclaimed and newly arrived fragrances.") && (
+              <p>{getVal(config?.exploreSubtitle, "Discover our highly acclaimed and newly arrived fragrances.")}</p>
+            )}
 
             <div className={styles.tabContainer}>
               <button 
@@ -486,8 +502,10 @@ export default function Home() {
       {config?.showSignature !== false && (
         <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
           <div className={styles.featuredHeader}>
-            <h2>{config?.signatureTitle || "Signature Scents"}</h2>
-            <p>{config?.signatureSubtitle || "Hand-crafted fragrances curated for modern authority."}</p>
+            {getVal(config?.signatureTitle, "Signature Scents") && <h2>{getVal(config?.signatureTitle, "Signature Scents")}</h2>}
+            {getVal(config?.signatureSubtitle, "Hand-crafted fragrances curated for modern authority.") && (
+              <p>{getVal(config?.signatureSubtitle, "Hand-crafted fragrances curated for modern authority.")}</p>
+            )}
           </div>
 
           <ProductCarousel 
@@ -496,9 +514,11 @@ export default function Home() {
             onQuickView={setQuickViewProduct} 
           />
 
-          <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
-            <Link href="/shop" className={styles.viewAllBtn}>{config?.signatureButtonText || "Explore Full Catalog"}</Link>
-          </div>
+          {getVal(config?.signatureButtonText, "Explore Full Catalog") && (
+            <div style={{ textAlign: 'center', marginTop: '3rem', marginBottom: '4rem' }}>
+              <Link href="/shop" className={styles.viewAllBtn}>{getVal(config?.signatureButtonText, "Explore Full Catalog")}</Link>
+            </div>
+          )}
         </section>
       )}
 
@@ -507,10 +527,14 @@ export default function Home() {
         <section className={styles.story}>
           <div className={styles.storyOverlay} />
           <div className={styles.storyContent}>
-            <span className={styles.storyLabel}>{config?.storyLabel || "OUR LEGACY"}</span>
-            <h2>{config?.storyTitle || "The Owner's Story"}</h2>
-            <p>{config?.storyDescription || "Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe."}</p>
-            <Link href="/about" className={styles.storyLink}>{config?.storyButtonText || "Read Our Philosophy"}</Link>
+            {getVal(config?.storyLabel, "OUR LEGACY") && <span className={styles.storyLabel}>{getVal(config?.storyLabel, "OUR LEGACY")}</span>}
+            {getVal(config?.storyTitle, "The Owner's Story") && <h2>{getVal(config?.storyTitle, "The Owner's Story")}</h2>}
+            {getVal(config?.storyDescription, "Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.") && (
+              <p>{getVal(config?.storyDescription, "Crafted for those who walk into a room and own it without saying a word. Our fragrances are designed to make an indelible mark, using rarest natural extracts sourced from around the globe.")}</p>
+            )}
+            {getVal(config?.storyButtonText, "Read Our Philosophy") && (
+              <Link href="/about" className={styles.storyLink}>{getVal(config?.storyButtonText, "Read Our Philosophy")}</Link>
+            )}
           </div>
         </section>
       )}
@@ -519,8 +543,10 @@ export default function Home() {
       {config?.showTestimonials !== false && (
         <section className={`container ${styles.testimonialsSection}`}>
           <div className={styles.featuredHeader}>
-            <h2>{config?.testimonialsTitle || "Client Appraisals"}</h2>
-            <p>{config?.testimonialsSubtitle || "What the connoisseurs say about Owner Scents."}</p>
+            {getVal(config?.testimonialsTitle, "Client Appraisals") && <h2>{getVal(config?.testimonialsTitle, "Client Appraisals")}</h2>}
+            {getVal(config?.testimonialsSubtitle, "What the connoisseurs say about Owner Scents.") && (
+              <p>{getVal(config?.testimonialsSubtitle, "What the connoisseurs say about Owner Scents.")}</p>
+            )}
           </div>
           <div className={styles.testimonialsGrid}>
             {testimonials.map((t, idx) => (
