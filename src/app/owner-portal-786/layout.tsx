@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (status === 'loading') return;
 
         if (status === 'unauthenticated') {
-            router.push('/login?callbackUrl=/admin');
+            router.push('/login?callbackUrl=/owner-portal-786');
             return;
         }
 
@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     You are logged in as <strong>{session?.user?.email}</strong>, which does not have Admin permissions.
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    <Link href="/login?callbackUrl=/admin" style={{ padding: '0.75rem 1.5rem', background: 'var(--accent)', color: '#fff', borderRadius: '6px', textDecoration: 'none', fontWeight: 600 }}>
+                    <Link href="/login?callbackUrl=/owner-portal-786" style={{ padding: '0.75rem 1.5rem', background: 'var(--accent)', color: '#fff', borderRadius: '6px', textDecoration: 'none', fontWeight: 600 }}>
                         Sign in as Admin
                     </Link>
                     <Link href="/" style={{ padding: '0.75rem 1.5rem', border: '1px solid var(--border-color)', color: 'var(--text-primary)', borderRadius: '6px', textDecoration: 'none' }}>
@@ -55,13 +55,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     const navItems = [
-        { name: 'Dashboard', path: '/admin', icon: '📊' },
-        { name: 'All Orders', path: '/admin/orders', icon: '📦' },
-        { name: 'Products', path: '/admin/products', icon: '✨' },
-        { name: 'Categories', path: '/admin/categories', icon: '📁' },
-        { name: 'Scent Notes', path: '/admin/scent-notes', icon: '🌿' },
-        { name: 'Reviews', path: '/admin/reviews', icon: '⭐' },
-        { name: 'Edit Homepage', path: '/admin/homepage', icon: '🏠' },
+        { name: 'Dashboard', path: '/owner-portal-786', icon: '📊' },
+        { name: 'All Orders', path: '/owner-portal-786/orders', icon: '📦' },
+        { name: 'Products', path: '/owner-portal-786/products', icon: '✨' },
+        { name: 'Categories', path: '/owner-portal-786/categories', icon: '📁' },
+        { name: 'Scent Notes', path: '/owner-portal-786/scent-notes', icon: '🌿' },
+        { name: 'Reviews', path: '/owner-portal-786/reviews', icon: '⭐' },
+        { name: 'Edit Homepage', path: '/owner-portal-786/homepage', icon: '🏠' },
     ];
 
     return (
