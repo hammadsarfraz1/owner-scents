@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -9,14 +9,54 @@ import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
 import ProductCard, { Product } from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
-import { X, SlidersHorizontal } from 'lucide-react';
+import { X, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Local Product type removed in favor of imported one to ensure compatibility
-// type Product = { ... }
+type CategoryItem = {
+    id: string;
+    name: string;
+    isVisible: boolean;
+};
+
+function CategoryHorizontalRow({ title, products, onQuickView }: { title: string, products: Product[], onQuickView: (p: Product) => void }) {
+    const rowRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (rowRef.current) {
+            const scrollAmount = direction === 'left' ? -340 : 340;
+            rowRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    if (products.length === 0) return null;
+
+    return (
+        <div className={styles.categorySection}>
+            <div className={styles.categorySectionHeader}>
+                <h2 className={styles.categorySectionTitle}>{title}</h2>
+                <div className={styles.scrollNavBtns}>
+                    <button onClick={() => scroll('left')} className={styles.scrollNavBtn} aria-label="Scroll left">
+                        <ChevronLeft size={18} />
+                    </button>
+                    <button onClick={() => scroll('right')} className={styles.scrollNavBtn} aria-label="Scroll right">
+                        <ChevronRight size={18} />
+                    </button>
+                </div>
+            </div>
+            <div className={styles.horizontalScrollRow} ref={rowRef}>
+                {products.map((product) => (
+                    <div key={product.id} className={styles.horizontalCardWrapper}>
+                        <ProductCard product={product} onQuickView={onQuickView} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 function ShopContent() {
     const searchParams = useSearchParams();
     const [products, setProducts] = useState<Product[]>([]);
+    const [dbCategories, setDbCategories] = useState<CategoryItem[]>([]);
     const { addToCart } = useCart();
     const [loading, setLoading] = useState(true);
     const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -59,19 +99,22 @@ function ShopContent() {
     }, [searchParams]);
 
     useEffect(() => {
-        fetch('/api/products?t=' + Date.now())
-            .then((res) => res.json())
-            .then((data) => {
-                setProducts(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error(err);
-                setLoading(false);
-            });
+        Promise.all([
+            fetch('/api/products?t=' + Date.now()).then(res => res.json()),
+            fetch('/api/categories?t=' + Date.now()).then(res => res.json())
+        ])
+        .then(([productsData, categoriesData]) => {
+            setProducts(Array.isArray(productsData) ? productsData : []);
+            setDbCategories(Array.isArray(categoriesData) ? categoriesData : []);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error('Error loading shop data:', err);
+            setLoading(false);
+        });
     }, []);
 
-    const categories = ['All', ...Array.from(new Set(products.map(p => p.category).filter((c): c is string => !!c)))];
+    const categoryNames = ['All', ...dbCategories.map(c => c.name)];
     const genders = ['All', 'Men', 'Women', 'Unisex'];
 
     const filteredProducts = products.filter(product => {
@@ -87,11 +130,15 @@ function ShopContent() {
         return 0;
     });
 
+    // Determine categories to display as horizontal rows
+    const activeCategoriesToDisplay = selectedCategory === 'All' 
+        ? dbCategories.map(c => c.name)
+        : [selectedCategory];
+
     return (
         <div className={styles.main}>
             <Navbar onSearch={(term: string) => setSearchTerm(term)} />
             <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem' }}>
-                {/* Mobile Filter Chips removed in favor of sticky bottom sheet trigger */}
 
                 {/* Sidebar Filters */}
                 <aside className={styles.sidebar}>
@@ -127,7 +174,7 @@ function ShopContent() {
                             <span className={styles.folderArrow}>{categoryFolderOpen ? '−' : '+'}</span>
                         </button>
                         <div className={styles.folderContent}>
-                            {categories.map(c => (
+                            {categoryNames.map(c => (
                                 <label key={c} className={styles.filterLabel}>
                                     <input
                                         type="radio"
@@ -142,9 +189,11 @@ function ShopContent() {
                     </div>
                 </aside>
 
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
                     <div className={styles.catalogHeader}>
-                        <h1 className={styles.title}>All Fragrances</h1>
+                        <h1 className={styles.title}>
+                            {selectedCategory === 'All' ? 'All Fragrances' : selectedCategory}
+                        </h1>
                         <select
                             value={sortOption}
                             onChange={(e) => setSortOption(e.target.value)}
@@ -157,7 +206,8 @@ function ShopContent() {
                                 fontFamily: 'inherit',
                                 fontSize: '0.85rem',
                                 cursor: 'pointer',
-                                outline: 'none'
+                                outline: 'none',
+                                borderRadius: '4px'
                             }}
                         >
                             <option value="newest">Newest</option>
@@ -178,20 +228,41 @@ function ShopContent() {
                             ))}
                         </div>
                     ) : (
-                        <div className={styles.grid}>
-                            {filteredProducts.map((product, index) => (
-                                <div 
-                                    key={product.id} 
-                                    className="animateFadeInUp"
-                                    style={{ animationDelay: `${(index % 6) * 120}ms` }}
-                                >
-                                    <ProductCard
-                                        product={product}
-                                        onQuickView={setQuickViewProduct}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        <>
+                            {/* Horizontal Columns / Rows for Categories */}
+                            <div className={styles.categoryRowsContainer}>
+                                {activeCategoriesToDisplay.map(catName => {
+                                    const catProducts = filteredProducts.filter(p => p.category === catName);
+                                    return (
+                                        <CategoryHorizontalRow 
+                                            key={catName} 
+                                            title={catName} 
+                                            products={catProducts} 
+                                            onQuickView={setQuickViewProduct} 
+                                        />
+                                    );
+                                })}
+                            </div>
+
+                            {/* Standard Grid View for All Filtered Products */}
+                            <div className={styles.allProductsGridHeader}>
+                                <h2>All Matching Products ({filteredProducts.length})</h2>
+                            </div>
+                            <div className={styles.grid}>
+                                {filteredProducts.map((product, index) => (
+                                    <div 
+                                        key={product.id} 
+                                        className="animateFadeInUp"
+                                        style={{ animationDelay: `${(index % 6) * 100}ms` }}
+                                    >
+                                        <ProductCard
+                                            product={product}
+                                            onQuickView={setQuickViewProduct}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
@@ -260,7 +331,7 @@ function ShopContent() {
                             <div className={styles.sheetSection}>
                                 <h3>Category</h3>
                                 <div className={styles.sheetOptionsGrid}>
-                                    {categories.map(c => (
+                                    {categoryNames.map(c => (
                                         <button
                                             key={c}
                                             className={`${styles.sheetOptionBtn} ${selectedCategory === c ? styles.activeOption : ''}`}

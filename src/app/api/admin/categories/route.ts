@@ -7,8 +7,18 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
     try {
+        const defaultCategories = ['Summer Perfumes', 'Office Perfumes', 'Western Perfumes', 'Gift Boxes'];
+        for (const catName of defaultCategories) {
+            const exists = await prisma.category.findUnique({ where: { name: catName } });
+            if (!exists) {
+                await prisma.category.create({
+                    data: { name: catName, isVisible: true }
+                });
+            }
+        }
+
         const categories = await prisma.category.findMany({
-            orderBy: { name: 'asc' }
+            orderBy: { createdAt: 'asc' }
         });
         return NextResponse.json(categories);
     } catch (error) {
@@ -33,7 +43,6 @@ export async function POST(req: Request) {
 
         const cleanName = name.trim();
 
-        // Check if category already exists
         const exists = await prisma.category.findUnique({
             where: { name: cleanName }
         });

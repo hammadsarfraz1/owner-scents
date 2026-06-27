@@ -155,6 +155,107 @@
     gap: 2.5rem;
 }
 
+/* Category Horizontal Scrolling Rows */
+.categoryRowsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
+}
+
+.categorySection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.categorySectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.categorySectionTitle {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin: 0;
+}
+
+.scrollNavBtns {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.scrollNavBtn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scrollNavBtn:hover {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+.horizontalScrollRow {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg-secondary);
+    -webkit-overflow-scrolling: touch;
+}
+
+.horizontalScrollRow::-webkit-scrollbar {
+    height: 6px;
+}
+
+.horizontalScrollRow::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.horizontalScrollRow::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.horizontalCardWrapper {
+    flex: 0 0 260px;
+    width: 260px;
+}
+
+.allProductsGridHeader {
+    margin-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.allProductsGridHeader h2 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
 /* Hide mobile filters on desktop */
 .mobileFilters {
     display: none;
@@ -261,6 +362,10 @@
     .grid {
         grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side on mobile screens */
         gap: 0.85rem;
+    }
+    .horizontalCardWrapper {
+        flex: 0 0 190px;
+        width: 190px;
     }
 }
 
