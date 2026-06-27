@@ -8,91 +8,155 @@
 
 .sidebar {
     width: 270px;
-    background: #121215;
+    background: #111114;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.25rem;
     display: flex;
     flex-direction: column;
     position: sticky;
     top: 0;
     height: 100vh;
-    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
-    z-index: 10;
+    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.6);
+    z-index: 20;
+    flex-shrink: 0;
 }
 
 .brand {
     font-family: var(--font-serif);
-    font-size: 1.25rem;
-    margin-bottom: 2.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
     color: var(--accent);
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding-bottom: 1.25rem;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .nav {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.nav::-webkit-scrollbar {
+    display: none;
+}
+
+.sectionHeaderLabel {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #71717a;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    padding-left: 0.75rem;
 }
 
 .navLink {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.85rem 1.1rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
     border-radius: 8px;
     color: #a1a1aa;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
+    margin-bottom: 0.25rem;
     border: 1px solid transparent;
 }
 
 .navLink:hover {
     background: rgba(255, 255, 255, 0.04);
-    color: #f4f4f5;
+    color: #ffffff;
     transform: translateX(4px);
 }
 
 .navLink.active {
-    background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.03));
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.02));
     color: var(--accent);
     border-color: rgba(212, 175, 55, 0.3);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.08);
     font-weight: 600;
 }
 
 .navIcon {
-    font-size: 1.1rem;
+    color: inherit;
+    transition: transform 0.3s ease;
 }
 
-.content {
-    flex: 1;
-    padding: 3rem 3.5rem;
-    overflow-y: auto;
-    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.03), transparent 40%);
+.navLink.active .navIcon {
+    color: var(--accent);
 }
 
 .user {
     margin-top: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 1.25rem;
-    font-size: 0.8rem;
-    color: #a1a1aa;
-    text-align: center;
+    padding-top: 1rem;
     background: rgba(255, 255, 255, 0.02);
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Top Header Bar */
+.topHeader {
+    height: 70px;
+    background: #111114;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pageTitleHeading {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.storefrontBtn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #d4d4d8;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.storefrontBtn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Content Area */
+.content {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+    background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.03), transparent 50%);
 }
 
 /* Custom Admin Buttons */
@@ -113,6 +177,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .btnPrimary:hover {
@@ -132,6 +197,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .btnSecondary:hover {
@@ -153,6 +223,10 @@
     transition: all 0.3s ease;
     border-radius: 6px;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .btnDanger:hover {
@@ -165,13 +239,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.75rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 .statCard {
     background: #121215;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 2rem;
+    padding: 1.75rem;
     border-radius: 12px;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
@@ -196,7 +270,7 @@
 
 .statTitle {
     color: #a1a1aa;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     font-weight: 600;
@@ -415,6 +489,9 @@
 }
 
 @media (max-width: 968px) {
+    .topHeader {
+        padding: 0 1.5rem;
+    }
     .content {
         padding: 2rem 1.5rem;
     }
@@ -444,17 +521,20 @@
         padding-bottom: 0.5rem;
         white-space: nowrap;
         gap: 0.6rem;
-        scrollbar-width: none;
     }
-    .nav::-webkit-scrollbar {
+    .sectionHeaderLabel {
         display: none;
     }
     .navLink {
         padding: 0.6rem 1rem;
         font-size: 0.85rem;
         flex-shrink: 0;
+        margin-bottom: 0;
     }
     .user {
+        display: none;
+    }
+    .topHeader {
         display: none;
     }
     .content {
