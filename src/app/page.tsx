@@ -258,6 +258,7 @@ export default function Home() {
                   <Link 
                     key={perfume.slug}
                     href={linkHref}
+                    onMouseEnter={() => setHoveredCard(perfume.slug)}
                     className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                     style={{
                       '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
@@ -355,6 +356,7 @@ export default function Home() {
                     <Link 
                       key={perfume.slug}
                       href={linkHref}
+                      onMouseEnter={() => setHoveredCard(perfume.slug)}
                       className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                       style={{
                         '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',

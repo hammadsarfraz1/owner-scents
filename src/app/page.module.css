@@ -1026,4 +1026,26 @@
         opacity: 0.85 !important;
         z-index: 2 !important;
     }
+
+    .introStackContainer .leftCard.activeCard {
+        transform: perspective(1000px) translate3d(-155px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
+        opacity: 1 !important;
+        z-index: 10 !important;
+        border-color: var(--accent) !important;
+        box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
+    }
+    .introStackContainer .rightCard.activeCard {
+        transform: perspective(1000px) translate3d(155px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
+        opacity: 1 !important;
+        z-index: 10 !important;
+        border-color: var(--accent) !important;
+        box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
+    }
+    .introStackContainer .centerCard.activeCard {
+        transform: perspective(1000px) translate3d(0, -15px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
+        z-index: 10 !important;
+        opacity: 1 !important;
+        border-color: var(--accent) !important;
+        box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
+    }
 }
