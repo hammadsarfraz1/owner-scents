@@ -264,7 +264,7 @@ export default function AdminOrders() {
                                 return (
                                     <tr key={order.id} className={styles.tr}>
                                         <td className={styles.td} style={{ fontWeight: '600', fontFamily: 'monospace' }}>
-                                            #{order.id.slice(-6).toUpperCase()}
+                                            #{order.id.slice(-8).toUpperCase()}
                                         </td>
                                         <td className={styles.td}>
                                             <div style={{ fontWeight: '500' }}>{order.shippingName}</div>
@@ -315,7 +315,7 @@ export default function AdminOrders() {
                 <div className={styles.modalOverlay} onClick={closeDetailsModal}>
                     <div className={styles.modalContent} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
                         <div className={styles.modalHeader}>
-                            <h2 className={styles.modalTitle}>Manage Order #{selectedOrder.id.slice(-6).toUpperCase()}</h2>
+                            <h2 className={styles.modalTitle}>Manage Order #{selectedOrder.id.slice(-8).toUpperCase()}</h2>
                             <button className={styles.modalClose} onClick={closeDetailsModal}>&times;</button>
                         </div>
 
@@ -366,7 +366,19 @@ export default function AdminOrders() {
                                 <table style={{ width: '100%', fontSize: '0.9rem', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
                                     <tbody>
                                         <tr>
-                                            <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)', width: '140px' }}>Placed On:</td>
+                                            <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)', width: '140px' }}>Order Ref:</td>
+                                            <td style={{ padding: '0.5rem 0', fontWeight: '700', color: 'var(--accent)' }}>
+                                                #{selectedOrder.id.slice(-8).toUpperCase()}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)' }}>Full System ID:</td>
+                                            <td style={{ padding: '0.5rem 0', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>
+                                                {selectedOrder.id}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ padding: '0.5rem 0', color: 'var(--text-secondary)' }}>Placed On:</td>
                                             <td style={{ padding: '0.5rem 0' }}>
                                                 {new Date(selectedOrder.createdAt).toLocaleString('en-GB')}
                                             </td>
