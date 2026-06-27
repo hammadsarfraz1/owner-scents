@@ -104,9 +104,6 @@ export default function CheckoutPage() {
         }
 
         try {
-            // Simulate Stripe latency / processor time
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
             const res = await fetch('/api/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -126,11 +123,10 @@ export default function CheckoutPage() {
 
             const data = await res.json();
             clearCart();
-            router.push(`/checkout/success?orderId=${data.orderId}`);
+            window.location.href = `/checkout/success?orderId=${data.orderId}`;
         } catch (error) {
             console.error(error);
             alert('Something went wrong. Please try again.');
-        } finally {
             setLoading(false);
         }
     };

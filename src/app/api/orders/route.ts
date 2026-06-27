@@ -1,21 +1,31 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { name, email, phone, address, city, postalCode, country, items, total } = body;
+        const { 
+            name, 
+            email, 
+            phone, 
+            address, 
+            city, 
+            postalCode, 
+            country, 
+            items, 
+            total, 
+            paymentMethod, 
+            paymentStatus 
+        } = body;
 
-        // Validation (Basic)
+        // Basic Validation
         if (!name || !phone || !address || !city || !postalCode || !items || items.length === 0) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Create Order in Database
-        const { getServerSession } = await import("next-auth");
-        const { authOptions } = await import("@/lib/auth");
+        // Check user session
         const session = await getServerSession(authOptions);
 
         // Query product prices from DB
@@ -27,7 +37,7 @@ export async function POST(req: Request) {
         const order = await prisma.order.create({
             data: {
                 shippingName: name,
-                email: email,
+                email: email || null,
                 phoneNumber: phone,
                 shippingAddress: address,
                 city: city,
@@ -35,9 +45,9 @@ export async function POST(req: Request) {
                 country: country || 'Pakistan',
                 total: total,
                 status: 'PENDING',
-                paymentMethod: 'COD',
-                paymentStatus: 'PENDING',
-                userId: (session?.user as any)?.id || null, // Link to user if logged in
+                paymentMethod: paymentMethod || 'COD',
+                paymentStatus: paymentStatus || 'PENDING',
+                userId: (session?.user as any)?.id || null,
                 items: {
                     create: items.map((item: any) => {
                         const dbProduct = dbProducts.find(p => p.id === item.productId);
