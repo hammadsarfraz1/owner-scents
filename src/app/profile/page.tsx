@@ -203,7 +203,6 @@ export default function ProfilePage() {
                             <Package size={22} className={styles.titleIcon} />
                             <h2 className={styles.sectionTitle}>Order History & Tracking</h2>
                         </div>
-                        <span className={styles.orderCountBadge}>{orders.length} {orders.length === 1 ? 'Record' : 'Records'}</span>
                     </div>
 
                     {orders.length === 0 ? (
