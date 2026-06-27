@@ -85,7 +85,7 @@ export default function CartDrawer() {
                 <div className={styles.header}>
                     <div className={styles.titleGroup}>
                         <ShoppingBag size={20} className={styles.titleIcon} />
-                        <h2 className={styles.title}>Your Bag ({cart.length})</h2>
+                        <h2 className={styles.title}>Your Bag</h2>
                     </div>
                     <button onClick={toggleCart} className={styles.closeBtn} aria-label="Close cart drawer">
                         <X size={20} />

@@ -24,7 +24,6 @@ export default function Cart() {
                         <ShoppingBag size={28} className={styles.titleIcon} />
                         <h1 className={styles.title}>Your Shopping Bag</h1>
                     </div>
-                    <span className={styles.countBadge}>{cart.length} {cart.length === 1 ? 'Item' : 'Items'}</span>
                 </div>
 
                 {cart.length === 0 ? (
