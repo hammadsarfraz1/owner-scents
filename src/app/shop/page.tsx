@@ -114,7 +114,11 @@ function ShopContent() {
         });
     }, []);
 
-    const categoryNames = ['All', ...dbCategories.map(c => c.name)];
+    const productCategories = Array.from(new Set(products.map(p => p.category).filter((c): c is string => Boolean(c))));
+    const dbCategoryNames = dbCategories.map(c => c.name);
+    const allUniqueCategories = Array.from(new Set([...dbCategoryNames, ...productCategories]));
+
+    const categoryNames = ['All', ...allUniqueCategories];
     const genders = ['All', 'Men', 'Women', 'Unisex'];
 
     const filteredProducts = products.filter(product => {
@@ -130,9 +134,9 @@ function ShopContent() {
         return 0;
     });
 
-    // Determine categories to display as horizontal rows
+    // Determine categories to display strictly as category rows
     const activeCategoriesToDisplay = selectedCategory === 'All' 
-        ? dbCategories.map(c => c.name)
+        ? allUniqueCategories
         : [selectedCategory];
 
     return (
@@ -228,37 +232,20 @@ function ShopContent() {
                             ))}
                         </div>
                     ) : (
-                        <>
-                            {/* Horizontal Columns / Rows for Categories */}
-                            <div className={styles.categoryRowsContainer}>
-                                {activeCategoriesToDisplay.map(catName => {
-                                    const catProducts = filteredProducts.filter(p => p.category === catName);
-                                    return (
-                                        <CategoryHorizontalRow 
-                                            key={catName} 
-                                            title={catName} 
-                                            products={catProducts} 
-                                            onQuickView={setQuickViewProduct} 
-                                        />
-                                    );
-                                })}
-                            </div>
-
-                            <div className={styles.grid}>
-                                {filteredProducts.map((product, index) => (
-                                    <div 
-                                        key={product.id} 
-                                        className="animateFadeInUp"
-                                        style={{ animationDelay: `${(index % 6) * 100}ms` }}
-                                    >
-                                        <ProductCard
-                                            product={product}
-                                            onQuickView={setQuickViewProduct}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </>
+                        /* Strict Category-Wise Presentation ONLY */
+                        <div className={styles.categoryRowsContainer}>
+                            {activeCategoriesToDisplay.map(catName => {
+                                const catProducts = filteredProducts.filter(p => p.category === catName);
+                                return (
+                                    <CategoryHorizontalRow 
+                                        key={catName} 
+                                        title={catName} 
+                                        products={catProducts} 
+                                        onQuickView={setQuickViewProduct} 
+                                    />
+                                );
+                            })}
+                        </div>
                     )}
                 </div>
             </div>
