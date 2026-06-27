@@ -43,6 +43,16 @@ function SuccessContent() {
     const orderId = searchParams.get('orderId');
     const [order, setOrder] = useState<OrderDetails | null>(null);
     const [loading, setLoading] = useState(true);
+    const [config, setConfig] = useState<any>(null);
+
+    useEffect(() => {
+        fetch('/api/homepage-config')
+            .then(res => res.json())
+            .then(data => setConfig(data))
+            .catch(console.error);
+    }, []);
+
+    const whatsappNumber = config?.whatsappNumber || "923001234567";
 
     useEffect(() => {
         if (!orderId) {
@@ -166,7 +176,7 @@ function SuccessContent() {
                     Explore More Scents <ArrowRight size={16} />
                 </Link>
                 <a 
-                    href="https://wa.me/923001234567?text=Hello!%20I%20have%20a%20question%20regarding%20my%20recent%20order." 
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hello! I have a question regarding my recent order ${orderId ? `Ref #${orderId.slice(-8).toUpperCase()}` : ''}.`)}`}
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={styles.secondaryBtn}
