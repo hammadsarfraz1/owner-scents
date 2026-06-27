@@ -696,14 +696,20 @@
     transform: translate3d(100px, -5px, -40px) rotateY(-10deg) scale(0.92);
     opacity: 0.85;
   }
+  .stackContainer:hover .leftCard.activeCard,
   .leftCard.activeCard {
-    transform: perspective(1000px) translate3d(-110px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(-105px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .rightCard.activeCard,
   .rightCard.activeCard {
-    transform: perspective(1000px) translate3d(110px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(105px, -12px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .centerCard.activeCard,
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    z-index: 20 !important;
   }
   .testimonialsGrid {
     grid-template-columns: 1fr;
@@ -801,14 +807,20 @@
     transform: translate3d(115px, -5px, -30px) rotateY(-8deg) scale(0.92);
     opacity: 0.8;
   }
+  .stackContainer:hover .leftCard.activeCard,
   .leftCard.activeCard {
-    transform: perspective(1000px) translate3d(-120px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(-95px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .rightCard.activeCard,
   .rightCard.activeCard {
-    transform: perspective(1000px) translate3d(120px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(95px, -8px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-3deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .centerCard.activeCard,
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    z-index: 20 !important;
   }
   .catCard {
     height: 380px;
@@ -866,14 +878,20 @@
     transform: translate3d(100px, -5px, -20px) rotateY(-6deg) scale(0.92);
     opacity: 0.75;
   }
+  .stackContainer:hover .leftCard.activeCard,
   .leftCard.activeCard {
-    transform: perspective(1000px) translate3d(-105px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(-75px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .rightCard.activeCard,
   .rightCard.activeCard {
-    transform: perspective(1000px) translate3d(105px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    transform: perspective(1000px) translate3d(75px, -6px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-2deg + var(--rotate-y, 0deg))) scale(1.02) !important;
+    z-index: 20 !important;
   }
+  .stackContainer:hover .centerCard.activeCard,
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -6px, 15px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
+    z-index: 20 !important;
   }
   .catCard {
     height: 420px;
