@@ -62,6 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: 'Scent Notes', path: '/owner-portal-5412/scent-notes', icon: '🌿' },
         { name: 'Reviews', path: '/owner-portal-5412/reviews', icon: '⭐' },
         { name: 'Edit Homepage', path: '/owner-portal-5412/homepage', icon: '🏠' },
+        { name: 'Scent Finder Quiz', path: '/owner-portal-5412/scent-finder', icon: '🔍' },
     ];
 
     return (

@@ -65,6 +65,7 @@ export async function PUT(req: Request) {
                 testimonialsTitle: body.testimonialsTitle !== undefined ? body.testimonialsTitle : undefined,
                 testimonialsSubtitle: body.testimonialsSubtitle !== undefined ? body.testimonialsSubtitle : undefined,
                 showTestimonials: body.showTestimonials !== undefined ? Boolean(body.showTestimonials) : undefined,
+                scentFinderConfig: body.scentFinderConfig !== undefined ? body.scentFinderConfig : undefined,
             },
             create: {
                 id: 'singleton',
@@ -118,6 +119,7 @@ export async function PUT(req: Request) {
                 testimonialsTitle: body.testimonialsTitle !== undefined ? body.testimonialsTitle : "Client Appraisals",
                 testimonialsSubtitle: body.testimonialsSubtitle !== undefined ? body.testimonialsSubtitle : "What the connoisseurs say about Owner Scents.",
                 showTestimonials: body.showTestimonials !== undefined ? Boolean(body.showTestimonials) : true,
+                scentFinderConfig: body.scentFinderConfig !== undefined ? body.scentFinderConfig : "",
             }
         });
 

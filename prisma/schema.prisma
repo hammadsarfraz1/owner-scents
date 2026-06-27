@@ -188,6 +188,9 @@ model HomepageConfig {
   testimonialsSubtitle      String   @default("What the connoisseurs say about Owner Scents.")
   showTestimonials          Boolean  @default(true)
 
+  // Scent Finder Customization
+  scentFinderConfig         String   @default("")
+
   updatedAt       DateTime @updatedAt
 }
 
