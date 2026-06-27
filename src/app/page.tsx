@@ -30,6 +30,17 @@ export default function Home() {
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
     const box = container.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const pct = x / box.width;
+    
+    let slug = 'midnight';
+    if (pct < 0.38) {
+      slug = 'rose';
+    } else if (pct > 0.62) {
+      slug = 'velvet';
+    }
+    
+    setHoveredCard(slug);
     
     const tiltX = e.clientX - box.left - (box.width / 2);
     const tiltY = e.clientY - box.top - (box.height / 2);
@@ -247,7 +258,6 @@ export default function Home() {
                   <Link 
                     key={perfume.slug}
                     href={linkHref}
-                    onMouseEnter={() => setHoveredCard(perfume.slug)}
                     className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                     style={{
                       '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
@@ -345,7 +355,6 @@ export default function Home() {
                     <Link 
                       key={perfume.slug}
                       href={linkHref}
-                      onMouseEnter={() => setHoveredCard(perfume.slug)}
                       className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                       style={{
                         '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
