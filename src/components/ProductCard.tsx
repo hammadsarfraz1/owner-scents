@@ -69,6 +69,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
     const [activeSlideIdx, setActiveSlideIdx] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const [isManuallyInteracted, setIsManuallyInteracted] = useState(false);
 
     // Swipe state
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -79,7 +80,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     }, []);
 
     useEffect(() => {
-        if (!isHovered || slides.length <= 1) {
+        if (!isHovered || isManuallyInteracted || slides.length <= 1) {
             return;
         }
 
@@ -88,7 +89,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         }, 3500);
 
         return () => clearInterval(interval);
-    }, [isHovered, slides.length]);
+    }, [isHovered, isManuallyInteracted, slides.length]);
 
     const handleTouchStart = (e: React.TouchEvent) => {
         setTouchStartX(e.targetTouches[0].clientX);
@@ -104,9 +105,11 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
             const diff = touchStartX - touchEndX;
             if (diff > 30) {
                 e.preventDefault();
+                setIsManuallyInteracted(true);
                 setActiveSlideIdx((prev) => (prev + 1) % slides.length);
             } else if (diff < -30) {
                 e.preventDefault();
+                setIsManuallyInteracted(true);
                 setActiveSlideIdx((prev) => (prev - 1 + slides.length) % slides.length);
             }
         }
@@ -134,7 +137,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         e.preventDefault();
         const priceToUse = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
         addToCart({ ...product, price: priceToUse });
-        window.location.href = '/checkout';
+        window.location.href = '/cart';
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
@@ -200,6 +203,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
+                                    setIsManuallyInteracted(true);
                                     setActiveSlideIdx((prev) => (prev - 1 + slides.length) % slides.length);
                                 }}
                                 aria-label="Previous image"
@@ -211,6 +215,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
+                                    setIsManuallyInteracted(true);
                                     setActiveSlideIdx((prev) => (prev + 1) % slides.length);
                                 }}
                                 aria-label="Next image"
@@ -226,6 +231,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
+                                            setIsManuallyInteracted(true);
                                             setActiveSlideIdx(idx);
                                         }}
                                         aria-label={`Go to slide ${idx + 1}`}
