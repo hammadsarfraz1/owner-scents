@@ -259,8 +259,8 @@
 
 @media (max-width: 580px) {
     .grid {
-        grid-template-columns: 1fr; /* 1 full column for luxury card sizes on mobile */
-        gap: 2rem;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side on mobile screens */
+        gap: 0.85rem;
     }
 }
 
