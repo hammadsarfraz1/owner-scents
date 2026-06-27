@@ -7,7 +7,23 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from './profile.module.css';
 import Link from 'next/link';
-import { Package, Calendar, MapPin, CreditCard, Clock, CheckCircle2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { 
+    Package, 
+    Calendar, 
+    MapPin, 
+    CreditCard, 
+    CheckCircle2, 
+    ShoppingBag, 
+    ArrowRight, 
+    Truck, 
+    Star, 
+    ChevronDown, 
+    ChevronUp, 
+    Gift, 
+    X,
+    MessageSquare,
+    Sparkles
+} from 'lucide-react';
 
 type OrderItem = {
     id?: string;
@@ -42,6 +58,17 @@ export default function ProfilePage() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Tracking expansion state
+    const [expandedTrackOrderId, setExpandedTrackOrderId] = useState<string | null>(null);
+
+    // Review Modal state
+    const [reviewProduct, setReviewProduct] = useState<{ id: string; name: string } | null>(null);
+    const [reviewRating, setReviewRating] = useState(5);
+    const [reviewComment, setReviewComment] = useState('');
+    const [reviewSubmitting, setReviewSubmitting] = useState(false);
+    const [reviewSuccess, setReviewSuccess] = useState('');
+    const [reviewError, setReviewError] = useState('');
+
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/login');
@@ -62,6 +89,76 @@ export default function ProfilePage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const toggleTrack = (orderId: string) => {
+        setExpandedTrackOrderId(prev => prev === orderId ? null : orderId);
+    };
+
+    const handleOpenReview = (productId?: string, productName?: string) => {
+        if (!productId || !productName) return;
+        setReviewProduct({ id: productId, name: productName });
+        setReviewRating(5);
+        setReviewComment('');
+        setReviewSuccess('');
+        setReviewError('');
+    };
+
+    const handleSubmitReview = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!reviewProduct) return;
+        setReviewSubmitting(true);
+        setReviewError('');
+        setReviewSuccess('');
+
+        try {
+            const res = await fetch(`/api/products/${reviewProduct.id}/reviews`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: session?.user?.name || 'Fragrance Connoisseur',
+                    rating: reviewRating,
+                    comment: reviewComment
+                })
+            });
+
+            if (res.ok) {
+                setReviewSuccess('Thank you! Your artisanal review has been published.');
+                setTimeout(() => {
+                    setReviewProduct(null);
+                }, 2000);
+            } else {
+                const data = await res.json();
+                setReviewError(data.error || 'Failed to submit review');
+            }
+        } catch (err) {
+            console.error(err);
+            setReviewError('Error submitting review due to network issue.');
+        } finally {
+            setReviewSubmitting(false);
+        }
+    };
+
+    const getTrackingSteps = (orderStatusStr: string) => {
+        const s = orderStatusStr.toUpperCase();
+        let stepNum = 1;
+        if (s === 'PACKED') stepNum = 2;
+        else if (s === 'SHIPPED') stepNum = 3;
+        else if (s === 'DELIVERED') stepNum = 4;
+        else if (s === 'CANCELLED') stepNum = -1;
+
+        return [
+            { step: 1, key: 'ORDERED', title: 'Ordered', desc: 'Order Placed', icon: CheckCircle2 },
+            { step: 2, key: 'PACKED', title: 'Packed', desc: 'Artisanal Packaging', icon: Gift },
+            { step: 3, key: 'SHIPPED', title: 'Shipped', desc: 'Rider Dispatched', icon: Truck },
+            { step: 4, key: 'DELIVERED', title: 'Delivered', desc: 'Order Delivered', icon: MapPin },
+            { step: 5, key: 'REVIEW', title: 'Review', desc: 'Rate Fragrance', icon: Star },
+        ].map(st => ({
+            ...st,
+            isCompleted: stepNum >= st.step,
+            isCurrent: stepNum === st.step,
+            isReviewAvailable: st.step === 5 && stepNum === 4
+        }));
     };
 
     if (status === 'loading' || loading) {
@@ -105,7 +202,7 @@ export default function ProfilePage() {
                     <div className={styles.sectionHeader}>
                         <div className={styles.titleGroup}>
                             <Package size={22} className={styles.titleIcon} />
-                            <h2 className={styles.sectionTitle}>Order History</h2>
+                            <h2 className={styles.sectionTitle}>Order History & Tracking</h2>
                         </div>
                         <span className={styles.orderCountBadge}>{orders.length} {orders.length === 1 ? 'Record' : 'Records'}</span>
                     </div>
@@ -129,6 +226,9 @@ export default function ProfilePage() {
                                 });
                                 const orderStatus = order.status.toUpperCase();
                                 const statusClass = order.status.toLowerCase();
+                                const isTrackingOpen = expandedTrackOrderId === order.id || order.status.toUpperCase() === 'SHIPPED';
+                                const trackingSteps = getTrackingSteps(order.status);
+                                const isDelivered = orderStatus === 'DELIVERED';
 
                                 return (
                                     <div key={order.id} className={styles.orderCard}>
@@ -146,7 +246,44 @@ export default function ProfilePage() {
                                                 <span className={styles.statusDot} />
                                                 {orderStatus}
                                             </div>
+                                            <button 
+                                                className={styles.trackToggleBtn}
+                                                onClick={() => toggleTrack(order.id)}
+                                            >
+                                                <Truck size={15} />
+                                                <span>{isTrackingOpen ? 'Hide Tracking' : 'Track Order'}</span>
+                                                {isTrackingOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                                            </button>
                                         </div>
+
+                                        {/* Advanced 5-Step Order Tracking Section */}
+                                        {isTrackingOpen && (
+                                            <div className={styles.trackingContainer}>
+                                                <div className={styles.trackingHeader}>
+                                                    <Sparkles size={16} className={styles.sparkleIcon} />
+                                                    <span>Live Fulfillment Tracker</span>
+                                                </div>
+                                                <div className={styles.trackerTimeline}>
+                                                    {trackingSteps.map((st) => {
+                                                        const IconComponent = st.icon;
+                                                        return (
+                                                            <div 
+                                                                key={st.step} 
+                                                                className={`${styles.stepBox} ${st.isCompleted ? styles.stepCompleted : ''} ${st.isCurrent ? styles.stepCurrent : ''}`}
+                                                            >
+                                                                <div className={styles.stepIconWrapper}>
+                                                                    <IconComponent size={18} />
+                                                                </div>
+                                                                <div className={styles.stepTextGroup}>
+                                                                    <span className={styles.stepTitle}>{st.title}</span>
+                                                                    <span className={styles.stepDesc}>{st.desc}</span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
 
                                         {/* Items List */}
                                         <div className={styles.cardItems}>
@@ -168,8 +305,19 @@ export default function ProfilePage() {
                                                             </div>
                                                             <span className={styles.itemQtyPrice}>Qty: {item.quantity} × Rs. {unitPrice.toLocaleString()}</span>
                                                         </div>
-                                                        <div className={styles.itemSubtotal}>
-                                                            Rs. {itemTotal.toLocaleString()}
+
+                                                        <div className={styles.itemRightCol}>
+                                                            <div className={styles.itemSubtotal}>
+                                                                Rs. {itemTotal.toLocaleString()}
+                                                            </div>
+                                                            {isDelivered && item.product?.id && (
+                                                                <button 
+                                                                    className={styles.writeReviewBtn}
+                                                                    onClick={() => handleOpenReview(item.product.id, item.product.name)}
+                                                                >
+                                                                    <Star size={12} fill="currentColor" /> Write Review
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 );
@@ -205,6 +353,64 @@ export default function ProfilePage() {
                     )}
                 </div>
             </div>
+
+            {/* Review Modal Popup */}
+            {reviewProduct && (
+                <div className={styles.modalOverlay} onClick={() => setReviewProduct(null)}>
+                    <div className={styles.reviewModal} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.modalHeader}>
+                            <h3>Review {reviewProduct.name}</h3>
+                            <button onClick={() => setReviewProduct(null)} className={styles.closeModalBtn}>
+                                <X size={18} />
+                            </button>
+                        </div>
+
+                        {reviewSuccess ? (
+                            <div className={styles.successMsg}>
+                                <CheckCircle2 size={36} color="#34d399" />
+                                <p>{reviewSuccess}</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmitReview} className={styles.reviewForm}>
+                                {reviewError && <div className={styles.errorMsg}>{reviewError}</div>}
+                                
+                                <div className={styles.ratingGroup}>
+                                    <label>Rating</label>
+                                    <div className={styles.starsRow}>
+                                        {[1, 2, 3, 4, 5].map(star => (
+                                            <button
+                                                type="button"
+                                                key={star}
+                                                className={`${styles.starBtn} ${star <= reviewRating ? styles.starActive : ''}`}
+                                                onClick={() => setReviewRating(star)}
+                                            >
+                                                ★
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className={styles.formGroup}>
+                                    <label>Your Fragrance Appraisal</label>
+                                    <textarea
+                                        rows={4}
+                                        value={reviewComment}
+                                        onChange={(e) => setReviewComment(e.target.value)}
+                                        placeholder="Share your olfactory experience with scent lovers..."
+                                        required
+                                        className={styles.textarea}
+                                    />
+                                </div>
+
+                                <button type="submit" className={styles.submitReviewBtn} disabled={reviewSubmitting}>
+                                    {reviewSubmitting ? 'Publishing Review...' : 'Submit Review'}
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </div>
     );

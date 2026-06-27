@@ -329,12 +329,32 @@
     box-shadow: 0 0 6px #fbbf24;
 }
 
-.shipped, .delivered {
+.packed {
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.packed .statusDot {
+    background: #60a5fa;
+    box-shadow: 0 0 6px #60a5fa;
+}
+
+.shipped {
+    background: rgba(168, 85, 247, 0.12);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.shipped .statusDot {
+    background: #c084fc;
+    box-shadow: 0 0 6px #c084fc;
+}
+
+.delivered {
     background: rgba(52, 211, 153, 0.12);
     color: #34d399;
     border: 1px solid rgba(52, 211, 153, 0.3);
 }
-.shipped .statusDot, .delivered .statusDot {
+.delivered .statusDot {
     background: #34d399;
     box-shadow: 0 0 6px #34d399;
 }
@@ -347,6 +367,129 @@
 .cancelled .statusDot {
     background: #ef4444;
     box-shadow: 0 0 6px #ef4444;
+}
+
+.trackToggleBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(197, 160, 89, 0.1);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.trackToggleBtn:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+    box-shadow: 0 0 12px var(--accent-gold-glow);
+}
+
+/* Advanced 5-Step Order Tracking Container */
+.trackingContainer {
+    background: linear-gradient(180deg, rgba(20, 20, 25, 0.9) 0%, rgba(15, 15, 18, 0.95) 100%);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem 1.75rem;
+}
+
+.trackingHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+.sparkleIcon {
+    color: var(--accent);
+}
+
+.trackerTimeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    position: relative;
+}
+
+.stepBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    opacity: 0.4;
+    transition: all 0.4s ease;
+}
+
+.stepCompleted {
+    opacity: 1;
+}
+
+.stepCurrent {
+    opacity: 1;
+}
+
+.stepIconWrapper {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.6rem;
+    transition: all 0.4s ease;
+    z-index: 2;
+}
+
+.stepCompleted .stepIconWrapper {
+    background: rgba(52, 211, 153, 0.15);
+    border-color: #34d399;
+    color: #34d399;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.3);
+}
+
+.stepCurrent .stepIconWrapper {
+    background: linear-gradient(135deg, var(--accent) 0%, rgba(197, 160, 89, 0.8) 100%);
+    border-color: var(--accent);
+    color: #000;
+    box-shadow: 0 0 18px var(--accent-gold-glow);
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from { box-shadow: 0 0 12px var(--accent-gold-glow); }
+    to { box-shadow: 0 0 22px rgba(197, 160, 89, 0.8); }
+}
+
+.stepTextGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.stepTitle {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.stepDesc {
+    font-size: 0.68rem;
+    color: var(--text-secondary);
 }
 
 /* Card Items */
@@ -431,12 +574,40 @@
     font-family: var(--font-sans);
 }
 
+.itemRightCol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
 .itemSubtotal {
     font-family: var(--font-sans);
     font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
+}
+
+.writeReviewBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.75rem;
+    background: linear-gradient(135deg, rgba(197, 160, 89, 0.2) 0%, rgba(197, 160, 89, 0.05) 100%);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.writeReviewBtn:hover {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 12px var(--accent-gold-glow);
 }
 
 /* Card Bottom Footer */
@@ -488,6 +659,163 @@
     text-shadow: 0 0 10px var(--accent-gold-glow);
 }
 
+/* Review Modal Popup */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.reviewModal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-gold-glow);
+    position: relative;
+    animation: modalFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modalHeader h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.closeModalBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.closeModalBtn:hover {
+    color: var(--accent);
+}
+
+.reviewForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.ratingGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ratingGroup label, .formGroup label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+}
+
+.starsRow {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.starBtn {
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.starActive {
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.textarea {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 0.85rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    resize: vertical;
+}
+
+.textarea:focus {
+    border-color: var(--accent);
+}
+
+.submitReviewBtn {
+    padding: 0.9rem;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submitReviewBtn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.successMsg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem 0;
+    color: #34d399;
+}
+
+.errorMsg {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 6rem 1rem 3.5rem;
@@ -507,6 +835,11 @@
         padding-top: 1.25rem;
         width: 100%;
         justify-content: center;
+    }
+
+    .trackerTimeline {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
     }
 
     .cardTopHeader, .cardBottomFooter {
