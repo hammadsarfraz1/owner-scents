@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
-import { Sparkles, ArrowRight, RotateCcw, ShoppingBag } from 'lucide-react';
+import { ArrowRight, RotateCcw, ShoppingBag } from 'lucide-react';
 
 type Product = {
     id: string;
@@ -253,9 +253,9 @@ export default function ScentFinder() {
                                         <img src={recommended.image} alt={recommended.name} className={styles.resultImage} />
                                     </div>
                                     <div className={styles.resultDetails}>
-                                        <span className={styles.tag} style={{ display: 'inline-block', background: 'var(--bg-tertiary)', padding: '0.4rem 0.8rem', borderRadius: '4px', border: '1px solid var(--border-color)', width: 'fit-content' }}>
-                                            YOUR IDEAL MATCH
-                                        </span>
+                                        <div className={styles.matchBadgeContainer}>
+                                            <span className={styles.matchBadge}>YOUR IDEAL MATCH</span>
+                                        </div>
                                         <h2 className={styles.recName}>{recommended.name}</h2>
                                         <p className={styles.recDesc}>{recommended.description}</p>
                                         
@@ -268,32 +268,24 @@ export default function ScentFinder() {
                                             </div>
                                         </div>
 
-                                        <div className={styles.actions} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
+                                        <div className={styles.actions}>
                                             <button 
                                                 onClick={() => {
                                                     addToCart({ ...recommended, price: Number(recommended.price) });
                                                     window.location.href = '/checkout';
                                                 }}
                                                 className="btn sheenEffect"
-                                                style={{ padding: '1rem 2rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', fontSize: '0.95rem' }}
+                                                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem' }}
                                             >
                                                 <ShoppingBag size={18} />
                                                 <span>Acquire Signature - Rs. {Number(recommended.price).toLocaleString()}</span>
                                             </button>
 
-                                            <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                                                <Link 
-                                                    href={`/shop/${recommended.id}`} 
-                                                    className={styles.resetBtn} 
-                                                    style={{ flex: 1, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
-                                                >
+                                            <div className={styles.secondaryActions}>
+                                                <Link href={`/shop/${recommended.id}`} className={styles.resetBtn}>
                                                     View Details
                                                 </Link>
-                                                <button 
-                                                    onClick={resetQuiz} 
-                                                    className={styles.resetBtn}
-                                                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}
-                                                >
+                                                <button onClick={resetQuiz} className={styles.resetBtn}>
                                                     <RotateCcw size={14} /> Retake Consultation
                                                 </button>
                                             </div>

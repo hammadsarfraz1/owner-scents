@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 2rem;
+    padding: 5rem 2rem;
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
@@ -26,6 +26,7 @@
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
+    border-radius: 12px;
 }
 
 /* Intro Card */
@@ -43,7 +44,7 @@
     color: var(--accent);
     letter-spacing: 4px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .title {
@@ -187,10 +188,12 @@
 }
 
 .resultImageContainer {
-    aspect-ratio: 0.8;
+    aspect-ratio: 0.85;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
     overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
 .resultImage {
@@ -205,10 +208,27 @@
     gap: 1.25rem;
 }
 
+.matchBadgeContainer {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.matchBadge {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
 .recName {
     font-family: var(--font-serif);
     font-size: 2.5rem;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--text-primary);
 }
@@ -222,7 +242,8 @@
 
 .notesBox {
     border-top: 1px solid var(--border-color);
-    padding-top: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 0;
     margin: 0.5rem 0;
 }
 
@@ -251,28 +272,42 @@
 
 .actions {
     display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-top: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.secondaryActions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
 }
 
 .resetBtn {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    padding: 0.9rem 2.2rem;
-    font-size: 0.85rem;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s ease;
+    flex: 1;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    border-radius: 6px;
 }
 
 .resetBtn:hover {
     border-color: var(--text-primary);
     color: var(--text-primary);
-    background: var(--bg-primary);
+    background: var(--bg-tertiary);
 }
 
 /* Animations */
@@ -293,6 +328,9 @@
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 2rem 1rem 6rem 1rem; /* Generous bottom padding so WhatsApp widget never overlaps content */
+    }
     .quizBox {
         padding: 2rem 1.25rem;
         border-radius: 12px;
@@ -308,34 +346,42 @@
     }
     .resultGrid {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
+        gap: 1.5rem;
+        text-align: center;
     }
     .resultImageContainer {
         aspect-ratio: 1;
         max-height: 280px;
         width: 100%;
+        margin: 0 auto;
         border-radius: 8px;
     }
+    .matchBadgeContainer {
+        justify-content: center;
+    }
     .recName {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
     .recDesc {
         font-size: 0.9rem;
         line-height: 1.6;
     }
+    .notesBox {
+        text-align: center;
+    }
+    .notes {
+        align-items: center;
+    }
     .actions {
-        flex-direction: column;
         width: 100%;
         gap: 0.75rem;
     }
-    .resetBtn, :global(.btn) {
+    .secondaryActions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .resetBtn {
         width: 100%;
-        text-align: center;
         min-height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        border-radius: 6px;
     }
 }
