@@ -253,8 +253,8 @@ export default function ScentFinder() {
                                         <img src={recommended.image} alt={recommended.name} className={styles.resultImage} />
                                     </div>
                                     <div className={styles.resultDetails}>
-                                        <span className={styles.tag} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'var(--bg-tertiary)', padding: '0.4rem 0.8rem', borderRadius: '4px', border: '1px solid var(--border-color)' }}>
-                                            <Sparkles size={14} style={{ color: 'var(--gold-highlight)' }} /> YOUR MATCH MATCH MATCH
+                                        <span className={styles.tag} style={{ display: 'inline-block', background: 'var(--bg-tertiary)', padding: '0.4rem 0.8rem', borderRadius: '4px', border: '1px solid var(--border-color)', width: 'fit-content' }}>
+                                            YOUR IDEAL MATCH
                                         </span>
                                         <h2 className={styles.recName}>{recommended.name}</h2>
                                         <p className={styles.recDesc}>{recommended.description}</p>
