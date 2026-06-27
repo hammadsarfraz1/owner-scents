@@ -59,14 +59,20 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
     const [activeNoteInfo, setActiveNoteInfo] = useState<string | null>(null);
     const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
 
-    const slides = [
-        product.homepageImage || product.image,
-        product.image2,
+    const slides = Array.from(new Set([
+        product.homepageImage, 
+        product.image, 
+        product.quickViewImage, 
+        product.image2, 
         product.image3
-    ].filter(Boolean) as string[];
+    ].filter(Boolean))) as string[];
 
     const [activeSlideIdx, setActiveSlideIdx] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+
+    // Swipe state
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
     useEffect(() => {
         getScentNotes().then(setScentDescriptions);
@@ -74,16 +80,39 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
 
     useEffect(() => {
         if (!isHovered || slides.length <= 1) {
-            setActiveSlideIdx(0);
             return;
         }
 
         const interval = setInterval(() => {
             setActiveSlideIdx((prev) => (prev + 1) % slides.length);
-        }, 2000);
+        }, 3500);
 
         return () => clearInterval(interval);
     }, [isHovered, slides.length]);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.targetTouches[0].clientX);
+        setTouchEndX(null);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        setTouchEndX(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (touchStartX !== null && touchEndX !== null && slides.length > 1) {
+            const diff = touchStartX - touchEndX;
+            if (diff > 30) {
+                e.preventDefault();
+                setActiveSlideIdx((prev) => (prev + 1) % slides.length);
+            } else if (diff < -30) {
+                e.preventDefault();
+                setActiveSlideIdx((prev) => (prev - 1 + slides.length) % slides.length);
+            }
+        }
+        setTouchStartX(null);
+        setTouchEndX(null);
+    };
 
     const getBadges = () => {
         const notes: string[] = [];
@@ -130,6 +159,9 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     className={styles.imageContainer}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
                 >
                     {product.gender && (
                         <span className={`${styles.badge} ${styles[product.gender.toLowerCase()] || ''}`}>
@@ -144,7 +176,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     {slides.length > 0 ? (
                         slides.map((slide, idx) => (
                             <img
-                                key={slide}
+                                key={slide + idx}
                                 src={slide}
                                 alt={`${product.name} - slide ${idx}`}
                                 className={`${styles.productImage} ${idx === activeSlideIdx ? styles.activeImage : ''}`}
@@ -162,20 +194,45 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     )}
 
                     {slides.length > 1 && (
-                        <div className={styles.dotsContainer}>
-                            {slides.map((_, idx) => (
-                                <button
-                                    key={idx}
-                                    className={`${styles.dot} ${idx === activeSlideIdx ? styles.activeDot : ''}`}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        setActiveSlideIdx(idx);
-                                    }}
-                                    aria-label={`Go to slide ${idx + 1}`}
-                                />
-                            ))}
-                        </div>
+                        <>
+                            <button
+                                className={`${styles.sliderNavBtn} ${styles.sliderPrevBtn}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setActiveSlideIdx((prev) => (prev - 1 + slides.length) % slides.length);
+                                }}
+                                aria-label="Previous image"
+                            >
+                                ‹
+                            </button>
+                            <button
+                                className={`${styles.sliderNavBtn} ${styles.sliderNextBtn}`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setActiveSlideIdx((prev) => (prev + 1) % slides.length);
+                                }}
+                                aria-label="Next image"
+                            >
+                                ›
+                            </button>
+
+                            <div className={styles.dotsContainer}>
+                                {slides.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        className={`${styles.dot} ${idx === activeSlideIdx ? styles.activeDot : ''}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            setActiveSlideIdx(idx);
+                                        }}
+                                        aria-label={`Go to slide ${idx + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </>
                     )}
                     
                     {/* Quick Add Button */}

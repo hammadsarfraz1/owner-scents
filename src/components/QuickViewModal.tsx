@@ -12,6 +12,7 @@ type Product = {
     originalPrice?: string | number | null;
     description?: string;
     image?: string;
+    homepageImage?: string;
     quickViewImage?: string;
     image2?: string;
     image3?: string;
@@ -31,8 +32,18 @@ export default function QuickViewModal({ product, onClose }: Props) {
     const [imageError, setImageError] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
+    // Image horizontal swipe state
+    const [imgTouchStartX, setImgTouchStartX] = useState<number | null>(null);
+    const [imgTouchEndX, setImgTouchEndX] = useState<number | null>(null);
+
     const slides = product
-        ? [product.quickViewImage || product.image, product.image2, product.image3].filter(Boolean) as string[]
+        ? Array.from(new Set([
+            product.quickViewImage, 
+            product.homepageImage, 
+            product.image, 
+            product.image2, 
+            product.image3
+        ].filter(Boolean))) as string[]
         : [];
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -85,7 +96,6 @@ export default function QuickViewModal({ product, onClose }: Props) {
         if (isMobile || touchStartY === null) return;
         const currentY = e.targetTouches[0].clientY;
         const diffY = currentY - touchStartY;
-        // Only allow swiping down (out of screen on mobile bottom sheet layout)
         if (diffY > 0) {
             setTouchCurrentY(currentY);
         }
@@ -101,6 +111,34 @@ export default function QuickViewModal({ product, onClose }: Props) {
         }
         setTouchStartY(null);
         setTouchCurrentY(null);
+    };
+
+    // Carousel Image horizontal swipe handlers
+    const handleImgTouchStart = (e: React.TouchEvent) => {
+        e.stopPropagation();
+        setImgTouchStartX(e.targetTouches[0].clientX);
+        setImgTouchEndX(null);
+    };
+
+    const handleImgTouchMove = (e: React.TouchEvent) => {
+        e.stopPropagation();
+        setImgTouchEndX(e.targetTouches[0].clientX);
+    };
+
+    const handleImgTouchEnd = (e: React.TouchEvent) => {
+        e.stopPropagation();
+        if (imgTouchStartX !== null && imgTouchEndX !== null && slides.length > 1) {
+            const diff = imgTouchStartX - imgTouchEndX;
+            if (diff > 30) {
+                // Swiped Left -> Next Image
+                setCurrentIndex((prev) => (prev + 1) % slides.length);
+            } else if (diff < -30) {
+                // Swiped Right -> Prev Image
+                setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+            }
+        }
+        setImgTouchStartX(null);
+        setImgTouchEndX(null);
     };
 
     const swipeStyle = !isMobile && touchStartY !== null && touchCurrentY !== null
@@ -123,10 +161,15 @@ export default function QuickViewModal({ product, onClose }: Props) {
 
                 <div className={styles.imageSection}>
                     {slides.length > 0 && !imageError ? (
-                        <div className={styles.carouselContainer}>
+                        <div 
+                            className={styles.carouselContainer}
+                            onTouchStart={handleImgTouchStart}
+                            onTouchMove={handleImgTouchMove}
+                            onTouchEnd={handleImgTouchEnd}
+                        >
                             {slides.map((slide, idx) => (
                                 <img
-                                    key={slide}
+                                    key={slide + idx}
                                     src={slide}
                                     alt={`${product.name} - slide ${idx}`}
                                     className={`${styles.modalImage} ${idx === currentIndex ? styles.activeSlide : ''}`}
