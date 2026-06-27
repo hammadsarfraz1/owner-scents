@@ -29,12 +29,6 @@ export default function Footer() {
                         <a href="/shop">Signature Ouds</a>
                     </div>
                     <div className={styles.column}>
-                        <h4>Brand</h4>
-                        <a href="/about">Our Story</a>
-                        <a href="/about">Scent Philosophy</a>
-                        <a href="/scent-finder">Scent Finder</a>
-                    </div>
-                    <div className={styles.column}>
                         <h4>Assistance</h4>
                         <a href="#">Shipping & Returns</a>
                         <a href="#">Contact Concierge</a>

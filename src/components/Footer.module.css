@@ -1,8 +1,8 @@
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
-    padding: 5rem 0 2rem;
-    margin-top: 6rem;
+    padding: 4rem 0 2rem;
+    margin-top: 5rem;
     border-top: 1px solid var(--border-color);
 }
 
@@ -13,7 +13,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 4rem;
+    gap: 3rem;
 }
 
 .brand {
@@ -94,12 +94,12 @@
 
 .links {
     display: flex;
-    gap: 5rem;
+    gap: 6rem;
     flex-wrap: wrap;
 }
 
 .column h4 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 2px;
@@ -108,10 +108,11 @@
 
 .column a {
     display: block;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.75rem;
     font-size: 0.85rem;
     transition: all 0.3s ease;
     color: var(--text-secondary);
+    text-decoration: none;
 }
 
 .column a:hover {
@@ -121,7 +122,7 @@
 
 .bottom {
     text-align: center;
-    margin-top: 5rem;
+    margin-top: 3.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
     font-size: 0.75rem;
@@ -131,7 +132,7 @@
 @media (max-width: 968px) {
     .container {
         flex-direction: column;
-        gap: 3rem;
+        gap: 2.5rem;
     }
 
     .brand {
@@ -146,19 +147,46 @@
     }
 
     .links {
-        justify-content: space-between;
+        justify-content: space-around;
         width: 100%;
         gap: 2rem;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+    .footer {
+        padding: 3rem 0 1.5rem;
+        margin-top: 4rem;
+    }
+
+    .container {
+        gap: 2rem;
+        padding: 0 1.25rem;
+    }
+
     .links {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
         text-align: center;
+        width: 100%;
+        gap: 1.5rem;
     }
     
+    .column h4 {
+        margin-bottom: 1rem;
+    }
+
+    .column a {
+        margin-bottom: 0.6rem;
+    }
+
     .column a:hover {
         transform: none;
+    }
+
+    .bottom {
+        margin-top: 2.5rem;
     }
 }
