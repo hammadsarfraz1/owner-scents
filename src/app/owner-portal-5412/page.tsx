@@ -62,12 +62,12 @@ export default function AdminDashboard() {
                 <div className={styles.statCard}>
                     <div className={styles.statHeader}>
                         <span className={styles.statTitle}>Total Revenue</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(212, 175, 55, 0.15)', borderColor: 'rgba(212, 175, 55, 0.3)' }}>
+                        <div className={styles.statIcon} style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', borderColor: 'rgba(59, 130, 246, 0.3)' }}>
                             <DollarSign size={20} />
                         </div>
                     </div>
                     <div>
-                        <div className={`${styles.statVal} ${styles.statValGold}`}>
+                        <div className={`${styles.statVal} ${styles.statValBlue}`}>
                             Rs. {Number(stats.totalRevenue).toLocaleString()}
                         </div>
                         <span style={{ fontSize: '0.75rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.5rem' }}>
@@ -102,21 +102,6 @@ export default function AdminDashboard() {
                         <div className={styles.statVal} style={{ color: '#fbbf24' }}>{stats.pendingOrders}</div>
                         <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
                             Action Required in Orders
-                        </span>
-                    </div>
-                </div>
-
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Storefront Status</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)' }}>
-                            <Sparkles size={20} />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={styles.statVal} style={{ fontSize: '1.8rem', color: '#34d399' }}>Active Cloud</div>
-                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            Synced with Neon DB & Vercel
                         </span>
                     </div>
                 </div>
