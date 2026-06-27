@@ -30,8 +30,8 @@
 .spinner {
     width: 36px;
     height: 36px;
-    border: 2px solid rgba(59, 130, 246, 0.2);
-    border-top-color: #3b82f6;
+    border: 2px solid rgba(168, 85, 247, 0.2);
+    border-top-color: #a855f7;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -43,14 +43,14 @@
 /* Profile Header Banner */
 .profileHeaderCard {
     background: var(--bg-secondary);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    border: 1px solid rgba(168, 85, 247, 0.3);
     border-radius: 16px;
     padding: 2.25rem;
     display: flex;
     align-items: center;
     gap: 2rem;
     margin-bottom: 3.5rem;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.12);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     position: relative;
@@ -64,23 +64,23 @@
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, #3b82f6, #60a5fa);
-    box-shadow: 0 0 12px #3b82f6;
+    background: linear-gradient(180deg, #a855f7, #c084fc);
+    box-shadow: 0 0 12px #a855f7;
 }
 
 .avatarCircle {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.05) 100%);
-    border: 2px solid #3b82f6;
-    color: #60a5fa;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0.05) 100%);
+    border: 2px solid #a855f7;
+    color: #c084fc;
     font-family: var(--font-serif);
     font-size: 2.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
     flex-shrink: 0;
 }
 
@@ -95,9 +95,9 @@
     font-size: 0.65rem;
     letter-spacing: 2px;
     font-weight: 700;
-    color: #60a5fa;
+    color: #c084fc;
     text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
 }
 
 .userName {
@@ -132,9 +132,9 @@
 .statVal {
     font-family: var(--font-serif);
     font-size: 1.75rem;
-    color: #60a5fa;
+    color: #c084fc;
     font-weight: 600;
-    text-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
 }
 
 .statLbl {
@@ -162,12 +162,12 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: #60a5fa;
+    color: #c084fc;
 }
 
 .titleIcon {
-    color: #60a5fa;
-    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+    color: #c084fc;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4));
 }
 
 .sectionTitle {
@@ -227,7 +227,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.85rem 1.75rem;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
     color: #ffffff;
     text-decoration: none;
     text-transform: uppercase;
@@ -236,12 +236,12 @@
     font-weight: 600;
     transition: all 0.3s ease;
     border-radius: 6px;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
 }
 
 .exploreBtn:hover {
-    background: #2563eb;
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    background: #9333ea;
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
 }
 
 /* Orders List */
@@ -261,8 +261,8 @@
 }
 
 .orderCard:hover {
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15);
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.18);
 }
 
 /* Card Top Header */
@@ -380,9 +380,9 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.9rem;
-    background: rgba(59, 130, 246, 0.12);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: rgba(168, 85, 247, 0.12);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.4);
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 600;
@@ -391,10 +391,10 @@
 }
 
 .trackToggleBtn:hover {
-    background: #3b82f6;
+    background: #a855f7;
     color: #ffffff;
-    border-color: #3b82f6;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
 }
 
 /* Advanced 5-Step Order Tracking Container */
@@ -412,12 +412,12 @@
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #60a5fa;
+    color: #c084fc;
     margin-bottom: 1.5rem;
 }
 
 .sparkleIcon {
-    color: #60a5fa;
+    color: #c084fc;
 }
 
 .trackerTimeline {
@@ -468,16 +468,16 @@
 }
 
 .stepCurrent .stepIconWrapper {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-color: #60a5fa;
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+    border-color: #c084fc;
     color: #ffffff;
-    box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.5);
     animation: pulseGlow 2s infinite alternate;
 }
 
 @keyframes pulseGlow {
-    from { box-shadow: 0 0 12px rgba(59, 130, 246, 0.3); }
-    to { box-shadow: 0 0 22px rgba(59, 130, 246, 0.7); }
+    from { box-shadow: 0 0 12px rgba(168, 85, 247, 0.3); }
+    to { box-shadow: 0 0 22px rgba(168, 85, 247, 0.7); }
 }
 
 .stepTextGroup {
@@ -568,9 +568,9 @@
     font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    background: rgba(59, 130, 246, 0.1);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: rgba(168, 85, 247, 0.1);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.25);
     padding: 0.1rem 0.45rem;
     border-radius: 4px;
 }
@@ -601,9 +601,9 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.3rem 0.75rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.05) 100%);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.05) 100%);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.4);
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 600;
@@ -612,10 +612,10 @@
 }
 
 .writeReviewBtn:hover {
-    background: #3b82f6;
+    background: #a855f7;
     color: #ffffff;
-    border-color: #3b82f6;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    border-color: #a855f7;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
 
 /* Card Bottom Footer */
@@ -663,8 +663,8 @@
     font-family: var(--font-sans);
     font-size: 1.25rem;
     font-weight: 700;
-    color: #60a5fa;
-    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    color: #c084fc;
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
 }
 
 /* Review Modal Popup */
@@ -685,12 +685,12 @@
 
 .reviewModal {
     background: var(--bg-secondary);
-    border: 1px solid rgba(59, 130, 246, 0.4);
+    border: 1px solid rgba(168, 85, 247, 0.4);
     border-radius: 16px;
     max-width: 500px;
     width: 100%;
     padding: 2rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.2);
     position: relative;
     animation: modalFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -712,7 +712,7 @@
 .modalHeader h3 {
     font-family: var(--font-serif);
     font-size: 1.2rem;
-    color: #60a5fa;
+    color: #c084fc;
     margin: 0;
 }
 
@@ -805,12 +805,12 @@
     transition: border-color 0.2s ease;
 }
 .textarea:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    border-color: #a855f7;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
 }
 
 .submitReviewBtn {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
     color: #ffffff;
     border: none;
     padding: 0.85rem;
@@ -821,10 +821,10 @@
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
 }
 
 .submitReviewBtn:hover {
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
     transform: translateY(-1px);
 }
