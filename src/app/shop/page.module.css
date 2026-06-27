@@ -206,10 +206,123 @@
     margin: 0;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2.5rem;
+/* Top Interactive Sliders for Gender & Category */
+.slidersWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.topFilterSliderBar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.sliderBarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sliderBarTitle {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.sliderNavBtns {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.sliderNavBtn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sliderNavBtn:hover {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+
+.sliderTrack {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+    padding-top: 0.2rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+    -webkit-overflow-scrolling: touch;
+}
+
+.sliderTrack::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.sliderPillCard {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.6rem 1.25rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    white-space: nowrap;
+}
+
+.sliderPillCard:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    background: var(--bg-secondary);
+}
+
+.activeSliderPillCard {
+    background: var(--accent) !important;
+    color: var(--accent-text) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 14px var(--accent-gold-glow);
+    font-weight: 700;
+}
+
+.sliderActiveDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-text);
+    box-shadow: 0 0 6px var(--accent-text);
 }
 
 /* Category Horizontal Scrolling Rows */

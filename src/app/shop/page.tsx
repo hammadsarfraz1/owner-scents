@@ -17,6 +17,55 @@ type CategoryItem = {
     isVisible: boolean;
 };
 
+function HorizontalFilterSlider({ 
+    title, 
+    items, 
+    selectedItem, 
+    onSelect 
+}: { 
+    title: string; 
+    items: string[]; 
+    selectedItem: string; 
+    onSelect: (item: string) => void; 
+}) {
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (sliderRef.current) {
+            const scrollAmount = direction === 'left' ? -280 : 280;
+            sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    return (
+        <div className={styles.topFilterSliderBar}>
+            <div className={styles.sliderBarHeader}>
+                <span className={styles.sliderBarTitle}>{title}</span>
+                <div className={styles.sliderNavBtns}>
+                    <button onClick={() => scroll('left')} className={styles.sliderNavBtn} aria-label={`Scroll ${title} left`}>
+                        <ChevronLeft size={15} />
+                    </button>
+                    <button onClick={() => scroll('right')} className={styles.sliderNavBtn} aria-label={`Scroll ${title} right`}>
+                        <ChevronRight size={15} />
+                    </button>
+                </div>
+            </div>
+            <div className={styles.sliderTrack} ref={sliderRef}>
+                {items.map((item) => (
+                    <button
+                        key={item}
+                        className={`${styles.sliderPillCard} ${selectedItem === item ? styles.activeSliderPillCard : ''}`}
+                        onClick={() => onSelect(item)}
+                    >
+                        <span>{item}</span>
+                        {selectedItem === item && <span className={styles.sliderActiveDot} />}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 function CategoryHorizontalRow({ title, products, onQuickView }: { title: string, products: Product[], onQuickView: (p: Product) => void }) {
     const rowRef = useRef<HTMLDivElement>(null);
 
@@ -246,6 +295,22 @@ function ShopContent() {
                             <option value="price-asc">Price: Low to High</option>
                             <option value="price-desc">Price: High to Low</option>
                         </select>
+                    </div>
+
+                    {/* Separate Interactive Sliders for Gender & Category */}
+                    <div className={styles.slidersWrapper}>
+                        <HorizontalFilterSlider 
+                            title="Filter By Gender" 
+                            items={genders} 
+                            selectedItem={selectedGender} 
+                            onSelect={setSelectedGender} 
+                        />
+                        <HorizontalFilterSlider 
+                            title="Filter By Category" 
+                            items={categoryNames} 
+                            selectedItem={selectedCategory} 
+                            onSelect={setSelectedCategory} 
+                        />
                     </div>
 
                     {loading ? (
