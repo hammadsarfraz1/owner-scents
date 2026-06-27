@@ -202,30 +202,36 @@
 }
 
 /* Individual Card Hover - Focus & Bring to front with responsive mouse tracking */
+.stackContainer:hover .leftCard.activeCard,
+.stackContainer .leftCard.activeCard,
 .leftCard.activeCard {
-  transform: perspective(1000px) translate3d(-175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
+  transform: perspective(1000px) translate3d(-175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
   opacity: 1 !important;
-  z-index: 10 !important;
+  z-index: 20 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
   transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
+.stackContainer:hover .rightCard.activeCard,
+.stackContainer .rightCard.activeCard,
 .rightCard.activeCard {
-  transform: perspective(1000px) translate3d(175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.03) !important;
+  transform: perspective(1000px) translate3d(175px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
   opacity: 1 !important;
-  z-index: 10 !important;
+  z-index: 20 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
   transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
+.stackContainer:hover .centerCard.activeCard,
+.stackContainer .centerCard.activeCard,
 .centerCard.activeCard {
-  transform: perspective(1000px) translate3d(0, -10px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) !important;
-  z-index: 10 !important;
+  transform: perspective(1000px) translate3d(0, -10px, 40px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
+  z-index: 20 !important;
   opacity: 1 !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.5) !important;
+  box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
   transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
 
@@ -1027,23 +1033,26 @@
         z-index: 2 !important;
     }
 
+    .introStackContainer:hover .leftCard.activeCard,
     .introStackContainer .leftCard.activeCard {
         transform: perspective(1000px) translate3d(-155px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
         opacity: 1 !important;
-        z-index: 10 !important;
+        z-index: 20 !important;
         border-color: var(--accent) !important;
         box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
     }
+    .introStackContainer:hover .rightCard.activeCard,
     .introStackContainer .rightCard.activeCard {
         transform: perspective(1000px) translate3d(155px, -20px, 80px) rotateX(var(--rotate-x, 0deg)) rotateY(calc(-5deg + var(--rotate-y, 0deg))) scale(1.05) !important;
         opacity: 1 !important;
-        z-index: 10 !important;
+        z-index: 20 !important;
         border-color: var(--accent) !important;
         box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
     }
+    .introStackContainer:hover .centerCard.activeCard,
     .introStackContainer .centerCard.activeCard {
         transform: perspective(1000px) translate3d(0, -15px, 60px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
-        z-index: 10 !important;
+        z-index: 20 !important;
         opacity: 1 !important;
         border-color: var(--accent) !important;
         box-shadow: 0 30px 65px rgba(168, 85, 247, 0.6) !important;
