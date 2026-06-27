@@ -9,7 +9,7 @@ import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
 import ProductCard, { Product } from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
-import { X, SlidersHorizontal, ChevronLeft, ChevronRight, Filter, Users, Layers, ChevronDown } from 'lucide-react';
+import { X, SlidersHorizontal, ChevronLeft, ChevronRight, Filter, Layers, Users, RefreshCw } from 'lucide-react';
 
 type CategoryItem = {
     id: string;
@@ -22,7 +22,7 @@ function ProductHorizontalRow({ title, products, onQuickView }: { title: string,
 
     const scroll = (direction: 'left' | 'right') => {
         if (rowRef.current) {
-            const scrollAmount = direction === 'left' ? -360 : 360;
+            const scrollAmount = direction === 'left' ? -380 : 380;
             rowRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };
@@ -34,7 +34,7 @@ function ProductHorizontalRow({ title, products, onQuickView }: { title: string,
             <div className={styles.categorySectionHeader}>
                 <div className={styles.titleWrapper}>
                     <h2 className={styles.categorySectionTitle}>{title}</h2>
-                    <span className={styles.categoryCountBadge}>{products.length} {products.length === 1 ? 'Fragrance' : 'Fragrances'}</span>
+                    <span className={styles.categoryCountBadge}>{products.length} {products.length === 1 ? 'Perfume' : 'Perfumes'}</span>
                 </div>
                 <div className={styles.scrollNavBtns}>
                     <button onClick={() => scroll('left')} className={styles.scrollNavBtn} aria-label="Scroll left">
@@ -68,8 +68,6 @@ function ShopContent() {
     const [selectedGender, setSelectedGender] = useState<string>('All');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [sortOption, setSortOption] = useState<string>('newest');
-    const [genderFolderOpen, setGenderFolderOpen] = useState(true);
-    const [categoryFolderOpen, setCategoryFolderOpen] = useState(true);
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
     useEffect(() => {
@@ -137,11 +135,6 @@ function ShopContent() {
         return 0;
     });
 
-    // Determine Genders and Categories to display as horizontal product rows
-    const activeGendersToDisplay = selectedGender === 'All'
-        ? ['Men', 'Women', 'Unisex']
-        : [selectedGender];
-
     const activeCategoriesToDisplay = selectedCategory === 'All' 
         ? allUniqueCategories
         : [selectedCategory];
@@ -149,114 +142,90 @@ function ShopContent() {
     return (
         <div className={styles.main}>
             <Navbar onSearch={(term: string) => setSearchTerm(term)} />
-            <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem' }}>
+            <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2.5rem' }}>
 
-                {/* Sidebar Filters */}
-                <aside className={styles.sidebar}>
-                    <div className={styles.sidebarHeader}>
-                        <Filter size={16} className={styles.sidebarHeaderIcon} />
-                        <h2>Refine Selection</h2>
+                {/* Main Content Area */}
+                <div style={{ width: '100%' }}>
+                    
+                    {/* Catalog Banner & Header */}
+                    <div className={styles.catalogBanner}>
+                        <div className={styles.bannerTextContent}>
+                            <h1 className={styles.title}>
+                                {selectedCategory === 'All' ? (selectedGender === 'All' ? 'Haute Parfumerie Catalog' : `${selectedGender}'s Fragrances`) : selectedCategory}
+                            </h1>
+                            <p className={styles.subtitle}>Explore curated olfactory creations crafted with exquisite rarity</p>
+                        </div>
                     </div>
 
-                    <div className={styles.sidebarScrollContent}>
-                        <div className={`${styles.filterFolder} ${genderFolderOpen ? styles.folderOpen : ''}`}>
-                            <button 
-                                className={styles.folderHeader} 
-                                onClick={() => setGenderFolderOpen(!genderFolderOpen)}
-                            >
-                                <div className={styles.folderHeaderLeft}>
-                                    <Users size={16} className={styles.folderHeaderIcon} />
-                                    <span>Gender</span>
-                                </div>
-                                <ChevronDown size={16} className={`${styles.folderChevron} ${genderFolderOpen ? styles.chevronRotated : ''}`} />
-                            </button>
-                            <div className={styles.folderContent}>
-                                <div className={styles.filterPillsGrid}>
-                                    {genders.map(g => (
-                                        <button
-                                            key={g}
-                                            className={`${styles.filterPillBtn} ${selectedGender === g ? styles.activePill : ''}`}
-                                            onClick={() => setSelectedGender(g)}
-                                        >
-                                            <span>{g}</span>
-                                            {selectedGender === g && <span className={styles.pillActiveDot} />}
-                                        </button>
-                                    ))}
-                                </div>
+                    {/* Integrated Luxury Filter Control Bar for Desktop */}
+                    <div className={styles.topFilterControlBar}>
+                        <div className={styles.filterGroup}>
+                            <span className={styles.filterGroupLabel}>
+                                <Users size={14} /> Gender:
+                            </span>
+                            <div className={styles.filterTabs}>
+                                {genders.map(g => (
+                                    <button
+                                        key={g}
+                                        className={`${styles.filterTabBtn} ${selectedGender === g ? styles.activeTabBtn : ''}`}
+                                        onClick={() => setSelectedGender(g)}
+                                    >
+                                        {g}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
-                        <div className={`${styles.filterFolder} ${categoryFolderOpen ? styles.folderOpen : ''}`}>
-                            <button 
-                                className={styles.folderHeader} 
-                                onClick={() => setCategoryFolderOpen(!categoryFolderOpen)}
+                        <div className={styles.filterGroup}>
+                            <span className={styles.filterGroupLabel}>
+                                <Layers size={14} /> Category:
+                            </span>
+                            <select
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                className={styles.selectInput}
                             >
-                                <div className={styles.folderHeaderLeft}>
-                                    <Layers size={16} className={styles.folderHeaderIcon} />
-                                    <span>Category</span>
-                                </div>
-                                <ChevronDown size={16} className={`${styles.folderChevron} ${categoryFolderOpen ? styles.chevronRotated : ''}`} />
-                            </button>
-                            <div className={styles.folderContent}>
-                                <div className={styles.filterPillsGrid}>
-                                    {categoryNames.map(c => (
-                                        <button
-                                            key={c}
-                                            className={`${styles.filterPillBtn} ${selectedCategory === c ? styles.activePill : ''}`}
-                                            onClick={() => setSelectedCategory(c)}
-                                        >
-                                            <span>{c}</span>
-                                            {selectedCategory === c && <span className={styles.pillActiveDot} />}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+                                {categoryNames.map(c => (
+                                    <option key={c} value={c}>
+                                        {c === 'All' ? 'All Categories' : c}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
-                        {(selectedGender !== 'All' || selectedCategory !== 'All') && (
-                            <button 
-                                className={styles.resetFiltersBtn}
+                        <div className={styles.filterGroup}>
+                            <span className={styles.filterGroupLabel}>
+                                <SlidersHorizontal size={14} /> Sort:
+                            </span>
+                            <select
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                                className={styles.selectInput}
+                            >
+                                <option value="newest">Newest Additions</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                            </select>
+                        </div>
+
+                        {(selectedGender !== 'All' || selectedCategory !== 'All' || sortOption !== 'newest') && (
+                            <button
+                                className={styles.resetPillBtn}
                                 onClick={() => {
                                     setSelectedGender('All');
                                     setSelectedCategory('All');
+                                    setSortOption('newest');
                                 }}
+                                title="Reset filters"
                             >
-                                Reset All Filters
+                                <RefreshCw size={12} /> Reset
                             </button>
                         )}
-                    </div>
-                </aside>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className={styles.catalogHeader}>
-                        <h1 className={styles.title}>
-                            {selectedCategory === 'All' ? (selectedGender === 'All' ? 'All Fragrances' : `${selectedGender}'s Collection`) : selectedCategory}
-                        </h1>
-                        <select
-                            value={sortOption}
-                            onChange={(e) => setSortOption(e.target.value)}
-                            style={{
-                                padding: '0 1rem',
-                                minHeight: '44px',
-                                background: 'var(--bg-secondary)',
-                                border: '1px solid var(--border-color)',
-                                color: 'var(--text-primary)',
-                                fontFamily: 'inherit',
-                                fontSize: '0.85rem',
-                                cursor: 'pointer',
-                                outline: 'none',
-                                borderRadius: '4px'
-                            }}
-                        >
-                            <option value="newest">Newest</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                        </select>
                     </div>
 
                     {loading ? (
                         <div className={styles.grid}>
-                            {[...Array(6)].map((_, i) => (
+                            {[...Array(4)].map((_, i) => (
                                 <div key={i} className={styles.skeletonCard}>
                                     <div className={`${styles.skeletonImage} skeleton`} />
                                     <div className={`${styles.skeletonTitle} skeleton`} />
@@ -267,7 +236,6 @@ function ShopContent() {
                         </div>
                     ) : (
                         <div className={styles.categoryRowsContainer}>
-                            {/* CATEGORY HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
                             {activeCategoriesToDisplay.map(catName => {
                                 const catProducts = filteredProducts.filter(p => p.category === catName);
                                 if (catProducts.length === 0) return null;
@@ -297,7 +265,7 @@ function ShopContent() {
                 )}
             </button>
 
-            {/* Bottom Sheet Filter Menu */}
+            {/* Bottom Sheet Filter Menu for Mobile */}
             {isBottomSheetOpen && (
                 <div className={styles.bottomSheetBackdrop} onClick={() => setIsBottomSheetOpen(false)}>
                     <div className={styles.bottomSheet} onClick={(e) => e.stopPropagation()}>

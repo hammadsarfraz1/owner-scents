@@ -1,368 +1,159 @@
-/* Main container setup */
 .main {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .shopContainer {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    gap: 3rem;
-}
-
-/* Revamped Luxury Sidebar Control Panel */
-.sidebar {
-    width: 270px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 232, 255, 0.75) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 20px;
-    padding: 1.25rem 1.5rem;
-    position: sticky;
-    top: 5.5rem;
-    max-height: calc(100vh - 7rem);
-    align-self: start;
-    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
-    overflow: hidden;
+    gap: 2.5rem;
+    padding-bottom: 5rem;
 }
 
-:global([data-theme='dark']) .sidebar {
-    background: linear-gradient(180deg, rgba(20, 20, 26, 0.65) 0%, rgba(12, 12, 16, 0.85) 100%);
+/* Catalog Banner Header */
+.catalogBanner {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(243, 232, 255, 0.6) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.05);
+}
+
+:global([data-theme='dark']) .catalogBanner {
+    background: linear-gradient(135deg, rgba(20, 20, 26, 0.6) 0%, rgba(12, 12, 16, 0.8) 100%);
     border-color: var(--border-color);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.sidebarHeader {
+.title {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    font-weight: 300;
+}
+
+/* Integrated Top Filter Control Bar (Desktop) */
+.topFilterControlBar {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    flex-shrink: 0;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.75rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-sm);
 }
 
-.sidebarScrollContent {
+.filterGroup {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    flex: 1 1 auto;
-    min-height: 0; /* ESSENTIAL FOR CHROME FLEXBOX INNER SCROLLING */
-    overflow-y: auto;
-    padding-right: 0.35rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
-    overscroll-behavior: contain;
+    align-items: center;
+    gap: 0.85rem;
 }
 
-.sidebarScrollContent::-webkit-scrollbar {
-    width: 5px;
-}
-
-.sidebarScrollContent::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.sidebarScrollContent::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 4px;
-}
-
-.sidebarHeaderIcon {
-    color: var(--accent);
-}
-
-.sidebarHeader h2 {
+.filterGroupLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     font-family: var(--font-serif);
-    font-size: 1rem;
+    font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: var(--text-primary);
-    margin: 0;
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
 }
 
-.filterFolder {
-    background: var(--bg-tertiary);
+.filterTabs {
+    display: flex;
+    gap: 0.4rem;
+    background: var(--bg-primary);
+    padding: 0.25rem;
+    border-radius: 10px;
     border: 1px solid var(--border-color);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.filterFolder:hover {
-    border-color: rgba(168, 85, 247, 0.3);
-}
-
-.folderHeader {
-    width: 100%;
+.filterTabBtn {
     background: transparent;
     border: none;
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--text-primary);
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.folderHeader:hover {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.folderHeaderLeft {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.folderHeaderIcon {
-    color: var(--accent);
-}
-
-.folderChevron {
     color: var(--text-secondary);
-    transition: transform 0.3s ease;
-}
-
-.chevronRotated {
-    transform: rotate(180deg);
-    color: var(--accent);
-}
-
-.folderContent {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), padding 0.4s ease;
-    padding: 0 1rem;
-}
-
-.folderOpen .folderContent {
-    max-height: 400px;
-    padding: 0.85rem 1rem 1.1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.filterPillsGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-}
-
-.filterPillBtn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: 0.65rem 1rem;
+    padding: 0.45rem 1rem;
     border-radius: 8px;
     font-size: 0.78rem;
     font-family: var(--font-sans);
     letter-spacing: 0.5px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-    text-align: left;
+    transition: all 0.25s ease;
 }
 
-.filterPillBtn:hover {
-    border-color: var(--accent);
+.filterTabBtn:hover {
     color: var(--text-primary);
-    transform: translateX(3px);
-    background: var(--bg-secondary);
 }
 
-.activePill {
+.activeTabBtn {
     background: var(--accent) !important;
     color: var(--accent-text) !important;
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 12px var(--accent-gold-glow);
     font-weight: 700;
-}
-
-.pillActiveDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-text);
-    box-shadow: 0 0 6px var(--accent-text);
-}
-
-.resetFiltersBtn {
-    background: transparent;
-    border: 1px dashed var(--border-color);
-    color: var(--text-tertiary);
-    padding: 0.65rem;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 0.25rem;
-}
-
-.resetFiltersBtn:hover {
-    border-color: #ef4444;
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.05);
-}
-
-/* Grid & Card Styles */
-.catalogHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2.5rem;
-    gap: 1.5rem;
-}
-
-.title {
-    font-family: var(--font-serif);
-    font-size: 2.2rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-/* Top Interactive Sliders for Gender & Category */
-.slidersWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-    margin-bottom: 3rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 232, 255, 0.75) 100%);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 18px;
-    padding: 1.5rem 1.75rem;
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.08);
-}
-
-:global([data-theme='dark']) .slidersWrapper {
-    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
-    border-color: var(--border-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-}
-
-.topFilterSliderBar {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.sliderBarHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sliderBarTitle {
-    font-family: var(--font-serif);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--accent);
-    font-weight: 600;
-}
-
-.sliderNavBtns {
-    display: flex;
-    gap: 0.4rem;
-}
-
-.sliderNavBtn {
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.sliderNavBtn:hover {
-    background: var(--accent);
-    color: var(--accent-text);
-    border-color: var(--accent);
     box-shadow: 0 0 10px var(--accent-gold-glow);
 }
 
-.sliderTrack {
-    display: flex;
-    gap: 0.75rem;
-    overflow-x: auto;
-    padding-bottom: 0.4rem;
-    padding-top: 0.2rem;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
-    -webkit-overflow-scrolling: touch;
-}
-
-.sliderTrack::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-
-.sliderPillCard {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+.selectInput {
+    padding: 0.5rem 1rem;
+    height: 40px;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    padding: 0.6rem 1.25rem;
-    border-radius: 30px;
-    font-size: 0.8rem;
-    font-family: var(--font-sans);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    white-space: nowrap;
-}
-
-.sliderPillCard:hover {
-    border-color: var(--accent);
     color: var(--text-primary);
-    transform: translateY(-2px);
-    background: var(--bg-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
 }
 
-.activeSliderPillCard {
-    background: var(--accent) !important;
-    color: var(--accent-text) !important;
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 14px var(--accent-gold-glow);
-    font-weight: 700;
+.selectInput:focus {
+    border-color: var(--accent);
 }
 
-.sliderActiveDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-text);
-    box-shadow: 0 0 6px var(--accent-text);
+.resetPillBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    color: var(--text-tertiary);
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.resetPillBtn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
 }
 
 /* Category Horizontal Scrolling Rows */
@@ -378,7 +169,7 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(139, 92, 246, 0.2);
-    border-radius: 18px;
+    border-radius: 20px;
     padding: 2rem 2.25rem;
     display: flex;
     flex-direction: column;
@@ -407,8 +198,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 1.1rem;
+}
+
+:global([data-theme='dark']) .categorySectionHeader {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 .titleWrapper {
@@ -424,7 +219,6 @@
     letter-spacing: 2px;
     color: var(--text-primary);
     margin: 0;
-    position: relative;
 }
 
 .categoryCountBadge {
@@ -483,7 +277,7 @@
 }
 
 .horizontalScrollRow::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(0, 0, 0, 0.04);
     border-radius: 4px;
 }
 
@@ -497,380 +291,243 @@
     width: 285px;
 }
 
-.allProductsGridHeader {
-    margin-bottom: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
+/* Skeletons */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
 }
 
-.allProductsGridHeader h2 {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-}
-
-/* Hide mobile filters on desktop */
-.mobileFilters {
-    display: none;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 968px) {
-    .shopContainer {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .sidebar {
-        display: none;
-        /* Hide sidebar on mobile */
-    }
-
-    .mobileFilters {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        position: sticky;
-        top: 60px;
-        background: var(--bg-primary);
-        z-index: 90;
-        border-bottom: 1px solid var(--border-color);
-        padding: 0.5rem 0 1rem 0;
-    }
-
-    .mobileFilterGroup {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .mobileFilterLabel {
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        font-weight: 700;
-        color: var(--accent);
-        padding-left: 0.25rem;
-    }
-
-    .mobileFilterScroll {
-        display: flex;
-        gap: 0.5rem;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        padding-bottom: 0.25rem;
-    }
-
-    .mobileFilterScroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .filterChip {
-        flex: 0 0 auto;
-        padding: 0 1.2rem;
-        min-height: 44px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid var(--border-color);
-        background: var(--bg-secondary);
-        color: var(--text-secondary);
-        border-radius: 0px; /* Sharp minimal edges */
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        white-space: nowrap;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .filterChip.active {
-        background: var(--accent);
-        color: var(--accent-text);
-        border-color: var(--accent);
-        box-shadow: 0 2px 8px var(--accent-gold-glow);
-    }
-
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-
-    .catalogHeader {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1.25rem;
-        text-align: center;
-    }
-
-    .title {
-        font-size: 1.8rem;
-        text-align: center;
-    }
-}
-
-@media (max-width: 580px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side on mobile screens */
-        gap: 0.85rem;
-    }
-    .categorySection {
-        padding: 1.25rem 1rem;
-        border-radius: 12px;
-        gap: 1rem;
-    }
-    .categorySectionTitle {
-        font-size: 1.15rem;
-    }
-    .horizontalCardWrapper {
-        flex: 0 0 190px;
-        width: 190px;
-    }
-}
-
-/* Floating Filter & Sort Button (Desktop hidden) */
-.mobileFilterStickyBtn {
-    display: none;
-}
-
-.activeFilterCount {
-    width: 8px;
-    height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent);
-}
-
-/* Skeleton Loading Cards Styles */
 .skeletonCard {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 1rem;
-    height: 380px;
+    padding: 1.25rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .skeletonImage {
     width: 100%;
-    height: 240px;
+    aspect-ratio: 1;
+    border-radius: 12px;
 }
 
 .skeletonTitle {
+    height: 24px;
     width: 70%;
-    height: 1.2rem;
+    border-radius: 4px;
 }
 
 .skeletonText {
+    height: 16px;
     width: 90%;
-    height: 0.9rem;
+    border-radius: 4px;
 }
 
 .skeletonPrice {
+    height: 28px;
     width: 40%;
-    height: 1.1rem;
-    margin-top: auto;
+    border-radius: 4px;
 }
 
-@media (max-width: 968px) {
-    .mobileFilterStickyBtn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        position: fixed;
-        bottom: 85px; /* Floats above the bottom navigation bar */
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(12, 12, 14, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        color: var(--text-primary);
-        padding: 0.75rem 1.5rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        border-radius: 40px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.1);
-        z-index: 999;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .topFilterControlBar {
+        display: none;
+    }
+}
+
+@media (max-width: 580px) {
+    .catalogBanner {
+        padding: 1.75rem 1rem;
+        border-radius: 14px;
     }
 
-    .mobileFilterStickyBtn:hover {
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.25);
-        border-color: var(--accent);
-        transform: translateX(-50%) translateY(-2px);
+    .title {
+        font-size: 1.8rem;
     }
 
-    /* Bottom Sheet Dialog */
-    .bottomSheetBackdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        z-index: 10000;
-        display: flex;
-        align-items: flex-end;
-        animation: fadeIn 0.3s ease;
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
     }
 
-    .bottomSheet {
-        width: 100%;
-        background: var(--bg-secondary);
-        border-top: 1px solid var(--glass-border);
-        border-top-left-radius: 24px;
-        border-top-right-radius: 24px;
-        max-height: 85vh;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-        animation: slideUp 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .bottomSheetHeader {
-        position: relative;
-        padding: 1.25rem 1.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-bottom: 1px solid var(--border-color);
-    }
-
-    .bottomSheetDragHandle {
-        width: 40px;
-        height: 4px;
-        background: var(--border-color);
-        border-radius: 2px;
-        margin-bottom: 0.75rem;
-    }
-
-    .bottomSheetHeader h2 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        font-family: var(--font-serif);
-        margin: 0;
-    }
-
-    .closeBtn {
-        position: absolute;
-        right: 1.25rem;
-        top: 1.5rem;
-        background: none;
-        border: none;
-        color: var(--text-secondary);
-        cursor: pointer;
-        padding: 4px;
-    }
-
-    .bottomSheetContent {
-        overflow-y: auto;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-    }
-
-    .sheetSection h3 {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--accent);
-        margin-bottom: 1rem;
-        font-family: var(--font-sans);
-    }
-
-    .sheetOptionsGrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 0.75rem;
-    }
-
-    .sheetOptionBtn {
-        background: var(--bg-primary);
-        border: 1px solid var(--border-color);
-        color: var(--text-secondary);
-        padding: 0.75rem 0.5rem;
-        font-size: 0.75rem;
-        text-align: center;
-        cursor: pointer;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: all 0.25s ease;
-        border-radius: 0px;
-    }
-
-    .sheetOptionBtn:hover {
-        border-color: rgba(168, 85, 247, 0.4);
-        color: var(--text-primary);
-    }
-
-    .sheetOptionBtn.activeOption {
-        background: var(--accent);
-        color: var(--accent-text);
-        border-color: var(--accent);
-        box-shadow: 0 0 10px var(--accent-gold-glow);
-    }
-
-    .bottomSheetFooter {
-        padding: 1rem 1.5rem;
-        border-top: 1px solid var(--border-color);
-        display: flex;
+    .categorySection {
+        padding: 1.25rem 1rem;
+        border-radius: 14px;
         gap: 1rem;
     }
 
-    .resetBtn {
-        flex: 1;
-        background: transparent;
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        padding: 0.85rem;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-radius: 0px;
+    .categorySectionTitle {
+        font-size: 1.15rem;
     }
 
-    .resetBtn:hover {
-        border-color: var(--text-primary);
+    .horizontalCardWrapper {
+        flex: 0 0 200px;
+        width: 200px;
     }
+}
 
-    .applyBtn {
-        flex: 2;
+/* Mobile Floating Sticky Button & Bottom Sheet */
+.mobileFilterStickyBtn {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .mobileFilterStickyBtn {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 99;
         background: var(--accent);
-        border: 1px solid var(--accent);
         color: var(--accent-text);
-        padding: 0.85rem;
+        border: none;
+        padding: 0.85rem 1.75rem;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-family: var(--font-serif);
+        font-size: 0.85rem;
         text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-        font-weight: 600;
+        letter-spacing: 1.5px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-gold-glow);
         cursor: pointer;
         transition: all 0.3s ease;
-        border-radius: 0px;
     }
+}
 
-    .applyBtn:hover {
-        box-shadow: 0 0 15px var(--accent-gold-glow);
-    }
+.bottomSheetBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    animation: fadeIn 0.3s ease;
+}
+
+.bottomSheet {
+    width: 100%;
+    max-height: 85vh;
+    background: var(--bg-primary);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bottomSheetHeader {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.bottomSheetDragHandle {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+.bottomSheetHeader h2 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.bottomSheetContent {
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.sheetSection h3 {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 0.85rem;
+}
+
+.sheetOptionsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.sheetOptionBtn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.activeOption {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+    font-weight: 600;
+}
+
+.bottomSheetFooter {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 1rem;
+    background: var(--bg-secondary);
+}
+
+.resetBtn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.applyBtn {
+    flex: 2;
+    background: var(--accent);
+    color: var(--accent-text);
+    border: none;
+    padding: 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
