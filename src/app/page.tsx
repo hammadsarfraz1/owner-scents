@@ -55,40 +55,47 @@ export default function Home() {
     setTilt({ x: 0, y: 0 });
   };
 
-  // Body overflow locking
+  // Body overflow locking while intro cover is active or sliding out
   useEffect(() => {
-    if (isCoverActive) {
+    if (renderCover) {
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
     } else {
-      document.body.style.overflow = 'unset';
-      hasSeenIntroGlobal = true;
-      // Unmount the cover completely after the slide transition completes
-      const timer = setTimeout(() => {
-        setRenderCover(false);
-      }, 1000);
-      return () => clearTimeout(timer);
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
-  }, [isCoverActive]);
+  }, [renderCover]);
 
   // Handle scroll down / scroll up curtain toggle
   useEffect(() => {
     const handleGesture = (e: WheelEvent) => {
-      if (isCoverActive) {
-        e.preventDefault(); // Block main page from scrolling
-        if (e.deltaY > 0) {
+      if (renderCover) {
+        e.preventDefault(); // Block main page from scrolling at all costs
+        if (isCoverActive && (e.deltaY > 0 || e.deltaY < 0)) {
           setIsCoverActive(false);
+          hasSeenIntroGlobal = true;
+          setTimeout(() => {
+            setRenderCover(false);
+          }, 1000);
         }
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isCoverActive && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
+      if (renderCover && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
         e.preventDefault(); // Block page scroll
-        setIsCoverActive(false);
+        if (isCoverActive) {
+          setIsCoverActive(false);
+          hasSeenIntroGlobal = true;
+          setTimeout(() => {
+            setRenderCover(false);
+          }, 1000);
+        }
       }
     };
 
-    // passive: false is required to support e.preventDefault()
     window.addEventListener('wheel', handleGesture, { passive: false });
     window.addEventListener('keydown', handleKeyDown, { passive: false });
 
@@ -96,36 +103,41 @@ export default function Home() {
       window.removeEventListener('wheel', handleGesture);
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isCoverActive]);
+  }, [renderCover, isCoverActive]);
 
   // Touch event listeners for mobile swipe to trigger curtain
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
-      if (isCoverActive) {
+      if (renderCover) {
         setTouchStartY(e.touches[0].clientY);
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
+      if (!renderCover) return;
+      e.preventDefault(); // Block touch page scroll completely
       if (touchStartY === null || !isCoverActive) return;
       const currentY = e.touches[0].clientY;
-      const diffY = touchStartY - currentY; // positive is scroll down (swipe up)
+      const diffY = touchStartY - currentY;
 
-      if (diffY > 30) {
-        e.preventDefault(); // Block touch page scroll
+      if (Math.abs(diffY) > 20) {
         setIsCoverActive(false);
+        hasSeenIntroGlobal = true;
         setTouchStartY(null);
+        setTimeout(() => {
+          setRenderCover(false);
+        }, 1000);
       }
     };
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false allows e.preventDefault()
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [isCoverActive, touchStartY]);
+  }, [renderCover, isCoverActive, touchStartY]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -185,13 +197,23 @@ export default function Home() {
   const mainTitle = titleWords.slice(0, -1).join(' ');
   const lastWord = titleWords[titleWords.length - 1] || '';
 
+  const dismissCover = () => {
+    if (isCoverActive) {
+      setIsCoverActive(false);
+      hasSeenIntroGlobal = true;
+      setTimeout(() => {
+        setRenderCover(false);
+      }, 1000);
+    }
+  };
+
   return (
     <div className={styles.main}>
       {/* Intro Curtain Cover (Option A) */}
       {renderCover && (
         <div 
           className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
-          onClick={() => setIsCoverActive(false)}
+          onClick={dismissCover}
         >
           <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
             <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
@@ -266,7 +288,7 @@ export default function Home() {
               })}
             </div>
 
-            <div className={styles.scrollIndicator} onClick={() => setIsCoverActive(false)}>
+            <div className={styles.scrollIndicator} onClick={dismissCover}>
               <span className={styles.scrollText}>Scroll or click to enter</span>
               <span className={styles.scrollArrow}>↓</span>
             </div>
