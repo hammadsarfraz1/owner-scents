@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import styles from './page.module.css';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, Trash2, ArrowRight, ShieldCheck, Truck, Plus, Minus, Sparkles } from 'lucide-react';
+import { ShoppingBag, Trash2, ArrowRight, ShieldCheck, Truck, Plus, Minus } from 'lucide-react';
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
@@ -53,7 +53,6 @@ export default function Cart() {
                                             )}
                                         </span>
                                     </div>
-                                    <Sparkles size={16} className={styles.sparkleIcon} />
                                 </div>
                                 <div className={styles.progressBarBg}>
                                     <div 

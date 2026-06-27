@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import styles from './CartDrawer.module.css';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { ShoppingBag, Trash2, ArrowRight, Truck, Plus, Minus, Sparkles, X } from 'lucide-react';
+import { ShoppingBag, Trash2, ArrowRight, Truck, Plus, Minus, X } from 'lucide-react';
 
 export default function CartDrawer() {
     const { cart, isCartOpen, toggleCart, removeFromCart, updateQuantity, cartTotal } = useCart();

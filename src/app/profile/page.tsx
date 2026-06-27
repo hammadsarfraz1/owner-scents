@@ -21,8 +21,7 @@ import {
     ChevronUp, 
     Gift, 
     X,
-    MessageSquare,
-    Sparkles
+    MessageSquare
 } from 'lucide-react';
 
 type OrderItem = {
@@ -260,7 +259,6 @@ export default function ProfilePage() {
                                         {isTrackingOpen && (
                                             <div className={styles.trackingContainer}>
                                                 <div className={styles.trackingHeader}>
-                                                    <Sparkles size={16} className={styles.sparkleIcon} />
                                                     <span>Live Fulfillment Tracker</span>
                                                 </div>
                                                 <div className={styles.trackerTimeline}>
