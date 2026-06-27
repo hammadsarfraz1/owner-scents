@@ -23,17 +23,24 @@ export async function GET() {
             orderBy: { createdAt: 'asc' }
         });
 
-        let totalRevenue = 0;
+        let grossRevenue = 0;
+        let netRevenue = 0;
+        let returnedValue = 0;
+        
         let totalOrders = orders.length;
+        let deliveredOrders = 0;
+        let returnedOrders = 0;
+        let cancelledOrders = 0;
+        let pendingOrders = 0;
         let totalItemsSold = 0;
 
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const currentYear = new Date().getFullYear();
 
         // Initialize 12 months structure
-        const monthlyMap: Record<string, { month: string; revenue: number; orders: number }> = {};
+        const monthlyMap: Record<string, { month: string; revenue: number; orders: number; returned: number }> = {};
         months.forEach(m => {
-            monthlyMap[m] = { month: m, revenue: 0, orders: 0 };
+            monthlyMap[m] = { month: m, revenue: 0, orders: 0, returned: 0 };
         });
 
         // Initialize yearly & category & product maps
@@ -43,59 +50,83 @@ export async function GET() {
 
         orders.forEach(order => {
             const rev = Number(order.total) || 0;
-            totalRevenue += rev;
+            const status = (order.status || 'PENDING').toUpperCase();
+
+            grossRevenue += rev;
+
+            if (status === 'DELIVERED') {
+                deliveredOrders += 1;
+                netRevenue += rev;
+            } else if (status === 'RETURNED') {
+                returnedOrders += 1;
+                returnedValue += rev;
+            } else if (status === 'CANCELLED') {
+                cancelledOrders += 1;
+            } else {
+                pendingOrders += 1;
+                netRevenue += rev; // include active pending/shipped orders in active revenue stream
+            }
 
             const date = new Date(order.createdAt);
             const yr = date.getFullYear().toString();
             const mo = months[date.getMonth()];
 
-            // Yearly aggregation
-            if (!yearlyMap[yr]) {
-                yearlyMap[yr] = { year: yr, revenue: 0, orders: 0 };
-            }
-            yearlyMap[yr].revenue += rev;
-            yearlyMap[yr].orders += 1;
-
-            // Monthly aggregation (for current year or all)
-            if (date.getFullYear() === currentYear) {
-                monthlyMap[mo].revenue += rev;
-                monthlyMap[mo].orders += 1;
-            }
-
-            // Items breakdown
-            order.items.forEach(item => {
-                const qty = item.quantity || 1;
-                const price = Number(item.price) > 0 ? Number(item.price) : Number(item.product?.price || 0);
-                const itemRev = price * qty;
-                totalItemsSold += qty;
-
-                // Category
-                const cat = item.product?.category || 'Uncategorized';
-                categoryMap[cat] = (categoryMap[cat] || 0) + itemRev;
-
-                // Product
-                const pId = item.productId || item.product?.id || item.product?.name || 'unknown';
-                if (!productMap[pId]) {
-                    productMap[pId] = {
-                        name: item.product?.name || 'Fragrance Product',
-                        image: item.product?.image || 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80',
-                        qty: 0,
-                        revenue: 0
-                    };
+            // Yearly aggregation (excluding cancelled/returned)
+            if (status !== 'CANCELLED' && status !== 'RETURNED') {
+                if (!yearlyMap[yr]) {
+                    yearlyMap[yr] = { year: yr, revenue: 0, orders: 0 };
                 }
-                productMap[pId].qty += qty;
-                productMap[pId].revenue += itemRev;
-            });
+                yearlyMap[yr].revenue += rev;
+                yearlyMap[yr].orders += 1;
+            }
+
+            // Monthly aggregation for current year
+            if (date.getFullYear() === currentYear) {
+                monthlyMap[mo].orders += 1;
+                if (status === 'RETURNED') {
+                    monthlyMap[mo].returned += 1;
+                } else if (status !== 'CANCELLED') {
+                    monthlyMap[mo].revenue += rev;
+                }
+            }
+
+            // Items breakdown (for active sales)
+            if (status !== 'CANCELLED') {
+                order.items.forEach(item => {
+                    const qty = item.quantity || 1;
+                    const price = Number(item.price) > 0 ? Number(item.price) : Number(item.product?.price || 0);
+                    const itemRev = price * qty;
+                    totalItemsSold += qty;
+
+                    // Category
+                    const cat = item.product?.category || 'Uncategorized';
+                    categoryMap[cat] = (categoryMap[cat] || 0) + itemRev;
+
+                    // Product
+                    const pId = item.productId || item.product?.id || item.product?.name || 'unknown';
+                    if (!productMap[pId]) {
+                        productMap[pId] = {
+                            name: item.product?.name || 'Fragrance Product',
+                            image: item.product?.image || 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80',
+                            qty: 0,
+                            revenue: 0
+                        };
+                    }
+                    productMap[pId].qty += qty;
+                    productMap[pId].revenue += itemRev;
+                });
+            }
         });
 
         const monthlySales = Object.values(monthlyMap);
         const yearlySales = Object.values(yearlyMap).sort((a, b) => Number(a.year) - Number(b.year));
 
         // Format category breakdown with percentages
+        const activeCatTotal = Object.values(categoryMap).reduce((a, b) => a + b, 0);
         const categorySales = Object.entries(categoryMap).map(([category, revenue]) => ({
             category,
             revenue,
-            percentage: totalRevenue > 0 ? Math.round((revenue / totalRevenue) * 100) : 0
+            percentage: activeCatTotal > 0 ? Math.round((revenue / activeCatTotal) * 100) : 0
         })).sort((a, b) => b.revenue - a.revenue);
 
         // Format top products
@@ -103,12 +134,18 @@ export async function GET() {
             .sort((a, b) => b.revenue - a.revenue)
             .slice(0, 5);
 
-        const averageOrderValue = totalOrders > 0 ? Math.round(totalRevenue / totalOrders) : 0;
+        const averageOrderValue = totalOrders > 0 ? Math.round(grossRevenue / totalOrders) : 0;
 
         return NextResponse.json({
             kpis: {
-                totalRevenue,
+                grossRevenue,
+                netRevenue,
+                returnedValue,
                 totalOrders,
+                deliveredOrders,
+                returnedOrders,
+                cancelledOrders,
+                pendingOrders,
                 averageOrderValue,
                 totalItemsSold
             },

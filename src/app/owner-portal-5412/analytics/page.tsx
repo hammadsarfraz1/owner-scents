@@ -11,17 +11,25 @@ import {
     Calendar, 
     PieChart, 
     BarChart2,
-    ArrowUpRight
+    RotateCcw,
+    XCircle,
+    CheckCircle2
 } from 'lucide-react';
 
 type AnalyticsData = {
     kpis: {
-        totalRevenue: number;
+        grossRevenue: number;
+        netRevenue: number;
+        returnedValue: number;
         totalOrders: number;
+        deliveredOrders: number;
+        returnedOrders: number;
+        cancelledOrders: number;
+        pendingOrders: number;
         averageOrderValue: number;
         totalItemsSold: number;
     };
-    monthlySales: { month: string; revenue: number; orders: number }[];
+    monthlySales: { month: string; revenue: number; orders: number; returned: number }[];
     yearlySales: { year: string; revenue: number; orders: number }[];
     categorySales: { category: string; revenue: number; percentage: number }[];
     topProducts: { name: string; image: string; qty: number; revenue: number }[];
@@ -52,7 +60,7 @@ export default function AdminAnalytics() {
         return (
             <div style={{ padding: '4rem 0', textAlign: 'center', color: '#a1a1aa' }}>
                 <div style={{ width: '45px', height: '45px', borderRadius: '50%', border: '3px solid #3b82f6', borderTopColor: 'transparent', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-                <span>Generating Financial & Olfactory Performance Intelligence...</span>
+                <span>Analyzing Storefront Database & Returned Parcels...</span>
             </div>
         );
     }
@@ -67,8 +75,8 @@ export default function AdminAnalytics() {
             {/* Page Title & View Toggles */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <div>
-                    <span style={{ fontSize: '0.75rem', color: '#60a5fa', letterSpacing: '3px', textTransform: 'uppercase', fontWeight: 600 }}>FINANCIAL PERFORMANCE</span>
-                    <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.4rem', marginTop: '0.2rem', letterSpacing: '1px' }}>Executive Store Analytics</h1>
+                    <span style={{ fontSize: '0.75rem', color: '#60a5fa', letterSpacing: '3px', textTransform: 'uppercase', fontWeight: 600 }}>EXECUTIVE INTELLIGENCE</span>
+                    <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.4rem', marginTop: '0.2rem', letterSpacing: '1px' }}>Store Analytics & Logistics</h1>
                 </div>
 
                 <div style={{ display: 'flex', background: '#18181b', padding: '0.35rem', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
@@ -113,28 +121,28 @@ export default function AdminAnalytics() {
                 </div>
             </div>
 
-            {/* Key Performance Indicators (KPIs) */}
-            <div className={styles.statsGrid}>
+            {/* Key Performance Indicators (KPIs Grid 1) */}
+            <div className={styles.statsGrid} style={{ marginBottom: '1.5rem' }}>
                 <div className={styles.statCard}>
                     <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Total Gross Sales</span>
+                        <span className={styles.statTitle}>Total Gross Revenue</span>
                         <div className={styles.statIcon}>
                             <DollarSign size={20} />
                         </div>
                     </div>
                     <div>
                         <div className={`${styles.statVal} ${styles.statValBlue}`}>
-                            Rs. {data.kpis.totalRevenue.toLocaleString()}
+                            Rs. {data.kpis.grossRevenue.toLocaleString()}
                         </div>
                         <span style={{ fontSize: '0.75rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.5rem' }}>
-                            <TrendingUp size={12} /> Net Lifetime Revenue
+                            <TrendingUp size={12} /> Total Volume of All Placed Orders
                         </span>
                     </div>
                 </div>
 
                 <div className={styles.statCard}>
                     <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Total Orders Completed</span>
+                        <span className={styles.statTitle}>Total Orders Placed</span>
                         <div className={styles.statIcon} style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
                             <ShoppingBag size={20} />
                         </div>
@@ -142,7 +150,24 @@ export default function AdminAnalytics() {
                     <div>
                         <div className={styles.statVal}>{data.kpis.totalOrders}</div>
                         <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            Successful Client Purchases
+                            All Lifetime Customer Checkout Receipts
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.statCard}>
+                    <div className={styles.statHeader}>
+                        <span className={styles.statTitle}>Returned Parcels</span>
+                        <div className={styles.statIcon} style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6', borderColor: 'rgba(236, 72, 153, 0.3)' }}>
+                            <RotateCcw size={20} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.statVal} style={{ color: '#f472b6' }}>
+                            {data.kpis.returnedOrders} <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#a1a1aa' }}>parcels</span>
+                        </div>
+                        <span style={{ fontSize: '0.75rem', color: '#f472b6', marginTop: '0.5rem', display: 'block' }}>
+                            Rs. {data.kpis.returnedValue.toLocaleString()} Returned Volume
                         </span>
                     </div>
                 </div>
@@ -159,23 +184,43 @@ export default function AdminAnalytics() {
                             Rs. {data.kpis.averageOrderValue.toLocaleString()}
                         </div>
                         <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            Average Spent per Transaction
+                            Average Value per Transaction
                         </span>
                     </div>
                 </div>
+            </div>
 
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Units Dispatched</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)' }}>
-                            <Layers size={20} />
-                        </div>
-                    </div>
+            {/* Logistics Status Breakdown Bar */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <CheckCircle2 size={24} style={{ color: '#34d399' }} />
                     <div>
-                        <div className={styles.statVal} style={{ color: '#34d399' }}>{data.kpis.totalItemsSold}</div>
-                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            Fragrance Bottles Sold
-                        </span>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.deliveredOrders}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Delivered Parcels</div>
+                    </div>
+                </div>
+
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <ShoppingBag size={24} style={{ color: '#fbbf24' }} />
+                    <div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.pendingOrders}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Processing / Shipped</div>
+                    </div>
+                </div>
+
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <RotateCcw size={24} style={{ color: '#f472b6' }} />
+                    <div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.returnedOrders}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Returned Parcels</div>
+                    </div>
+                </div>
+
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <XCircle size={24} style={{ color: '#f87171' }} />
+                    <div>
+                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.cancelledOrders}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Cancelled Orders</div>
                     </div>
                 </div>
             </div>
@@ -185,10 +230,10 @@ export default function AdminAnalytics() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                     <div>
                         <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', letterSpacing: '1px' }}>
-                            {viewMode === 'monthly' ? '2026 Monthly Revenue Progression' : 'Yearly Sales Trajectory'}
+                            {viewMode === 'monthly' ? '2026 Monthly Sales & Dispatch Analytics' : 'Multi-Year Sales Progression'}
                         </h3>
                         <p style={{ fontSize: '0.85rem', color: '#a1a1aa', marginTop: '0.25rem' }}>
-                            Visualizing revenue distribution across timeframe periods.
+                            Real-time order calculations directly queried from Neon Cloud DB.
                         </p>
                     </div>
                 </div>
@@ -214,7 +259,7 @@ export default function AdminAnalytics() {
                                             transition: 'all 0.3s ease',
                                             cursor: 'pointer'
                                         }}
-                                        title={`${item.month}: Rs. ${item.revenue.toLocaleString()} (${item.orders} orders)`}
+                                        title={`${item.month}: Rs. ${item.revenue.toLocaleString()} (${item.orders} orders placed, ${item.returned} returned)`}
                                     />
                                     <div style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#a1a1aa', fontWeight: 500 }}>
                                         {item.month}
@@ -226,7 +271,7 @@ export default function AdminAnalytics() {
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingTop: '1rem' }}>
                         {data.yearlySales.length === 0 ? (
-                            <p style={{ color: '#a1a1aa' }}>No multi-year records available.</p>
+                            <p style={{ color: '#a1a1aa' }}>No multi-year records available in database.</p>
                         ) : (
                             data.yearlySales.map((y, idx) => {
                                 const fillWidth = Math.max((y.revenue / maxYearlyRevenue) * 100, 5);
@@ -234,7 +279,7 @@ export default function AdminAnalytics() {
                                     <div key={idx}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                                             <span style={{ fontWeight: 700, color: '#ffffff' }}>Year {y.year}</span>
-                                            <span style={{ color: '#60a5fa', fontWeight: 600 }}>Rs. {y.revenue.toLocaleString()} ({y.orders} orders)</span>
+                                            <span style={{ color: '#60a5fa', fontWeight: 600 }}>Rs. {y.revenue.toLocaleString()} ({y.orders} active orders)</span>
                                         </div>
                                         <div style={{ width: '100%', height: '12px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '6px', overflow: 'hidden' }}>
                                             <div style={{ width: `${fillWidth}%`, height: '100%', background: 'linear-gradient(90deg, #3b82f6, #60a5fa)', borderRadius: '6px', boxShadow: '0 0 10px rgba(59, 130, 246, 0.4)' }} />
@@ -253,12 +298,12 @@ export default function AdminAnalytics() {
                 <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '2rem', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
                         <PieChart size={20} style={{ color: '#60a5fa' }} />
-                        <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', letterSpacing: '1px' }}>Category Contribution</h3>
+                        <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', letterSpacing: '1px' }}>Category Sales Shares</h3>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                         {data.categorySales.length === 0 ? (
-                            <p style={{ color: '#a1a1aa' }}>No category transactions recorded.</p>
+                            <p style={{ color: '#a1a1aa' }}>No category transactions recorded yet.</p>
                         ) : (
                             data.categorySales.map((cat, idx) => (
                                 <div key={idx}>
@@ -279,12 +324,12 @@ export default function AdminAnalytics() {
                 <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '2rem', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem' }}>
                         <Award size={20} style={{ color: '#fbbf24' }} />
-                        <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', letterSpacing: '1px' }}>Top 5 Best Selling Fragrances</h3>
+                        <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', letterSpacing: '1px' }}>Top 5 Best Selling Perfumes</h3>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         {data.topProducts.length === 0 ? (
-                            <p style={{ color: '#a1a1aa' }}>No product sales records yet.</p>
+                            <p style={{ color: '#a1a1aa' }}>No product sales recorded yet.</p>
                         ) : (
                             data.topProducts.map((prod, idx) => (
                                 <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(255, 255, 255, 0.02)', padding: '0.85rem 1rem', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.04)' }}>

@@ -192,6 +192,8 @@ export default function AdminOrders() {
                 return { color: '#a855f7', background: '#a855f715', border: '1px solid #a855f740' };
             case 'PACKED':
                 return { color: '#3b82f6', background: '#3b82f615', border: '1px solid #3b82f640' };
+            case 'RETURNED':
+                return { color: '#ec4899', background: '#ec489915', border: '1px solid #ec489940' };
             case 'CANCELLED':
                 return { color: '#ef4444', background: '#ef444415', border: '1px solid #ef444440' };
             case 'ORDERED':
@@ -223,7 +225,7 @@ export default function AdminOrders() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', background: 'var(--bg-secondary)', padding: '1.5rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                 {/* Status Filter Tabs */}
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    {['ALL', 'PENDING', 'PACKED', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map((status) => (
+                    {['ALL', 'PENDING', 'PACKED', 'SHIPPED', 'DELIVERED', 'RETURNED', 'CANCELLED'].map((status) => (
                         <button
                             key={status}
                             onClick={() => setStatusFilter(status)}
@@ -422,6 +424,7 @@ export default function AdminOrders() {
                                             <option value="PACKED">PACKED</option>
                                             <option value="SHIPPED">SHIPPED</option>
                                             <option value="DELIVERED">DELIVERED</option>
+                                            <option value="RETURNED">RETURNED PARCEL</option>
                                             <option value="CANCELLED">CANCELLED</option>
                                         </select>
                                     </div>

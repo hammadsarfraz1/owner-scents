@@ -492,6 +492,12 @@
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+.statusReturned {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
+    border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
 @media (max-width: 968px) {
     .topHeader {
         padding: 0 1.5rem;
