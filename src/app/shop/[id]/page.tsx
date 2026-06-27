@@ -7,7 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import styles from './page.module.css';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 
 type Product = {
@@ -35,6 +35,7 @@ type Review = {
 
 export default function ProductDetails() {
     const params = useParams();
+    const router = useRouter();
     const { data: session } = useSession();
     const [product, setProduct] = useState<Product | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
@@ -286,7 +287,7 @@ export default function ProductDetails() {
                                 className={styles.buyNowBtn}
                                 onClick={() => {
                                     addToCart({ ...product, price: Number(product.price), id: product.id }, false);
-                                    window.location.href = '/cart';
+                                    router.push('/cart');
                                 }}
                             >
                                 Buy Now - Rs. {Number(product.price).toLocaleString()}
@@ -501,7 +502,7 @@ export default function ProductDetails() {
                             className={`${styles.stickyBuyBtn} sheenEffect`}
                             onClick={() => {
                                 addToCart({ ...product, price: Number(product.price), id: product.id }, false);
-                                window.location.href = '/cart';
+                                router.push('/cart');
                             }}
                         >
                             Buy Now

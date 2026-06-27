@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import styles from './ProductCard.module.css';
 import { useState, useEffect } from 'react';
@@ -55,6 +56,7 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({ product, onQuickView }: ProductCardProps) {
+    const router = useRouter();
     const { addToCart } = useCart();
     const [activeNoteInfo, setActiveNoteInfo] = useState<string | null>(null);
     const [scentDescriptions, setScentDescriptions] = useState<Record<string, string>>({});
@@ -137,7 +139,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         e.preventDefault();
         const priceToUse = product.isOnSale && product.salePrice ? Number(product.salePrice) : Number(product.price);
         addToCart({ ...product, price: priceToUse }, false);
-        window.location.href = '/cart';
+        router.push('/cart');
     };
 
     const handleAddToCart = (e: React.MouseEvent) => {
