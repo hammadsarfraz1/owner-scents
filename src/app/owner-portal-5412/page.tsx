@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styles from './admin.module.css';
+import Link from 'next/link';
+import { DollarSign, ShoppingBag, Clock, ArrowUpRight, TrendingUp, Sparkles, PackageCheck } from 'lucide-react';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -28,57 +30,160 @@ export default function AdminDashboard() {
             });
     }, []);
 
-    if (loading) return <div>Loading Stats...</div>;
+    if (loading) {
+        return (
+            <div style={{ padding: '3rem 0', textAlign: 'center', color: '#a1a1aa' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: '50%', border: '2px solid var(--accent)', borderTopColor: 'transparent', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+                <span>Loading Executive Dashboard...</span>
+            </div>
+        );
+    }
+
+    const completedCount = stats.recentOrders.filter((o: any) => o.status.toUpperCase() === 'DELIVERED').length;
 
     return (
         <div>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem' }}>Dashboard Overview</h1>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
-                    <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase' }}>Total Revenue</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--gold-highlight)', marginTop: '0.5rem' }}>
-                        Rs. {Number(stats.totalRevenue).toLocaleString()}
-                    </p>
+            {/* Dashboard Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                <div>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--accent)', letterSpacing: '3px', textTransform: 'uppercase', fontWeight: 600 }}>OVERVIEW</span>
+                    <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.4rem', marginTop: '0.2rem', letterSpacing: '1px' }}>Executive Dashboard</h1>
                 </div>
-
-                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
-                    <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase' }}>Total Orders</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', marginTop: '0.5rem' }}>{stats.totalOrders}</p>
-                </div>
-
-                <div style={{ background: 'var(--bg-secondary)', padding: '2rem', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
-                    <h3 style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', textTransform: 'uppercase' }}>Pending Orders</h3>
-                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#e5bf48', marginTop: '0.5rem' }}>{stats.pendingOrders}</p>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                    <Link href="/owner-portal-5412/orders" className={styles.btnPrimary}>
+                        <PackageCheck size={16} />
+                        <span>Manage All Orders</span>
+                    </Link>
                 </div>
             </div>
 
-            <div style={{ marginTop: '4rem', padding: '2rem', background: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
-                <h2 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1rem' }}>Recent Activity</h2>
-                {stats.recentOrders.length === 0 ? (
-                    <p style={{ color: 'var(--text-secondary)' }}>No recent orders found.</p>
-                ) : (
-                    <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
-                        <thead>
-                            <tr style={{ color: 'var(--text-secondary)', borderBottom: '1px solid var(--border-color)' }}>
-                                <th style={{ padding: '1rem' }}>Order ID</th>
-                                <th style={{ padding: '1rem' }}>Customer</th>
-                                <th style={{ padding: '1rem' }}>Total</th>
-                                <th style={{ padding: '1rem' }}>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {stats.recentOrders.map((order: any) => (
-                                <tr key={order.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                                    <td style={{ padding: '1rem' }}>#{order.id.slice(-6)}</td>
-                                    <td style={{ padding: '1rem' }}>{order.shippingName}</td>
-                                    <td style={{ padding: '1rem' }}>Rs. {Number(order.total).toLocaleString()}</td>
-                                    <td style={{ padding: '1rem' }}>{order.status}</td>
+            {/* Stats Cards Grid */}
+            <div className={styles.statsGrid}>
+                <div className={styles.statCard}>
+                    <div className={styles.statHeader}>
+                        <span className={styles.statTitle}>Total Revenue</span>
+                        <div className={styles.statIcon} style={{ background: 'rgba(212, 175, 55, 0.15)', borderColor: 'rgba(212, 175, 55, 0.3)' }}>
+                            <DollarSign size={20} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={`${styles.statVal} ${styles.statValGold}`}>
+                            Rs. {Number(stats.totalRevenue).toLocaleString()}
+                        </div>
+                        <span style={{ fontSize: '0.75rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.5rem' }}>
+                            <TrendingUp size={12} /> Live Sales Volume
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.statCard}>
+                    <div className={styles.statHeader}>
+                        <span className={styles.statTitle}>Total Orders</span>
+                        <div className={styles.statIcon} style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', borderColor: 'rgba(59, 130, 246, 0.3)' }}>
+                            <ShoppingBag size={20} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.statVal}>{stats.totalOrders}</div>
+                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
+                            Lifetime Customer Orders
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.statCard}>
+                    <div className={styles.statHeader}>
+                        <span className={styles.statTitle}>Pending Fulfillment</span>
+                        <div className={styles.statIcon} style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', borderColor: 'rgba(245, 158, 11, 0.3)' }}>
+                            <Clock size={20} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.statVal} style={{ color: '#fbbf24' }}>{stats.pendingOrders}</div>
+                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
+                            Action Required in Orders
+                        </span>
+                    </div>
+                </div>
+
+                <div className={styles.statCard}>
+                    <div className={styles.statHeader}>
+                        <span className={styles.statTitle}>Storefront Status</span>
+                        <div className={styles.statIcon} style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', borderColor: 'rgba(16, 185, 129, 0.3)' }}>
+                            <Sparkles size={20} />
+                        </div>
+                    </div>
+                    <div>
+                        <div className={styles.statVal} style={{ fontSize: '1.8rem', color: '#34d399' }}>Active Cloud</div>
+                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
+                            Synced with Neon DB & Vercel
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Recent Orders Table */}
+            <div style={{ marginTop: '3rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                    <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', letterSpacing: '1px' }}>Recent Store Acquisitions</h2>
+                    <Link href="/owner-portal-5412/orders" style={{ color: 'var(--accent)', fontSize: '0.85rem', textDecoration: 'none', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                        View All Orders <ArrowUpRight size={14} />
+                    </Link>
+                </div>
+
+                <div className={styles.tableWrapper}>
+                    {stats.recentOrders.length === 0 ? (
+                        <div style={{ padding: '3rem', textAlign: 'center', color: '#a1a1aa' }}>
+                            No recent transactions found.
+                        </div>
+                    ) : (
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th className={styles.th}>Order ID</th>
+                                    <th className={styles.th}>Client Name</th>
+                                    <th className={styles.th}>Date</th>
+                                    <th className={styles.th}>Total Amount</th>
+                                    <th className={styles.th}>Fulfillment Status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+                            </thead>
+                            <tbody>
+                                {stats.recentOrders.map((order: any) => {
+                                    const s = (order.status || 'ORDERED').toUpperCase();
+                                    let badgeStyle = styles.statusOrdered;
+                                    if (s === 'PACKED') badgeStyle = styles.statusPacked;
+                                    else if (s === 'SHIPPED') badgeStyle = styles.statusShipped;
+                                    else if (s === 'DELIVERED') badgeStyle = styles.statusDelivered;
+                                    else if (s === 'CANCELLED') badgeStyle = styles.statusCancelled;
+
+                                    const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent';
+
+                                    return (
+                                        <tr key={order.id} className={styles.tr}>
+                                            <td className={styles.td} style={{ fontWeight: 600, fontFamily: 'monospace', color: 'var(--accent)' }}>
+                                                #{order.id.slice(-8).toUpperCase()}
+                                            </td>
+                                            <td className={styles.td} style={{ fontWeight: 500 }}>
+                                                {order.shippingName || 'Valued Client'}
+                                            </td>
+                                            <td className={styles.td} style={{ color: '#a1a1aa', fontSize: '0.85rem' }}>
+                                                {dateStr}
+                                            </td>
+                                            <td className={styles.td} style={{ fontWeight: 700 }}>
+                                                Rs. {Number(order.total).toLocaleString()}
+                                            </td>
+                                            <td className={styles.td}>
+                                                <span className={`${styles.statusBadge} ${badgeStyle}`}>
+                                                    {s}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    )}
+                </div>
             </div>
         </div>
     );
