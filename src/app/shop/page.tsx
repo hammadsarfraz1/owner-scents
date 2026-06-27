@@ -158,71 +158,73 @@ function ShopContent() {
                         <h2>Refine Selection</h2>
                     </div>
 
-                    <div className={`${styles.filterFolder} ${genderFolderOpen ? styles.folderOpen : ''}`}>
-                        <button 
-                            className={styles.folderHeader} 
-                            onClick={() => setGenderFolderOpen(!genderFolderOpen)}
-                        >
-                            <div className={styles.folderHeaderLeft}>
-                                <Users size={16} className={styles.folderHeaderIcon} />
-                                <span>Gender</span>
-                            </div>
-                            <ChevronDown size={16} className={`${styles.folderChevron} ${genderFolderOpen ? styles.chevronRotated : ''}`} />
-                        </button>
-                        <div className={styles.folderContent}>
-                            <div className={styles.filterPillsGrid}>
-                                {genders.map(g => (
-                                    <button
-                                        key={g}
-                                        className={`${styles.filterPillBtn} ${selectedGender === g ? styles.activePill : ''}`}
-                                        onClick={() => setSelectedGender(g)}
-                                    >
-                                        <span>{g}</span>
-                                        {selectedGender === g && <span className={styles.pillActiveDot} />}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={`${styles.filterFolder} ${categoryFolderOpen ? styles.folderOpen : ''}`}>
-                        <button 
-                            className={styles.folderHeader} 
-                            onClick={() => setCategoryFolderOpen(!categoryFolderOpen)}
-                        >
-                            <div className={styles.folderHeaderLeft}>
-                                <Layers size={16} className={styles.folderHeaderIcon} />
-                                <span>Category</span>
-                            </div>
-                            <ChevronDown size={16} className={`${styles.folderChevron} ${categoryFolderOpen ? styles.chevronRotated : ''}`} />
-                        </button>
-                        <div className={styles.folderContent}>
-                            <div className={styles.filterPillsGrid}>
-                                {categoryNames.map(c => (
-                                    <button
-                                        key={c}
-                                        className={`${styles.filterPillBtn} ${selectedCategory === c ? styles.activePill : ''}`}
-                                        onClick={() => setSelectedCategory(c)}
-                                    >
-                                        <span>{c}</span>
-                                        {selectedCategory === c && <span className={styles.pillActiveDot} />}
-                                    </button>
-                                ))}
+                    <div className={styles.sidebarScrollContent}>
+                        <div className={`${styles.filterFolder} ${genderFolderOpen ? styles.folderOpen : ''}`}>
+                            <button 
+                                className={styles.folderHeader} 
+                                onClick={() => setGenderFolderOpen(!genderFolderOpen)}
+                            >
+                                <div className={styles.folderHeaderLeft}>
+                                    <Users size={16} className={styles.folderHeaderIcon} />
+                                    <span>Gender</span>
+                                </div>
+                                <ChevronDown size={16} className={`${styles.folderChevron} ${genderFolderOpen ? styles.chevronRotated : ''}`} />
+                            </button>
+                            <div className={styles.folderContent}>
+                                <div className={styles.filterPillsGrid}>
+                                    {genders.map(g => (
+                                        <button
+                                            key={g}
+                                            className={`${styles.filterPillBtn} ${selectedGender === g ? styles.activePill : ''}`}
+                                            onClick={() => setSelectedGender(g)}
+                                        >
+                                            <span>{g}</span>
+                                            {selectedGender === g && <span className={styles.pillActiveDot} />}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {(selectedGender !== 'All' || selectedCategory !== 'All') && (
-                        <button 
-                            className={styles.resetFiltersBtn}
-                            onClick={() => {
-                                setSelectedGender('All');
-                                setSelectedCategory('All');
-                            }}
-                        >
-                            Reset All Filters
-                        </button>
-                    )}
+                        <div className={`${styles.filterFolder} ${categoryFolderOpen ? styles.folderOpen : ''}`}>
+                            <button 
+                                className={styles.folderHeader} 
+                                onClick={() => setCategoryFolderOpen(!categoryFolderOpen)}
+                            >
+                                <div className={styles.folderHeaderLeft}>
+                                    <Layers size={16} className={styles.folderHeaderIcon} />
+                                    <span>Category</span>
+                                </div>
+                                <ChevronDown size={16} className={`${styles.folderChevron} ${categoryFolderOpen ? styles.chevronRotated : ''}`} />
+                            </button>
+                            <div className={styles.folderContent}>
+                                <div className={styles.filterPillsGrid}>
+                                    {categoryNames.map(c => (
+                                        <button
+                                            key={c}
+                                            className={`${styles.filterPillBtn} ${selectedCategory === c ? styles.activePill : ''}`}
+                                            onClick={() => setSelectedCategory(c)}
+                                        >
+                                            <span>{c}</span>
+                                            {selectedCategory === c && <span className={styles.pillActiveDot} />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {(selectedGender !== 'All' || selectedCategory !== 'All') && (
+                            <button 
+                                className={styles.resetFiltersBtn}
+                                onClick={() => {
+                                    setSelectedGender('All');
+                                    setSelectedCategory('All');
+                                }}
+                            >
+                                Reset All Filters
+                            </button>
+                        )}
+                    </div>
                 </aside>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
