@@ -13,7 +13,8 @@ import {
     BarChart2,
     RotateCcw,
     XCircle,
-    CheckCircle2
+    CheckCircle2,
+    RefreshCw
 } from 'lucide-react';
 
 type AnalyticsData = {
@@ -21,11 +22,13 @@ type AnalyticsData = {
         grossRevenue: number;
         netRevenue: number;
         returnedValue: number;
+        refundedValue: number;
         totalOrders: number;
         deliveredOrders: number;
         returnedOrders: number;
         cancelledOrders: number;
         pendingOrders: number;
+        refundedOrders: number;
         averageOrderValue: number;
         totalItemsSold: number;
     };
@@ -60,7 +63,7 @@ export default function AdminAnalytics() {
         return (
             <div style={{ padding: '4rem 0', textAlign: 'center', color: '#a1a1aa' }}>
                 <div style={{ width: '45px', height: '45px', borderRadius: '50%', border: '3px solid #3b82f6', borderTopColor: 'transparent', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
-                <span>Analyzing Storefront Database & Returned Parcels...</span>
+                <span>Analyzing Storefront Database & Logistics Intelligence...</span>
             </div>
         );
     }
@@ -121,106 +124,114 @@ export default function AdminAnalytics() {
                 </div>
             </div>
 
-            {/* Key Performance Indicators (KPIs Grid 1) */}
-            <div className={styles.statsGrid} style={{ marginBottom: '1.5rem' }}>
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
+            {/* Key Performance Indicators (Top 4 Cards - Compact Matching Bottom Row) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+                <div className={styles.statCard} style={{ padding: '1.25rem 1.5rem' }}>
+                    <div className={styles.statHeader} style={{ marginBottom: '0.75rem' }}>
                         <span className={styles.statTitle}>Total Gross Revenue</span>
-                        <div className={styles.statIcon}>
-                            <DollarSign size={20} />
+                        <div className={styles.statIcon} style={{ width: '36px', height: '36px' }}>
+                            <DollarSign size={18} />
                         </div>
                     </div>
                     <div>
-                        <div className={`${styles.statVal} ${styles.statValBlue}`}>
+                        <div className={`${styles.statVal} ${styles.statValBlue}`} style={{ fontSize: '1.8rem' }}>
                             Rs. {data.kpis.grossRevenue.toLocaleString()}
                         </div>
-                        <span style={{ fontSize: '0.75rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.5rem' }}>
-                            <TrendingUp size={12} /> Total Volume of All Placed Orders
+                        <span style={{ fontSize: '0.72rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.35rem' }}>
+                            <TrendingUp size={11} /> Total Placed Volume
                         </span>
                     </div>
                 </div>
 
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
+                <div className={styles.statCard} style={{ padding: '1.25rem 1.5rem' }}>
+                    <div className={styles.statHeader} style={{ marginBottom: '0.75rem' }}>
                         <span className={styles.statTitle}>Total Orders Placed</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
-                            <ShoppingBag size={20} />
+                        <div className={styles.statIcon} style={{ width: '36px', height: '36px', background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
+                            <ShoppingBag size={18} />
                         </div>
                     </div>
                     <div>
-                        <div className={styles.statVal}>{data.kpis.totalOrders}</div>
-                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            All Lifetime Customer Checkout Receipts
+                        <div className={styles.statVal} style={{ fontSize: '1.8rem' }}>{data.kpis.totalOrders}</div>
+                        <span style={{ fontSize: '0.72rem', color: '#a1a1aa', marginTop: '0.35rem', display: 'block' }}>
+                            Customer Checkouts
                         </span>
                     </div>
                 </div>
 
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
+                <div className={styles.statCard} style={{ padding: '1.25rem 1.5rem' }}>
+                    <div className={styles.statHeader} style={{ marginBottom: '0.75rem' }}>
                         <span className={styles.statTitle}>Returned Parcels</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6', borderColor: 'rgba(236, 72, 153, 0.3)' }}>
-                            <RotateCcw size={20} />
+                        <div className={styles.statIcon} style={{ width: '36px', height: '36px', background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6', borderColor: 'rgba(236, 72, 153, 0.3)' }}>
+                            <RotateCcw size={18} />
                         </div>
                     </div>
                     <div>
-                        <div className={styles.statVal} style={{ color: '#f472b6' }}>
-                            {data.kpis.returnedOrders} <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#a1a1aa' }}>parcels</span>
+                        <div className={styles.statVal} style={{ fontSize: '1.8rem', color: '#f472b6' }}>
+                            {data.kpis.returnedOrders} <span style={{ fontSize: '0.85rem', fontWeight: 400, color: '#a1a1aa' }}>parcels</span>
                         </div>
-                        <span style={{ fontSize: '0.75rem', color: '#f472b6', marginTop: '0.5rem', display: 'block' }}>
-                            Rs. {data.kpis.returnedValue.toLocaleString()} Returned Volume
+                        <span style={{ fontSize: '0.72rem', color: '#f472b6', marginTop: '0.35rem', display: 'block' }}>
+                            Rs. {data.kpis.returnedValue.toLocaleString()} Returned
                         </span>
                     </div>
                 </div>
 
-                <div className={styles.statCard}>
-                    <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Average Order Value (AOV)</span>
-                        <div className={styles.statIcon} style={{ background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', borderColor: 'rgba(245, 158, 11, 0.3)' }}>
-                            <BarChart2 size={20} />
+                <div className={styles.statCard} style={{ padding: '1.25rem 1.5rem' }}>
+                    <div className={styles.statHeader} style={{ marginBottom: '0.75rem' }}>
+                        <span className={styles.statTitle}>Average Order Value</span>
+                        <div className={styles.statIcon} style={{ width: '36px', height: '36px', background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', borderColor: 'rgba(245, 158, 11, 0.3)' }}>
+                            <BarChart2 size={18} />
                         </div>
                     </div>
                     <div>
-                        <div className={styles.statVal} style={{ color: '#fbbf24' }}>
+                        <div className={styles.statVal} style={{ fontSize: '1.8rem', color: '#fbbf24' }}>
                             Rs. {data.kpis.averageOrderValue.toLocaleString()}
                         </div>
-                        <span style={{ fontSize: '0.75rem', color: '#a1a1aa', marginTop: '0.5rem', display: 'block' }}>
-                            Average Value per Transaction
+                        <span style={{ fontSize: '0.72rem', color: '#a1a1aa', marginTop: '0.35rem', display: 'block' }}>
+                            Average per Transaction
                         </span>
                     </div>
                 </div>
             </div>
 
-            {/* Logistics Status Breakdown Bar */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
-                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <CheckCircle2 size={24} style={{ color: '#34d399' }} />
+            {/* Logistics Status Breakdown Bar (5 Clean Compact Blocks) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <CheckCircle2 size={22} style={{ color: '#34d399', flexShrink: 0 }} />
                     <div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.deliveredOrders}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Delivered Parcels</div>
+                        <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.deliveredOrders}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Delivered Parcels</div>
                     </div>
                 </div>
 
-                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <ShoppingBag size={24} style={{ color: '#fbbf24' }} />
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <ShoppingBag size={22} style={{ color: '#fbbf24', flexShrink: 0 }} />
                     <div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.pendingOrders}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Processing / Shipped</div>
+                        <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.pendingOrders}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Processing / Shipped</div>
                     </div>
                 </div>
 
-                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <RotateCcw size={24} style={{ color: '#f472b6' }} />
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <RotateCcw size={22} style={{ color: '#f472b6', flexShrink: 0 }} />
                     <div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.returnedOrders}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Returned Parcels</div>
+                        <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.returnedOrders}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Returned Parcels</div>
                     </div>
                 </div>
 
-                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.25rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <XCircle size={24} style={{ color: '#f87171' }} />
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <RefreshCw size={22} style={{ color: '#60a5fa', flexShrink: 0 }} />
                     <div>
-                        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.cancelledOrders}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Cancelled Orders</div>
+                        <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.refundedOrders}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Refunded Payments</div>
+                    </div>
+                </div>
+
+                <div style={{ background: '#121215', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '10px', padding: '1.1rem 1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <XCircle size={22} style={{ color: '#f87171', flexShrink: 0 }} />
+                    <div>
+                        <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff' }}>{data.kpis.cancelledOrders}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>Cancelled Orders</div>
                     </div>
                 </div>
             </div>

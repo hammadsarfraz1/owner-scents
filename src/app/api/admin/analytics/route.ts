@@ -27,12 +27,14 @@ export async function GET() {
         let grossRevenue = 0;
         let netRevenue = 0;
         let returnedValue = 0;
+        let refundedValue = 0;
         
         let totalOrders = orders.length;
         let deliveredOrders = 0;
         let returnedOrders = 0;
         let cancelledOrders = 0;
         let pendingOrders = 0;
+        let refundedOrders = 0;
         let totalItemsSold = 0;
 
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -52,8 +54,14 @@ export async function GET() {
         orders.forEach(order => {
             const rev = Number(order.total) || 0;
             const status = (order.status || 'PENDING').toUpperCase();
+            const payStatus = (order.paymentStatus || 'PENDING').toUpperCase();
 
             grossRevenue += rev;
+
+            if (payStatus === 'REFUNDED') {
+                refundedOrders += 1;
+                refundedValue += rev;
+            }
 
             if (status === 'DELIVERED') {
                 deliveredOrders += 1;
@@ -65,14 +73,14 @@ export async function GET() {
                 cancelledOrders += 1;
             } else {
                 pendingOrders += 1;
-                netRevenue += rev; // include active pending/shipped orders in active revenue stream
+                netRevenue += rev;
             }
 
             const date = new Date(order.createdAt);
             const yr = date.getFullYear().toString();
             const mo = months[date.getMonth()];
 
-            // Yearly aggregation (excluding cancelled/returned)
+            // Yearly aggregation
             if (status !== 'CANCELLED' && status !== 'RETURNED') {
                 if (!yearlyMap[yr]) {
                     yearlyMap[yr] = { year: yr, revenue: 0, orders: 0 };
@@ -81,7 +89,7 @@ export async function GET() {
                 yearlyMap[yr].orders += 1;
             }
 
-            // Monthly aggregation for current year
+            // Monthly aggregation
             if (date.getFullYear() === currentYear) {
                 monthlyMap[mo].orders += 1;
                 if (status === 'RETURNED') {
@@ -91,7 +99,7 @@ export async function GET() {
                 }
             }
 
-            // Items breakdown (for active sales)
+            // Items breakdown
             if (status !== 'CANCELLED') {
                 order.items.forEach(item => {
                     const qty = item.quantity || 1;
@@ -142,11 +150,13 @@ export async function GET() {
                 grossRevenue,
                 netRevenue,
                 returnedValue,
+                refundedValue,
                 totalOrders,
                 deliveredOrders,
                 returnedOrders,
                 cancelledOrders,
                 pendingOrders,
+                refundedOrders,
                 averageOrderValue,
                 totalItemsSold
             },
