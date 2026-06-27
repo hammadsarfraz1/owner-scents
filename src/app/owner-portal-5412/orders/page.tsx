@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import styles from '../admin.module.css';
 
 type OrderItem = {
@@ -36,10 +37,15 @@ type Order = {
 };
 
 export default function AdminOrders() {
+    const [mounted, setMounted] = useState(false);
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
     
     // Filtering and search states
     const [statusFilter, setStatusFilter] = useState('ALL');
@@ -314,7 +320,7 @@ export default function AdminOrders() {
             )}
 
             {/* Details & Management Modal */}
-            {selectedOrder && (
+            {mounted && selectedOrder && createPortal(
                 <div className={styles.modalOverlay} onClick={closeDetailsModal}>
                     <div className={styles.modalContent} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
                         <div className={styles.modalHeader}>
@@ -538,7 +544,8 @@ export default function AdminOrders() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
