@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(req: Request) {
     try {
@@ -14,12 +15,14 @@ export async function GET(req: Request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        // Parallel Data Fetching
+        // Parallel Data Fetching with 100% precise status matching
         const [totalOrders, pendingOrders, totalRevenueData, recentOrders] = await Promise.all([
             prisma.order.count(),
-            prisma.order.count({ where: { status: 'PENDING' } }),
+            prisma.order.count({ where: { status: { in: ['PENDING', 'ORDERED'] } } }),
             prisma.order.aggregate({
-                where: { paymentStatus: 'PAID' },
+                where: { 
+                    status: { notIn: ['CANCELLED', 'RETURNED'] } 
+                },
                 _sum: { total: true }
             }),
             prisma.order.findMany({
@@ -29,12 +32,19 @@ export async function GET(req: Request) {
             })
         ]);
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             totalOrders,
             pendingOrders,
-            totalRevenue: totalRevenueData._sum.total || 0,
+            totalRevenue: Number(totalRevenueData._sum.total) || 0,
             recentOrders
         });
+
+        // Strict anti-caching headers for 100% real-time data accuracy
+        response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        response.headers.set('Pragma', 'no-cache');
+        response.headers.set('Expires', '0');
+
+        return response;
 
     } catch (error) {
         console.error('Admin stats error:', error);

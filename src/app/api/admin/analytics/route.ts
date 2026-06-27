@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
     try {
@@ -136,7 +137,7 @@ export async function GET() {
 
         const averageOrderValue = totalOrders > 0 ? Math.round(grossRevenue / totalOrders) : 0;
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             kpis: {
                 grossRevenue,
                 netRevenue,
@@ -154,6 +155,11 @@ export async function GET() {
             categorySales,
             topProducts
         });
+        response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        response.headers.set('Pragma', 'no-cache');
+        response.headers.set('Expires', '0');
+
+        return response;
     } catch (error) {
         console.error('Admin Analytics Error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(req: Request) {
     try {
@@ -33,7 +34,12 @@ export async function GET(req: Request) {
             }
         });
 
-        return NextResponse.json(orders);
+        const response = NextResponse.json(orders);
+        response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        response.headers.set('Pragma', 'no-cache');
+        response.headers.set('Expires', '0');
+
+        return response;
     } catch (error) {
         console.error('Admin orders fetch error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
