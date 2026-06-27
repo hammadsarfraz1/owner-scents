@@ -15,13 +15,13 @@ export async function GET(req: Request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        // Parallel Data Fetching with 100% precise status matching
+        // Parallel Data Fetching strictly filtering for PAID payments
         const [totalOrders, pendingOrders, totalRevenueData, recentOrders] = await Promise.all([
             prisma.order.count(),
             prisma.order.count({ where: { status: { in: ['PENDING', 'ORDERED'] } } }),
             prisma.order.aggregate({
                 where: { 
-                    status: { notIn: ['CANCELLED', 'RETURNED'] } 
+                    paymentStatus: 'PAID'
                 },
                 _sum: { total: true }
             }),

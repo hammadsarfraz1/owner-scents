@@ -61,7 +61,7 @@ export default function AdminDashboard() {
             <div className={styles.statsGrid}>
                 <div className={styles.statCard}>
                     <div className={styles.statHeader}>
-                        <span className={styles.statTitle}>Total Revenue</span>
+                        <span className={styles.statTitle}>Paid Revenue</span>
                         <div className={styles.statIcon} style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', borderColor: 'rgba(59, 130, 246, 0.3)' }}>
                             <DollarSign size={20} />
                         </div>
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
                             Rs. {Number(stats.totalRevenue).toLocaleString()}
                         </div>
                         <span style={{ fontSize: '0.75rem', color: '#34d399', display: 'inline-flex', alignItems: 'center', gap: '0.2rem', marginTop: '0.5rem' }}>
-                            <TrendingUp size={12} /> Live Sales Volume
+                            <TrendingUp size={12} /> Completed Payments Volume
                         </span>
                     </div>
                 </div>
