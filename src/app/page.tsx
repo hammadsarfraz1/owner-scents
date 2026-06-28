@@ -299,8 +299,6 @@ export default function Home() {
         </div>
       )}
 
-      <Navbar />
-
       {/* Hero Section */}
       {config?.showHero !== false && (
         <section className={styles.hero}>

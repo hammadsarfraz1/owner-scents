@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
 import { useCart } from '@/context/CartContext';
@@ -12,10 +13,25 @@ export default function Navbar({ onSearch }: { onSearch?: (term: string) => void
     const { data: session } = useSession();
     const { theme, toggleTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const handleSearchChange = (val: string) => {
+        setSearchValue(val);
+        if (onSearch) {
+            onSearch(val);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && searchValue.trim()) {
+            router.push(`/shop?search=${encodeURIComponent(searchValue.trim())}`);
+        }
+    };
 
     return (
         <nav className={styles.navbar}>
@@ -37,7 +53,9 @@ export default function Navbar({ onSearch }: { onSearch?: (term: string) => void
                             type="text"
                             placeholder="Search..."
                             className={styles.searchInput}
-                            onChange={(e) => onSearch && onSearch(e.target.value)}
+                            value={searchValue}
+                            onChange={(e) => handleSearchChange(e.target.value)}
+                            onKeyDown={handleKeyDown}
                         />
                     </div>
 

@@ -16,7 +16,6 @@ export default function Cart() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={styles.container}>
                 {/* Cart Header */}
                 <div className={styles.header}>

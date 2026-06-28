@@ -1,8 +1,7 @@
 .mobileHeader {
     display: none;
     flex-direction: column;
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 90;
     background: var(--nav-bg);
     backdrop-filter: blur(16px);

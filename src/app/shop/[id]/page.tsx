@@ -217,7 +217,6 @@ export default function ProductDetails() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={styles.content}>
                 <div className={styles.grid}>
                     {/* Image Section */}

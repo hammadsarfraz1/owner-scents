@@ -1,12 +1,15 @@
 .promoBar {
-    background-color: #000000;
+    background-color: #0b0b0e;
     color: #ffffff;
     text-align: center;
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    z-index: 101;
-    /* Above header */
-    position: relative;
+    padding: 0.65rem 1.25rem;
+    font-family: var(--font-serif), serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(90deg, #0b0b0e 0%, #16161c 50%, #0b0b0e 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
 }

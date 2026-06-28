@@ -137,7 +137,6 @@ function ShopContent() {
 
     return (
         <div className={styles.main}>
-            <Navbar onSearch={(term: string) => setSearchTerm(term)} />
             <div className={`container ${styles.shopContainer}`} style={{ marginTop: '2rem' }}>
 
                 {/* Sidebar Filters */}

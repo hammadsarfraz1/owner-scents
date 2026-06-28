@@ -180,7 +180,6 @@ export default function ScentFinder() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={styles.container}>
                 <div className={styles.quizBox}>
 

@@ -49,7 +49,6 @@ export default function WishlistPage() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={`container ${styles.wishlistContainer}`}>
                 <h1 className={styles.title}>Your Wishlist</h1>
 

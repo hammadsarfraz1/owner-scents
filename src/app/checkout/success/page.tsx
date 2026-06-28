@@ -191,7 +191,6 @@ function SuccessContent() {
 export default function SuccessPage() {
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-primary)' }}>
-            <Navbar />
             <Suspense fallback={<div className={styles.loadingFull}>Loading Order Confirmation...</div>}>
                 <SuccessContent />
             </Suspense>

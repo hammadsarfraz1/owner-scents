@@ -134,7 +134,6 @@ export default function CheckoutPage() {
     if (cart.length === 0) {
         return (
             <div className={styles.main}>
-                <Navbar />
                 <div className={styles.emptyContainer}>
                     <h1 className={styles.title}>Your Bag is Empty</h1>
                     <p className={styles.subtitle}>Select from our curated fragrance catalog to continue.</p>
@@ -147,7 +146,6 @@ export default function CheckoutPage() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={styles.container}>
                 <h1 className={styles.title}>Secure Checkout</h1>
 

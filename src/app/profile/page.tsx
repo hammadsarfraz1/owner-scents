@@ -176,7 +176,6 @@ export default function ProfilePage() {
 
     return (
         <div className={styles.main}>
-            <Navbar />
             <div className={styles.container}>
                 {/* Profile Banner */}
                 <div className={styles.profileHeaderCard}>

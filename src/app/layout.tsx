@@ -2,11 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Cinzel } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import Navbar from "@/components/Navbar"; // Ensure Navbar is here if not inside page
+import MainHeader from "@/components/MainHeader";
 import CartDrawer from "@/components/CartDrawer";
-import MobileHeader from "@/components/MobileHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import TopPromoBar from "@/components/TopPromoBar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: '--font-sans' });
@@ -32,8 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning className={`${plusJakartaSans.variable} ${cinzel.variable}`}>
         <Providers>
-          <TopPromoBar />
-          <MobileHeader />
+          <MainHeader />
           <CartDrawer />
           <div style={{ position: 'relative', width: '100%' }}>
             {children}
