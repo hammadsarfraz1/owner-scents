@@ -41,6 +41,18 @@ export default function RootLayout({
             `
           }}
         />
+        {/* Google tag (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-H54J8VT4GG" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-H54J8VT4GG');
+            `
+          }}
+        />
       </head>
       <body suppressHydrationWarning className={`${plusJakartaSans.variable} ${cinzel.variable}`}>
         <Providers>
