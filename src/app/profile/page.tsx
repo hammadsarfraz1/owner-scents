@@ -79,7 +79,7 @@ export default function ProfilePage() {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch('/api/user/orders');
+            const res = await fetch('/api/user/orders?t=' + Date.now());
             if (res.ok) {
                 const data = await res.json();
                 setOrders(data);
