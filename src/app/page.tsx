@@ -261,11 +261,12 @@ export default function Home() {
                     key={perfume.slug}
                     className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                     style={{
-                      '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
-                      '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
                       cursor: 'default'
                     } as React.CSSProperties}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setHoveredCard(perfume.slug);
+                    }}
                   >
                     <div className={styles.cardGlow} />
                     <div className={styles.cardInner}>
@@ -365,8 +366,7 @@ export default function Home() {
                       href={linkHref}
                       className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                       style={{
-                        '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
-                        '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                        cursor: 'pointer'
                       } as React.CSSProperties}
                     >
                       <div className={styles.cardGlow} />
