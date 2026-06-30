@@ -18,7 +18,8 @@ import {
     ExternalLink, 
     ShieldCheck, 
     User,
-    LogOut
+    LogOut,
+    FileText
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -100,6 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { name: 'Customer Reviews', path: '/owner-portal-5412/reviews', icon: Star },
                 { name: 'Edit Homepage', path: '/owner-portal-5412/homepage', icon: Home },
                 { name: 'Scent Finder Quiz', path: '/owner-portal-5412/scent-finder', icon: Search },
+                { name: 'Footer Pages', path: '/owner-portal-5412/footer-pages', icon: FileText },
             ]
         }
     ];

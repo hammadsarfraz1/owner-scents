@@ -1,7 +1,27 @@
 'use client';
+import { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 
+type FooterPageItem = {
+    id: string;
+    slug: string;
+    title: string;
+};
+
 export default function Footer() {
+    const [pages, setPages] = useState<FooterPageItem[]>([]);
+
+    useEffect(() => {
+        fetch('/api/footer-pages?t=' + Date.now())
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setPages(data);
+                }
+            })
+            .catch(console.error);
+    }, []);
+
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
@@ -29,10 +49,12 @@ export default function Footer() {
                         <a href="/shop?category=curated-pick">Curated Pick</a>
                     </div>
                     <div className={styles.column}>
-                        <h4>Assistance</h4>
-                        <a href="#">Shipping & Returns</a>
-                        <a href="#">Contact Concierge</a>
-                        <a href="#">Privacy Policy</a>
+                        <h4>Concierge</h4>
+                        {pages.map((page) => (
+                            <a key={page.id} href={`/${page.slug}`}>
+                                {page.title}
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>

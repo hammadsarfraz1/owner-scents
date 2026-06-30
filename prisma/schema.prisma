@@ -203,3 +203,13 @@ model ScentNote {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model InfoPage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String   @db.Text
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
