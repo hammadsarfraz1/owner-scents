@@ -16,27 +16,21 @@
 /* Revamped Luxury Sidebar Control Panel */
 .sidebar {
     width: 270px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 232, 255, 0.75) 100%);
+    background: linear-gradient(180deg, rgba(20, 20, 26, 0.65) 0%, rgba(12, 12, 16, 0.85) 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 1.25rem 1.5rem;
     position: sticky;
     top: 5.5rem;
     max-height: calc(100vh - 7rem);
     align-self: start;
-    box-shadow: 0 12px 35px rgba(139, 92, 246, 0.08);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
     display: flex;
     flex-direction: column;
     gap: 0.85rem;
     overflow: hidden;
-}
-
-:global([data-theme='dark']) .sidebar {
-    background: linear-gradient(180deg, rgba(20, 20, 26, 0.65) 0%, rgba(12, 12, 16, 0.85) 100%);
-    border-color: var(--border-color);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
 .sidebarHeader {
@@ -251,18 +245,12 @@
     flex-direction: column;
     gap: 1.75rem;
     margin-bottom: 3rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 232, 255, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid var(--border-color);
     border-radius: 18px;
     padding: 1.5rem 1.75rem;
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.08);
-}
-
-:global([data-theme='dark']) .slidersWrapper {
-    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
-    border-color: var(--border-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
@@ -379,31 +367,20 @@
 }
 
 .categorySection {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 232, 255, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(139, 92, 246, 0.2);
+    border: 1px solid var(--border-color);
     border-radius: 18px;
     padding: 2rem 2.25rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .categorySection:hover {
-    border-color: rgba(139, 92, 246, 0.4);
-    box-shadow: 0 15px 40px rgba(139, 92, 246, 0.15);
-}
-
-:global([data-theme='dark']) .categorySection {
-    background: linear-gradient(135deg, rgba(20, 20, 26, 0.5) 0%, rgba(12, 12, 16, 0.75) 100%);
-    border-color: var(--border-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-:global([data-theme='dark']) .categorySection:hover {
     border-color: rgba(168, 85, 247, 0.3);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-gold-glow);
 }

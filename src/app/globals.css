@@ -1,29 +1,5 @@
 :root {
-  /* Futuristic Clean Platinum (Light Mode) */
-  --bg-primary: #f8fafc;
-  --bg-secondary: #f1f5f9;
-  --bg-tertiary: #e2e8f0;
-
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
-
-  --border-color: #cbd5e1;
-  --accent: #8b5cf6;
-  --accent-hover: #7c3aec;
-  --accent-text: #ffffff;
-
-  --nav-bg: rgba(248, 250, 252, 0.85);
-  --glass-border: rgba(139, 92, 246, 0.1);
-
-  --shadow-sm: 0 2px 8px rgba(139, 92, 246, 0.05);
-  --shadow-md: 0 8px 24px rgba(139, 92, 246, 0.08);
-  --shadow-lg: 0 16px 40px rgba(139, 92, 246, 0.12);
-  --accent-gold-glow: rgba(139, 92, 246, 0.15);
-}
-
-[data-theme='dark'] {
-  /* Cyber Obsidian Night (Dark Mode Default) */
+  /* Cyber Obsidian Night (Permanent Luxury Dark Theme) */
   --bg-primary: #050506;
   --bg-secondary: #0c0c0e;
   --bg-tertiary: #121216;
@@ -58,14 +34,10 @@ body {
   max-width: 100vw;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-primary);
+  background: radial-gradient(ellipse at 50% 0%, #120824 0%, #07030e 45%, #050506 85%) no-repeat fixed;
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-[data-theme='dark'] body {
-  background: radial-gradient(ellipse at 50% 0%, #120824 0%, #07030e 45%, #050506 85%) no-repeat fixed;
 }
 
 h1, h2, h3, h4, h5, h6 {
