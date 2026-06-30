@@ -21,15 +21,19 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTab, setActiveTab] = useState<'popular' | 'latest'>('popular');
   const [popularProducts, setPopularProducts] = useState<Product[]>([]);
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
   const [onSaleProducts, setOnSaleProducts] = useState<Product[]>([]);
 
-  const dismissCover = () => {
+  const dismissCover = (isClick = false) => {
     if (isCoverActive) {
+      if (isClick && typeof window !== 'undefined' && window.innerWidth <= 768) {
+        // Tap outside on mobile resets active card instead of entering site
+        setHoveredCard(null);
+        return;
+      }
       setIsCoverActive(false);
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('hasSeenIntro', 'true');
@@ -53,19 +57,21 @@ export default function Home() {
       slug = 'velvet';
     }
     
-    setHoveredCard(slug);
+    setHoveredCard(prev => prev !== slug ? slug : prev);
     
     const tiltX = e.clientX - box.left - (box.width / 2);
     const tiltY = e.clientY - box.top - (box.height / 2);
     const factorX = -(tiltY / (box.height / 2)) * 12;
     const factorY = (tiltX / (box.width / 2)) * 12;
     
-    setTilt({ x: factorX, y: factorY });
+    container.style.setProperty('--rotate-x', `${factorX}deg`);
+    container.style.setProperty('--rotate-y', `${factorY}deg`);
   };
 
-  const handleContainerMouseLeave = () => {
+  const handleContainerMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     setHoveredCard(null);
-    setTilt({ x: 0, y: 0 });
+    e.currentTarget.style.setProperty('--rotate-x', '0deg');
+    e.currentTarget.style.setProperty('--rotate-y', '0deg');
   };
 
   // Check sessionStorage and mount client-side to prevent hydration mismatch
@@ -96,7 +102,7 @@ export default function Home() {
       if (renderCover) {
         e.preventDefault(); // Block main page from scrolling at all costs
         if (isCoverActive && (e.deltaY > 0 || e.deltaY < 0)) {
-          dismissCover();
+          dismissCover(false);
         }
       }
     };
@@ -105,7 +111,7 @@ export default function Home() {
       if (renderCover && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
         e.preventDefault(); // Block page scroll
         if (isCoverActive) {
-          dismissCover();
+          dismissCover(false);
         }
       }
     };
@@ -134,8 +140,9 @@ export default function Home() {
       const currentY = e.touches[0].clientY;
       const diffY = touchStartY - currentY;
 
-      if (Math.abs(diffY) > 20) {
-        dismissCover();
+      // Higher threshold to prevent accidental dismissals on simple card taps
+      if (Math.abs(diffY) > 50) {
+        dismissCover(false);
         setTouchStartY(null);
       }
     };
@@ -220,7 +227,7 @@ export default function Home() {
       {renderCover && (
         <div 
           className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
-          onClick={dismissCover}
+          onClick={() => dismissCover(true)}
         >
           <div className={styles.introContent}>
             <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
@@ -292,8 +299,12 @@ export default function Home() {
               })}
             </div>
 
-            <div className={styles.scrollIndicator} onClick={dismissCover}>
-              <span className={styles.scrollText}>Scroll or click to enter</span>
+            <div className={styles.scrollIndicator} onClick={() => dismissCover(true)}>
+              <span className={styles.scrollText}>
+                {mounted && typeof window !== 'undefined' && window.innerWidth <= 768 
+                  ? 'Scroll to enter' 
+                  : 'Scroll or click to enter'}
+              </span>
               <span className={styles.scrollArrow}>↓</span>
             </div>
           </div>
