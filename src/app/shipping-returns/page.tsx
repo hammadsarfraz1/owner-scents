@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 
@@ -25,7 +24,6 @@ export default async function ShippingReturnsPage() {
 
     return (
         <div style={{ background: '#050506', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: '#ffffff' }}>
-            <Navbar />
             
             <main style={{ flex: 1, padding: '8rem 2rem 6rem', position: 'relative', overflow: 'hidden' }}>
                 {/* Subtle Background Glows */}

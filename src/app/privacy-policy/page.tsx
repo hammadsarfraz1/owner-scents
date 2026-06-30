@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const revalidate = 0; // Disable caching so edits show up instantly
@@ -24,7 +23,6 @@ export default async function PrivacyPolicyPage() {
 
     return (
         <div style={{ background: '#050506', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: '#ffffff' }}>
-            <Navbar />
             
             <main style={{ flex: 1, padding: '8rem 2rem 6rem', position: 'relative', overflow: 'hidden' }}>
                 {/* Subtle Background Glows */}

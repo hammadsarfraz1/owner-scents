@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Mail, MessageCircle, Clock } from 'lucide-react';
 
@@ -93,7 +92,6 @@ We are here to assist you with anything — orders, fragrance recommendations, d
     if (pageData && !pageData.isVisible) {
         return (
             <div style={{ background: '#050506', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: '#ffffff' }}>
-                <Navbar />
                 <main style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '6rem 2rem' }}>
                     <div style={{ textAlign: 'center' }}>
                         <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', marginBottom: '1rem' }}>404</h1>
@@ -113,7 +111,6 @@ We are here to assist you with anything — orders, fragrance recommendations, d
 
     return (
         <div style={{ background: '#050506', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: '#ffffff' }}>
-            <Navbar />
             
             <main style={{ flex: 1, padding: '8rem 2rem 6rem', position: 'relative', overflow: 'hidden' }}>
                 {/* Background Glows */}
