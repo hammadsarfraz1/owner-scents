@@ -11,6 +11,7 @@ type Product = {
     originalPrice: string | null;
     isVisible: boolean;
     isExclusiveOffer?: boolean;
+    isCuratedPick?: boolean;
     image: string;
     homepageImage?: string;
     quickViewImage?: string;
@@ -43,6 +44,7 @@ export default function AdminProducts() {
     const [originalPrice, setOriginalPrice] = useState('');
     const [isVisible, setIsVisible] = useState(true);
     const [isExclusiveOffer, setIsExclusiveOffer] = useState(false);
+    const [isCuratedPick, setIsCuratedPick] = useState(false);
     const [image, setImage] = useState('');
     const [homepageImage, setHomepageImage] = useState('');
     const [quickViewImage, setQuickViewImage] = useState('');
@@ -96,8 +98,8 @@ export default function AdminProducts() {
         setDescription('');
         setPrice('');
         setOriginalPrice('');
-        setIsVisible(true);
         setIsExclusiveOffer(false);
+        setIsCuratedPick(false);
         setImage('');
         setHomepageImage('');
         setQuickViewImage('');
@@ -124,6 +126,7 @@ export default function AdminProducts() {
         setOriginalPrice(product.originalPrice ? Number(product.originalPrice).toString() : '');
         setIsVisible(product.isVisible !== undefined ? Boolean(product.isVisible) : true);
         setIsExclusiveOffer(Boolean(product.isExclusiveOffer));
+        setIsCuratedPick(Boolean(product.isCuratedPick));
         setImage(product.image);
         setHomepageImage(product.homepageImage || '');
         setQuickViewImage(product.quickViewImage || '');
@@ -156,6 +159,24 @@ export default function AdminProducts() {
             alert('Error updating product.');
         }
     };
+    const handleToggleCurated = async (product: Product) => {
+        const nextState = !product.isCuratedPick;
+        try {
+            const res = await fetch(`/api/admin/products/${product.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ isCuratedPick: nextState })
+            });
+            if (res.ok) {
+                fetchData();
+            } else {
+                alert('Failed to update Curated Pick status.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error updating product.');
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -175,6 +196,7 @@ export default function AdminProducts() {
             originalPrice: originalPrice ? Number(originalPrice) : null,
             isVisible: Boolean(isVisible),
             isExclusiveOffer: Boolean(isExclusiveOffer),
+            isCuratedPick: Boolean(isCuratedPick),
             image,
             homepageImage,
             quickViewImage,
@@ -257,13 +279,14 @@ export default function AdminProducts() {
                             <th className={styles.th}>Price</th>
                             <th className={styles.th}>Visibility</th>
                             <th className={styles.th}>Exclusive Offer</th>
+                            <th className={styles.th}>Curated Pick</th>
                             <th className={styles.th} style={{ textAlign: 'right' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.length === 0 ? (
                             <tr>
-                                <td className={styles.td} colSpan={8} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                <td className={styles.td} colSpan={9} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                                     No products found. Add your first fragrance!
                                 </td>
                             </tr>
@@ -311,6 +334,24 @@ export default function AdminProducts() {
                                             }}
                                         >
                                             {product.isExclusiveOffer ? '⭐ In Exclusive List' : '+ Add to Exclusive'}
+                                        </button>
+                                    </td>
+                                    <td className={styles.td}>
+                                        <button
+                                            onClick={() => handleToggleCurated(product)}
+                                            style={{
+                                                background: product.isCuratedPick ? 'rgba(168, 85, 247, 0.15)' : 'transparent',
+                                                color: product.isCuratedPick ? 'var(--accent)' : 'var(--text-tertiary)',
+                                                border: product.isCuratedPick ? '1px solid var(--accent)' : '1px solid var(--border-color)',
+                                                padding: '0.25rem 0.65rem',
+                                                borderRadius: '20px',
+                                                fontSize: '0.72rem',
+                                                fontWeight: '600',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                        >
+                                            {product.isCuratedPick ? '⭐ In Curated Pick' : '+ Add to Curated'}
                                         </button>
                                     </td>
                                     <td className={styles.td} style={{ textAlign: 'right' }}>
@@ -511,6 +552,19 @@ export default function AdminProducts() {
                                     />
                                     <label htmlFor="isExclusiveOffer" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600', color: 'var(--accent)' }}>
                                         ⭐ Add to Exclusive Offer List (Featured on Homepage Limited-Time Sale)
+                                    </label>
+                                </div>
+
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.75rem' }}>
+                                    <input 
+                                        type="checkbox" 
+                                        id="isCuratedPick" 
+                                        checked={isCuratedPick} 
+                                        onChange={(e) => setIsCuratedPick(e.target.checked)} 
+                                        style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                                    />
+                                    <label htmlFor="isCuratedPick" style={{ cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600', color: 'var(--accent)' }}>
+                                        ⭐ Curated Pick (Featured on Homepage & Curated Pick Page)
                                     </label>
                                 </div>
                             </div>

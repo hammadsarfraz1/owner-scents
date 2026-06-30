@@ -49,6 +49,7 @@ export type Product = {
     isOnSale?: boolean;
     salePrice?: number;
     isExclusiveOffer?: boolean;
+    isCuratedPick?: boolean;
     createdAt?: string | Date;
 };
 
@@ -180,7 +181,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                             SALE
                         </span>
                     )}
-                    {product.isExclusiveOffer && (
+                    {product.isCuratedPick && (
                         <span className={styles.curatedBadge}>
                             CURATED PICK
                         </span>

@@ -15,6 +15,7 @@ model Product {
   originalPrice Decimal?
   isVisible     Boolean     @default(true)
   isExclusiveOffer Boolean @default(false)
+  isCuratedPick     Boolean @default(false)
   image         String
   homepageImage String      @default("")
   quickViewImage String     @default("")

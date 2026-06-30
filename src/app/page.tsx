@@ -218,7 +218,12 @@ export default function Home() {
         }));
         setOnSaleProducts(sale);
 
-        setFeaturedProducts(data.slice(0, 6));
+        // Curated Pick (Signature Scents): Filter by isCuratedPick
+        let curated = data.filter((p: any) => p.isCuratedPick === true);
+        if (curated.length === 0) {
+          curated = data.slice(0, 6);
+        }
+        setFeaturedProducts(curated);
       })
       .catch(console.error);
 

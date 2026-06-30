@@ -147,7 +147,7 @@ function ShopContent() {
                 product.topNotes?.toLowerCase().includes('curated pick') || 
                 product.heartNotes?.toLowerCase().includes('curated pick') || 
                 product.baseNotes?.toLowerCase().includes('curated pick') ||
-                product.isExclusiveOffer === true ||
+                product.isCuratedPick === true ||
                 product.category?.toLowerCase() === 'curated-pick' ||
                 product.category?.toLowerCase() === 'curated pick';
             if (!hasCuratedBadge) return false;
