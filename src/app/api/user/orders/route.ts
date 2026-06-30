@@ -11,9 +11,17 @@ export async function GET(req: Request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
+        const conditions: any[] = [
+            { userId: (session.user as any).id }
+        ];
+
+        if (session.user?.email) {
+            conditions.push({ email: session.user.email });
+        }
+
         const orders = await prisma.order.findMany({
             where: {
-                userId: (session.user as any).id
+                OR: conditions
             },
             include: {
                 items: {
