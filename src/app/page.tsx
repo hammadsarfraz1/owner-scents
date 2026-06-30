@@ -515,7 +515,7 @@ export default function Home() {
 
       {/* Explore Collections Section (Popular / Latest) */}
       {config?.showExplore !== false && (
-        <section className={`container ${styles.featuredSection}`} style={{ paddingTop: 0 }}>
+        <section className={`container ${styles.featuredSection}`}>
           <div className={styles.featuredHeader}>
             {getVal(config?.exploreTitle, "Explore Collections") && <h2>{getVal(config?.exploreTitle, "Explore Collections")}</h2>}
             {getVal(config?.exploreSubtitle, "Discover our highly acclaimed and newly arrived fragrances.") && (
