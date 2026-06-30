@@ -118,12 +118,10 @@ For privacy concerns contact us on WhatsApp — link in the footer.`
 
 export async function GET() {
     try {
-        // Ensure default pages exist
-        for (const page of defaultPages) {
-            const exists = await prisma.infoPage.findUnique({
-                where: { slug: page.slug }
-            });
-            if (!exists) {
+        // Ensure default pages exist only if database is completely empty
+        const count = await prisma.infoPage.count();
+        if (count === 0) {
+            for (const page of defaultPages) {
                 await prisma.infoPage.create({
                     data: {
                         slug: page.slug,
