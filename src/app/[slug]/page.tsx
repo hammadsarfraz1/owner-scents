@@ -3,11 +3,22 @@ import { notFound } from 'next/navigation';
 import Footer from '@/components/Footer';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Disable caching so edits show up instantly
+export const revalidate = 0;
 
-export default async function PrivacyPolicyPage() {
+type PageProps = {
+    params: Promise<{ slug: string }>;
+};
+
+export default async function DynamicInfoPage({ params }: PageProps) {
+    const { slug } = await params;
+
+    // If the slug is 'contact', we let the static contact page handle it
+    if (slug === 'contact') {
+        notFound();
+    }
+
     const page = await prisma.infoPage.findUnique({
-        where: { slug: 'privacy-policy' }
+        where: { slug }
     });
 
     if (!page || !page.isVisible) {
@@ -24,7 +35,6 @@ export default async function PrivacyPolicyPage() {
 
     return (
         <div style={{ background: '#050506', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: '#ffffff' }}>
-            
             <main style={{ flex: 1, padding: '8rem 2rem 6rem', position: 'relative', overflow: 'hidden' }}>
                 {/* Subtle Background Glows */}
                 <div style={{
