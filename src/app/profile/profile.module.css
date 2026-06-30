@@ -831,7 +831,7 @@
 
 .logoutBtn {
     margin-top: 1rem;
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 0.5rem;
     background: rgba(239, 68, 68, 0.08);
@@ -852,4 +852,168 @@
     color: #000000;
     border-color: #ef4444;
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 5.5rem 1rem 5rem;
+    }
+
+    .profileHeaderCard {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .profileHeaderCard::before {
+        width: 100%;
+        height: 4px;
+        top: 0;
+        left: 0;
+    }
+
+    .profileInfo {
+        align-items: center;
+    }
+
+    .userName {
+        font-size: 1.6rem;
+    }
+
+    .logoutBtn {
+        display: inline-flex;
+    }
+
+    .profileStats {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-left: 0;
+        padding-top: 1.5rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .sectionHeader {
+        margin-bottom: 1.5rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.25rem;
+    }
+
+    .trackerTimeline {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+    }
+
+    .trackerTimeline::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        bottom: 20px;
+        left: calc(1.5rem + 21px);
+        width: 2px;
+        background: rgba(255, 255, 255, 0.08);
+        z-index: 1;
+    }
+
+    .stepBox {
+        flex-direction: row;
+        gap: 1.25rem;
+        text-align: left;
+        align-items: center;
+        width: 100%;
+        opacity: 0.45;
+    }
+
+    .stepIconWrapper {
+        margin-bottom: 0;
+        flex-shrink: 0;
+        z-index: 2;
+    }
+
+    .stepTextGroup {
+        gap: 0.1rem;
+        text-align: left;
+    }
+
+    .stepTitle {
+        font-size: 0.9rem;
+    }
+
+    .stepDesc {
+        font-size: 0.72rem;
+    }
+
+    .cardTopHeader {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .trackToggleBtn {
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.25rem;
+    }
+
+    .cardItems {
+        padding: 1.25rem 1rem;
+        gap: 1.25rem;
+    }
+
+    .itemRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        position: relative;
+    }
+
+    .itemMetaCol {
+        width: 100%;
+    }
+
+    .itemRightCol {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px dashed rgba(255, 255, 255, 0.04);
+        padding-top: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .itemSubtotal {
+        font-size: 1rem;
+    }
+
+    .cardBottomFooter {
+        padding: 1.25rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footerLeft {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .footerRight {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px dashed rgba(255, 255, 255, 0.08);
+        padding-top: 1rem;
+        width: 100%;
+    }
 }

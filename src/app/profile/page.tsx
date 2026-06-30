@@ -192,7 +192,7 @@ export default function ProfilePage() {
                             className={styles.logoutBtn}
                         >
                             <LogOut size={13} />
-                            <span>Log Out</span>
+                            <span>Sign Out</span>
                         </button>
                     </div>
                     <div className={styles.profileStats}>
