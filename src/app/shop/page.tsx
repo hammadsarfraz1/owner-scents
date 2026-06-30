@@ -154,7 +154,9 @@ function ShopContent() {
         }
 
         // Apply selectedCategory from sidebar:
-        const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+        const matchesCategory = selectedCategory === 'All' || 
+            selectedCategory === 'curated-pick' || 
+            product.category === selectedCategory;
 
         return matchesSearch && matchesGender && matchesCategory;
     });
