@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
@@ -60,6 +60,36 @@ function ShopContent() {
     const [genderFolderOpen, setGenderFolderOpen] = useState(true);
     const [categoryFolderOpen, setCategoryFolderOpen] = useState(true);
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+    const router = useRouter();
+
+    const handleGenderSelect = (g: string) => {
+        const params = new URLSearchParams(window.location.search);
+        if (g === 'All') {
+            params.delete('gender');
+        } else {
+            params.set('gender', g);
+        }
+        router.push(`/shop?${params.toString()}`, { scroll: false });
+    };
+
+    const handleCategorySelect = (c: string) => {
+        const params = new URLSearchParams(window.location.search);
+        if (c === 'All') {
+            params.delete('category');
+        } else {
+            params.set('category', c);
+        }
+        router.push(`/shop?${params.toString()}`, { scroll: false });
+    };
+
+    const handleResetAll = () => {
+        const params = new URLSearchParams(window.location.search);
+        params.delete('gender');
+        params.delete('category');
+        router.push(`/shop?${params.toString()}`, { scroll: false });
+        setSelectedGender('All');
+        setSelectedCategory('All');
+    };
 
     useEffect(() => {
         if (isBottomSheetOpen) {
@@ -86,8 +116,8 @@ function ShopContent() {
     useEffect(() => {
         const genderParam = searchParams.get('gender');
         const categoryParam = searchParams.get('category');
-        if (genderParam) setSelectedGender(genderParam);
-        if (categoryParam) setSelectedCategory(categoryParam);
+        setSelectedGender(genderParam || 'All');
+        setSelectedCategory(categoryParam || 'All');
     }, [searchParams]);
 
     useEffect(() => {
@@ -216,7 +246,7 @@ function ShopContent() {
                                         <button
                                             key={g}
                                             className={`${styles.filterPillBtn} ${selectedGender === g ? styles.activePill : ''}`}
-                                            onClick={() => setSelectedGender(g)}
+                                            onClick={() => handleGenderSelect(g)}
                                         >
                                             <span>{g}</span>
                                             {selectedGender === g && <span className={styles.pillActiveDot} />}
@@ -243,7 +273,7 @@ function ShopContent() {
                                         <button
                                             key={c}
                                             className={`${styles.filterPillBtn} ${selectedCategory === c ? styles.activePill : ''}`}
-                                            onClick={() => setSelectedCategory(c)}
+                                            onClick={() => handleCategorySelect(c)}
                                         >
                                             <span>{c}</span>
                                             {selectedCategory === c && <span className={styles.pillActiveDot} />}
@@ -256,10 +286,7 @@ function ShopContent() {
                         {(selectedGender !== 'All' || selectedCategory !== 'All') && (
                             <button 
                                 className={styles.resetFiltersBtn}
-                                onClick={() => {
-                                    setSelectedGender('All');
-                                    setSelectedCategory('All');
-                                }}
+                                onClick={handleResetAll}
                             >
                                 Reset All Filters
                             </button>
@@ -394,7 +421,7 @@ function ShopContent() {
                                         <button
                                             key={g}
                                             className={`${styles.sheetOptionBtn} ${selectedGender === g ? styles.activeOption : ''}`}
-                                            onClick={() => setSelectedGender(g)}
+                                            onClick={() => handleGenderSelect(g)}
                                         >
                                             {g}
                                         </button>
@@ -410,7 +437,7 @@ function ShopContent() {
                                         <button
                                             key={c}
                                             className={`${styles.sheetOptionBtn} ${selectedCategory === c ? styles.activeOption : ''}`}
-                                            onClick={() => setSelectedCategory(c)}
+                                            onClick={() => handleCategorySelect(c)}
                                         >
                                             {c}
                                         </button>
@@ -420,8 +447,7 @@ function ShopContent() {
                         </div>
                         <div className={styles.bottomSheetFooter}>
                             <button className={styles.resetBtn} onClick={() => {
-                                setSelectedGender('All');
-                                setSelectedCategory('All');
+                                handleResetAll();
                                 setSortOption('newest');
                             }}>
                                 Reset All
