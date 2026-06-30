@@ -16,8 +16,9 @@ export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [config, setConfig] = useState<any>(null);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
-  const [isCoverActive, setIsCoverActive] = useState(!hasSeenIntroGlobal);
-  const [renderCover, setRenderCover] = useState(!hasSeenIntroGlobal);
+  const [isCoverActive, setIsCoverActive] = useState(true);
+  const [renderCover, setRenderCover] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
@@ -26,6 +27,18 @@ export default function Home() {
   const [popularProducts, setPopularProducts] = useState<Product[]>([]);
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
   const [onSaleProducts, setOnSaleProducts] = useState<Product[]>([]);
+
+  const dismissCover = () => {
+    if (isCoverActive) {
+      setIsCoverActive(false);
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('hasSeenIntro', 'true');
+      }
+      setTimeout(() => {
+        setRenderCover(false);
+      }, 1000);
+    }
+  };
 
   const handleContainerMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -55,9 +68,18 @@ export default function Home() {
     setTilt({ x: 0, y: 0 });
   };
 
-  // Body overflow locking while intro cover is active or sliding out
+  // Check sessionStorage and mount client-side to prevent hydration mismatch
   useEffect(() => {
-    if (renderCover) {
+    setMounted(true);
+    if (typeof window !== 'undefined' && sessionStorage.getItem('hasSeenIntro')) {
+      setIsCoverActive(false);
+      setRenderCover(false);
+    }
+  }, []);
+
+  // Body overflow locking while intro cover is active
+  useEffect(() => {
+    if (isCoverActive) {
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
       document.body.style.touchAction = 'none';
@@ -66,7 +88,7 @@ export default function Home() {
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
     }
-  }, [renderCover]);
+  }, [isCoverActive]);
 
   // Handle scroll down / scroll up curtain toggle
   useEffect(() => {
@@ -74,11 +96,7 @@ export default function Home() {
       if (renderCover) {
         e.preventDefault(); // Block main page from scrolling at all costs
         if (isCoverActive && (e.deltaY > 0 || e.deltaY < 0)) {
-          setIsCoverActive(false);
-          hasSeenIntroGlobal = true;
-          setTimeout(() => {
-            setRenderCover(false);
-          }, 1000);
+          dismissCover();
         }
       }
     };
@@ -87,11 +105,7 @@ export default function Home() {
       if (renderCover && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) {
         e.preventDefault(); // Block page scroll
         if (isCoverActive) {
-          setIsCoverActive(false);
-          hasSeenIntroGlobal = true;
-          setTimeout(() => {
-            setRenderCover(false);
-          }, 1000);
+          dismissCover();
         }
       }
     };
@@ -121,12 +135,8 @@ export default function Home() {
       const diffY = touchStartY - currentY;
 
       if (Math.abs(diffY) > 20) {
-        setIsCoverActive(false);
-        hasSeenIntroGlobal = true;
+        dismissCover();
         setTouchStartY(null);
-        setTimeout(() => {
-          setRenderCover(false);
-        }, 1000);
       }
     };
 
@@ -200,15 +210,9 @@ export default function Home() {
   const mainTitle = titleWords.length > 1 ? titleWords.slice(0, -1).join(' ') : (titleWords[0] || '');
   const lastWord = titleWords.length > 1 ? titleWords[titleWords.length - 1] : '';
 
-  const dismissCover = () => {
-    if (isCoverActive) {
-      setIsCoverActive(false);
-      hasSeenIntroGlobal = true;
-      setTimeout(() => {
-        setRenderCover(false);
-      }, 1000);
-    }
-  };
+  if (!mounted) {
+    return <div style={{ background: '#050506', minHeight: '100vh' }} />;
+  }
 
   return (
     <div className={styles.main}>
@@ -218,7 +222,7 @@ export default function Home() {
           className={`${styles.introCover} ${!isCoverActive ? styles.introCoverSlideUp : ''}`}
           onClick={dismissCover}
         >
-          <div className={styles.introContent} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.introContent}>
             <span className={styles.introTag}>THE HAUTE PARFUMERIE</span>
             <h2 className={styles.introTitle}>Select Your Olfactory Statement</h2>
 
@@ -233,7 +237,6 @@ export default function Home() {
                   name: config?.card1Name || "Rose Elixir",
                   edition: config?.card1Edition || "FLORAL ESSENCE",
                   image: config?.card1Image || "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card1Link || "/shop",
                   className: styles.leftCard
                 },
                 {
@@ -241,7 +244,6 @@ export default function Home() {
                   name: config?.card2Name || "Midnight OUD",
                   edition: config?.card2Edition || "SIGNATURE EDITION",
                   image: config?.card2Image || "https://images.unsplash.com/photo-1594035910387-fea4779426e9?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card2Link || "/shop",
                   className: styles.centerCard
                 },
                 {
@@ -249,23 +251,21 @@ export default function Home() {
                   name: config?.card3Name || "Velvet Orchid",
                   edition: config?.card3Edition || "ROYAL ORIENTAL",
                   image: config?.card3Image || "https://images.unsplash.com/photo-1588405765098-936d50953d7e?auto=format&fit=crop&w=800&q=80",
-                  link: config?.card3Link || "/shop",
                   className: styles.rightCard
                 }
               ].map((perfume) => {
-                const matchedProduct = featuredProducts.find(p => p.name.toLowerCase().trim() === perfume.name.toLowerCase().trim());
-                const linkHref = matchedProduct ? `/shop/${matchedProduct.id}` : perfume.link;
                 const isActive = hoveredCard === perfume.slug;
                 
                 return (
-                  <Link 
+                  <div 
                     key={perfume.slug}
-                    href={linkHref}
                     className={`${styles.stackCard} ${perfume.className} ${isActive ? styles.activeCard : ''} ${isLoaded ? styles.cardLoaded : ''}`}
                     style={{
                       '--rotate-x': isActive ? `${tilt.x}deg` : '0deg',
                       '--rotate-y': isActive ? `${tilt.y}deg` : '0deg',
+                      cursor: 'default'
                     } as React.CSSProperties}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <div className={styles.cardGlow} />
                     <div className={styles.cardInner}>
@@ -286,7 +286,7 @@ export default function Home() {
                         <span>{perfume.edition}</span>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
