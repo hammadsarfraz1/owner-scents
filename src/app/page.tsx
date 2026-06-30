@@ -74,6 +74,42 @@ export default function Home() {
     e.currentTarget.style.setProperty('--rotate-y', '0deg');
   };
 
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const container = e.currentTarget;
+    const box = container.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const pct = x / box.width;
+    
+    let slug = 'midnight';
+    if (pct < 0.38) {
+      slug = 'rose';
+    } else if (pct > 0.62) {
+      slug = 'velvet';
+    }
+    
+    setHoveredCard(slug);
+  };
+
+  const handleContainerTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const container = e.currentTarget;
+    const box = container.getBoundingClientRect();
+    const touch = e.touches[0];
+    if (!touch) return;
+    const x = touch.clientX - box.left;
+    const pct = x / box.width;
+    
+    let slug = 'midnight';
+    if (pct < 0.38) {
+      slug = 'rose';
+    } else if (pct > 0.62) {
+      slug = 'velvet';
+    }
+    
+    setHoveredCard(slug);
+  };
+
   // Check sessionStorage and mount client-side to prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
@@ -237,6 +273,8 @@ export default function Home() {
               className={`${styles.stackContainer} ${styles.introStackContainer}`}
               onMouseMove={handleContainerMouseMove}
               onMouseLeave={handleContainerMouseLeave}
+              onClick={handleContainerClick}
+              onTouchStart={handleContainerTouchStart}
             >
               {[
                 {
