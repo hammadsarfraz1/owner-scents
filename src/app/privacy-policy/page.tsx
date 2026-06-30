@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Footer from '@/components/Footer';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Disable caching so edits show up instantly
 
 export default async function PrivacyPolicyPage() {

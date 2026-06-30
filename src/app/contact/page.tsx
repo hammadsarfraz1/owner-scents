@@ -26,37 +26,19 @@ export default function ContactPage() {
             fetch('/api/homepage-config?t=' + Date.now()).then(res => res.json())
         ])
         .then(([pages, homepageConfig]) => {
-            // Find the contact page in dynamic footer pages
-            // If it is hidden, we won't show it (we will render a 404 block or default)
             const contactPage = Array.isArray(pages) ? pages.find((p: any) => p.slug === 'contact') : null;
             
-            // To get the content, we fetch the page details
             if (contactPage) {
-                // Fetch full page details including content
-                fetch(`/api/admin/footer-pages`) // Admin page fetch is safe or we can fetch a public detail?
-                    // Actually, let's just fetch from admin or load directly
-                    .then(res => res.json())
-                    .then(adminPages => {
-                        const fullContact = adminPages.find((p: any) => p.slug === 'contact');
-                        setPageData(fullContact || null);
-                        setLoading(false);
-                    })
-                    .catch(() => {
-                        // Fallback default page data
-                        setPageData({
-                            title: 'Contact Concierge',
-                            content: `THE HAUTE PARFUMERIE
-CONTACT CONCIERGE
-We are here to assist you with anything — orders, fragrance recommendations, delivery queries, or anything else. Your experience with Owner Scents matters to us.`,
-                            isVisible: true
-                        });
-                        setLoading(false);
-                    });
+                setPageData({
+                    title: contactPage.title,
+                    content: contactPage.content,
+                    isVisible: true
+                });
             } else {
-                setLoading(false);
+                setPageData(null);
             }
-            
             setConfig(homepageConfig);
+            setLoading(false);
         })
         .catch(err => {
             console.error(err);

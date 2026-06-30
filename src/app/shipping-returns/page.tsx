@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Disable caching so edits show up instantly
 
 export default async function ShippingReturnsPage() {

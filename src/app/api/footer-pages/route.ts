@@ -137,7 +137,7 @@ export async function GET() {
 
         const pages = await prisma.infoPage.findMany({
             where: { isVisible: true },
-            select: { id: true, slug: true, title: true },
+            select: { id: true, slug: true, title: true, content: true },
             orderBy: { createdAt: 'asc' }
         });
 
