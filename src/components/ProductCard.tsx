@@ -48,6 +48,8 @@ export type Product = {
     description?: string;
     isOnSale?: boolean;
     salePrice?: number;
+    isExclusiveOffer?: boolean;
+    createdAt?: string | Date;
 };
 
 type ProductCardProps = {
@@ -176,6 +178,11 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                     {product.isOnSale && (
                         <span className={styles.saleBadge}>
                             SALE
+                        </span>
+                    )}
+                    {product.isExclusiveOffer && (
+                        <span className={styles.curatedBadge}>
+                            CURATED PICK
                         </span>
                     )}
                     {slides.length > 0 ? (

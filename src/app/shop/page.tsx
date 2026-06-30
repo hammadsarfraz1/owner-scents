@@ -113,17 +113,67 @@ function ShopContent() {
     const categoryNames = ['All', ...allUniqueCategories];
     const genders = ['All', 'Men', 'Women', 'Unisex'];
 
-    const filteredProducts = products.filter(product => {
+    const sortParam = searchParams.get('sort');
+    const categoryParam = searchParams.get('category');
+    const isFilteredView = sortParam === 'latest' || sortParam === 'popular' || categoryParam === 'curated-pick';
+
+    let headline = 'All Fragrances';
+    let subtext = '';
+
+    if (sortParam === 'latest') {
+        headline = 'NEW ARRIVALS';
+        subtext = 'The latest additions to the Owner Scents collection.';
+    } else if (sortParam === 'popular') {
+        headline = 'BEST SELLERS';
+        subtext = "The fragrances our customers can't stop choosing.";
+    } else if (categoryParam === 'curated-pick') {
+        headline = 'CURATED PICK';
+        subtext = 'Hand-selected fragrances that define distinction.';
+    } else {
+        headline = selectedCategory === 'All' 
+            ? (selectedGender === 'All' ? 'All Fragrances' : `${selectedGender}'s Collection`) 
+            : selectedCategory;
+    }
+
+    const displayProducts = products.filter(product => {
         const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesGender = selectedGender === 'All' || 
             product.gender === selectedGender || 
             ((selectedGender === 'Men' || selectedGender === 'Women') && product.gender === 'Unisex');
+
+        // Apply Curated Pick check:
+        if (categoryParam === 'curated-pick') {
+            const hasCuratedBadge = 
+                product.topNotes?.toLowerCase().includes('curated pick') || 
+                product.heartNotes?.toLowerCase().includes('curated pick') || 
+                product.baseNotes?.toLowerCase().includes('curated pick') ||
+                product.isExclusiveOffer === true ||
+                product.category?.toLowerCase() === 'curated-pick' ||
+                product.category?.toLowerCase() === 'curated pick';
+            if (!hasCuratedBadge) return false;
+        }
+
+        // Apply selectedCategory from sidebar:
         const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+
         return matchesSearch && matchesGender && matchesCategory;
-    }).sort((a: Product, b: Product) => {
+    });
+
+    // Custom sorting:
+    displayProducts.sort((a: Product, b: Product) => {
         if (sortOption === 'price-asc') return Number(a.price) - Number(b.price);
         if (sortOption === 'price-desc') return Number(b.price) - Number(a.price);
-        return 0;
+
+        // Fallback default sorting for views:
+        if (sortParam === 'latest') {
+            return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+        }
+        if (sortParam === 'popular') {
+            return b.name.length - a.name.length;
+        }
+
+        // Standard: newest first
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
     });
 
     // Determine Genders and Categories to display as horizontal product rows
@@ -216,30 +266,37 @@ function ShopContent() {
                 </aside>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className={styles.catalogHeader}>
-                        <h1 className={styles.title}>
-                            {selectedCategory === 'All' ? (selectedGender === 'All' ? 'All Fragrances' : `${selectedGender}'s Collection`) : selectedCategory}
-                        </h1>
-                        <select
-                            value={sortOption}
-                            onChange={(e) => setSortOption(e.target.value)}
-                            style={{
-                                padding: '0 1rem',
-                                minHeight: '44px',
-                                background: 'var(--bg-secondary)',
-                                border: '1px solid var(--border-color)',
-                                color: 'var(--text-primary)',
-                                fontFamily: 'inherit',
-                                fontSize: '0.85rem',
-                                cursor: 'pointer',
-                                outline: 'none',
-                                borderRadius: '4px'
-                            }}
-                        >
-                            <option value="newest">Newest</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                        </select>
+                    <div className={styles.catalogHeader} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '0.75rem', marginBottom: '2.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '1rem' }}>
+                            <h1 className={styles.title} style={{ margin: 0 }}>
+                                {headline}
+                            </h1>
+                            <select
+                                value={sortOption}
+                                onChange={(e) => setSortOption(e.target.value)}
+                                style={{
+                                    padding: '0 1rem',
+                                    minHeight: '44px',
+                                    background: 'var(--bg-secondary)',
+                                    border: '1px solid var(--border-color)',
+                                    color: 'var(--text-primary)',
+                                    fontFamily: 'inherit',
+                                    fontSize: '0.85rem',
+                                    cursor: 'pointer',
+                                    outline: 'none',
+                                    borderRadius: '4px'
+                                }}
+                            >
+                                <option value="newest">Newest</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                            </select>
+                        </div>
+                        {subtext && (
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: 0, opacity: 0.8, fontWeight: 300, lineHeight: 1.5 }}>
+                                {subtext}
+                            </p>
+                        )}
                     </div>
 
                     {loading ? (
@@ -253,11 +310,21 @@ function ShopContent() {
                                 </div>
                             ))}
                         </div>
+                    ) : isFilteredView ? (
+                        <div className={styles.grid}>
+                            {displayProducts.map((product) => (
+                                <ProductCard 
+                                    key={product.id} 
+                                    product={product} 
+                                    onQuickView={setQuickViewProduct} 
+                                />
+                            ))}
+                        </div>
                     ) : (
                         <div className={styles.categoryRowsContainer}>
                             {/* CATEGORY HORIZONTAL PRODUCT SLIDERS / CAROUSELS */}
                             {activeCategoriesToDisplay.map(catName => {
-                                const catProducts = filteredProducts.filter(p => p.category === catName);
+                                const catProducts = displayProducts.filter(p => p.category === catName);
                                 if (catProducts.length === 0) return null;
                                 return (
                                     <ProductHorizontalRow 

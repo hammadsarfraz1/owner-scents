@@ -24,9 +24,9 @@ export default function Footer() {
                 <div className={styles.links}>
                     <div className={styles.column}>
                         <h4>Shop</h4>
-                        <a href="/shop">New Arrivals</a>
-                        <a href="/shop">Best Sellers</a>
-                        <a href="/shop">Signature Ouds</a>
+                        <a href="/shop?sort=latest">New Arrivals</a>
+                        <a href="/shop?sort=popular">Best Sellers</a>
+                        <a href="/shop?category=curated-pick">Curated Pick</a>
                     </div>
                     <div className={styles.column}>
                         <h4>Assistance</h4>
