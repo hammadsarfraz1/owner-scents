@@ -12,7 +12,7 @@ export async function GET(req: Request) {
             const exists = await prisma.category.findUnique({ where: { name: catName } });
             if (!exists) {
                 await prisma.category.create({
-                    data: { name: catName, isVisible: true }
+                    data: { name: catName, isVisible: true, gender: 'All' }
                 });
             }
         }

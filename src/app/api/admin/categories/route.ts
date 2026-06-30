@@ -12,7 +12,7 @@ export async function GET(req: Request) {
             const exists = await prisma.category.findUnique({ where: { name: catName } });
             if (!exists) {
                 await prisma.category.create({
-                    data: { name: catName, isVisible: true }
+                    data: { name: catName, isVisible: true, gender: 'All' }
                 });
             }
         }
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { name, isVisible } = body;
+        const { name, isVisible, gender } = body;
 
         if (!name || typeof name !== 'string') {
             return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -54,7 +54,8 @@ export async function POST(req: Request) {
         const category = await prisma.category.create({
             data: { 
                 name: cleanName,
-                isVisible: isVisible !== undefined ? Boolean(isVisible) : true
+                isVisible: isVisible !== undefined ? Boolean(isVisible) : true,
+                gender: gender || 'All'
             }
         });
 

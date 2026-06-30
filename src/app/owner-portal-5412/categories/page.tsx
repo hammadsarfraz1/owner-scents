@@ -7,6 +7,7 @@ type Category = {
     id: string;
     name: string;
     isVisible: boolean;
+    gender: string;
     createdAt: string;
 };
 
@@ -14,6 +15,7 @@ export default function AdminCategories() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [newCategoryName, setNewCategoryName] = useState('');
+    const [newCategoryGender, setNewCategoryGender] = useState('All');
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
 
@@ -21,6 +23,7 @@ export default function AdminCategories() {
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [editName, setEditName] = useState('');
     const [editIsVisible, setEditIsVisible] = useState(true);
+    const [editGender, setEditGender] = useState('All');
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const fetchCategories = async () => {
@@ -49,6 +52,7 @@ export default function AdminCategories() {
         setEditingCategory(category);
         setEditName(category.name);
         setEditIsVisible(category.isVisible !== undefined ? Boolean(category.isVisible) : true);
+        setEditGender(category.gender || 'All');
         setError('');
         setIsEditModalOpen(true);
     };
@@ -66,7 +70,8 @@ export default function AdminCategories() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     name: editName, 
-                    isVisible: editIsVisible 
+                    isVisible: editIsVisible,
+                    gender: editGender
                 })
             });
 
@@ -97,11 +102,12 @@ export default function AdminCategories() {
             const res = await fetch('/api/admin/categories', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: newCategoryName })
+                body: JSON.stringify({ name: newCategoryName, gender: newCategoryGender })
             });
 
             if (res.ok) {
                 setNewCategoryName('');
+                setNewCategoryGender('All');
                 fetchCategories();
             } else {
                 const data = await res.json();
@@ -163,6 +169,22 @@ export default function AdminCategories() {
                             />
                         </div>
 
+                        <div className={styles.formGroup} style={{ marginTop: '1rem' }}>
+                            <label className={styles.label}>Target Gender *</label>
+                            <select
+                                value={newCategoryGender}
+                                onChange={(e) => setNewCategoryGender(e.target.value)}
+                                className={styles.input}
+                                style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+                                required
+                            >
+                                <option value="All">All Genders</option>
+                                <option value="Men">Men</option>
+                                <option value="Women">Women</option>
+                                <option value="Unisex">Unisex</option>
+                            </select>
+                        </div>
+
                         <button 
                             type="submit" 
                             className={styles.btnPrimary} 
@@ -185,6 +207,7 @@ export default function AdminCategories() {
                             <thead>
                                 <tr>
                                     <th className={styles.th}>Category Name</th>
+                                    <th className={styles.th}>Target Gender</th>
                                     <th className={styles.th}>Status</th>
                                     <th className={styles.th} style={{ textAlign: 'right' }}>Action</th>
                                 </tr>
@@ -192,7 +215,7 @@ export default function AdminCategories() {
                             <tbody>
                                 {categories.length === 0 ? (
                                     <tr>
-                                        <td className={styles.td} colSpan={3} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
+                                        <td className={styles.td} colSpan={4} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
                                             No categories found. Create one on the left!
                                         </td>
                                     </tr>
@@ -200,6 +223,11 @@ export default function AdminCategories() {
                                     categories.map((c) => (
                                         <tr key={c.id} className={styles.tr}>
                                             <td className={styles.td} style={{ fontWeight: '500' }}>{c.name}</td>
+                                            <td className={styles.td}>
+                                                <span style={{ background: '#f59e0b1a', color: '#f59e0b', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #f59e0b33', fontWeight: '500' }}>
+                                                    {c.gender}
+                                                </span>
+                                            </td>
                                             <td className={styles.td}>
                                                 {c.isVisible ? (
                                                     <span style={{ color: '#10b981', background: '#10b9810d', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.72rem', border: '1px solid #10b981' }}>Visible</span>
@@ -254,6 +282,22 @@ export default function AdminCategories() {
                                     className={styles.input}
                                     required 
                                 />
+                            </div>
+
+                            <div className={styles.formGroup} style={{ marginTop: '1rem' }}>
+                                <label className={styles.label}>Target Gender *</label>
+                                <select
+                                    value={editGender}
+                                    onChange={(e) => setEditGender(e.target.value)}
+                                    className={styles.input}
+                                    style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+                                    required
+                                >
+                                    <option value="All">All Genders</option>
+                                    <option value="Men">Men</option>
+                                    <option value="Women">Women</option>
+                                    <option value="Unisex">Unisex</option>
+                                </select>
                             </div>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', marginTop: '1rem' }}>

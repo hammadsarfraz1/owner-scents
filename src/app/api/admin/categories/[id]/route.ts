@@ -15,7 +15,7 @@ export async function PUT(
 
         const { id } = await params;
         const body = await req.json();
-        const { name, isVisible } = body;
+        const { name, isVisible, gender } = body;
 
         const category = await prisma.category.findUnique({ where: { id } });
         if (!category) {
@@ -34,7 +34,8 @@ export async function PUT(
             where: { id },
             data: {
                 name: name !== undefined ? name.trim() : category.name,
-                isVisible: isVisible !== undefined ? Boolean(isVisible) : category.isVisible
+                isVisible: isVisible !== undefined ? Boolean(isVisible) : category.isVisible,
+                gender: gender !== undefined ? gender : category.gender
             }
         });
 

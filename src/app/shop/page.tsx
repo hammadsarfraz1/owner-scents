@@ -15,6 +15,7 @@ type CategoryItem = {
     id: string;
     name: string;
     isVisible: boolean;
+    gender: string;
 };
 
 function ProductHorizontalRow({ title, products, onQuickView }: { title: string, products: Product[], onQuickView: (p: Product) => void }) {
@@ -69,6 +70,19 @@ function ShopContent() {
         } else {
             params.set('gender', g);
         }
+        // Validate currently selected category with new gender 'g'
+        if (g !== 'All' && selectedCategory !== 'All') {
+            const currentCat = dbCategories.find(c => c.name === selectedCategory);
+            if (currentCat) {
+                const isValidForMen = g === 'Men' && (currentCat.gender === 'Men' || currentCat.gender === 'Unisex');
+                const isValidForWomen = g === 'Women' && (currentCat.gender === 'Women' || currentCat.gender === 'Unisex');
+                const isValidForUnisex = g === 'Unisex' && currentCat.gender === 'Unisex';
+                if (!isValidForMen && !isValidForWomen && !isValidForUnisex) {
+                    params.delete('category');
+                    setSelectedCategory('All');
+                }
+            }
+        }
         router.push(`/shop?${params.toString()}`, { scroll: false });
     };
 
@@ -114,11 +128,22 @@ function ShopContent() {
     }, [isBottomSheetOpen]);
 
     useEffect(() => {
-        const genderParam = searchParams.get('gender');
-        const categoryParam = searchParams.get('category');
-        setSelectedGender(genderParam || 'All');
-        setSelectedCategory(categoryParam || 'All');
-    }, [searchParams]);
+        const genderParam = searchParams.get('gender') || 'All';
+        let categoryParam = searchParams.get('category') || 'All';
+        if (genderParam !== 'All' && categoryParam !== 'All' && dbCategories.length > 0) {
+            const currentCat = dbCategories.find(c => c.name === categoryParam);
+            if (currentCat) {
+                const isValidForMen = genderParam === 'Men' && (currentCat.gender === 'Men' || currentCat.gender === 'Unisex');
+                const isValidForWomen = genderParam === 'Women' && (currentCat.gender === 'Women' || currentCat.gender === 'Unisex');
+                const isValidForUnisex = genderParam === 'Unisex' && currentCat.gender === 'Unisex';
+                if (!isValidForMen && !isValidForWomen && !isValidForUnisex) {
+                    categoryParam = 'All';
+                }
+            }
+        }
+        setSelectedGender(genderParam);
+        setSelectedCategory(categoryParam);
+    }, [searchParams, dbCategories]);
 
     useEffect(() => {
         Promise.all([
@@ -137,8 +162,31 @@ function ShopContent() {
     }, []);
 
     const productCategories = Array.from(new Set(products.map(p => p.category).filter((c): c is string => Boolean(c))));
-    const dbCategoryNames = dbCategories.map(c => c.name);
-    const allUniqueCategories = Array.from(new Set([...dbCategoryNames, ...productCategories]));
+    
+    // Filter categories dynamically based on selectedGender
+    const filteredDbCategories = dbCategories.filter(c => {
+        if (selectedGender === 'Men') {
+            return c.gender === 'Men' || c.gender === 'Unisex';
+        }
+        if (selectedGender === 'Women') {
+            return c.gender === 'Women' || c.gender === 'Unisex';
+        }
+        if (selectedGender === 'Unisex') {
+            return c.gender === 'Unisex';
+        }
+        return true; // if selectedGender is 'All'
+    });
+
+    const filteredDbCategoryNames = filteredDbCategories.map(c => c.name);
+
+    // Include product categories not in DB only when Gender filter is 'All'
+    const extraCategories = productCategories.filter(catName => {
+        const inDb = dbCategories.some(c => c.name === catName);
+        if (inDb) return false;
+        return selectedGender === 'All';
+    });
+
+    const allUniqueCategories = Array.from(new Set([...filteredDbCategoryNames, ...extraCategories]));
 
     const categoryNames = ['All', ...allUniqueCategories];
     const genders = ['All', 'Men', 'Women', 'Unisex'];
