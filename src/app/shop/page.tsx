@@ -343,26 +343,15 @@ function ShopContent() {
                 </aside>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className={styles.catalogHeader} style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '0.75rem', marginBottom: '2.5rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '1rem' }}>
-                            <h1 className={styles.title} style={{ margin: 0 }}>
+                    <div className={styles.catalogHeader}>
+                        <div className={styles.catalogHeaderTop}>
+                            <h1 className={styles.title}>
                                 {headline}
                             </h1>
                             <select
                                 value={sortOption}
                                 onChange={(e) => setSortOption(e.target.value)}
-                                style={{
-                                    padding: '0 1rem',
-                                    minHeight: '44px',
-                                    background: 'var(--bg-secondary)',
-                                    border: '1px solid var(--border-color)',
-                                    color: 'var(--text-primary)',
-                                    fontFamily: 'inherit',
-                                    fontSize: '0.85rem',
-                                    cursor: 'pointer',
-                                    outline: 'none',
-                                    borderRadius: '4px'
-                                }}
+                                className={styles.sortSelect}
                             >
                                 <option value="newest">Newest</option>
                                 <option value="price-asc">Price: Low to High</option>
@@ -370,7 +359,7 @@ function ShopContent() {
                             </select>
                         </div>
                         {subtext && (
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', margin: 0, opacity: 0.8, fontWeight: 300, lineHeight: 1.5 }}>
+                            <p className={styles.subtext}>
                                 {subtext}
                             </p>
                         )}

@@ -712,6 +712,11 @@
     transform: perspective(1000px) translate3d(0, -10px, 30px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
     z-index: 20 !important;
   }
+  .leftCard.activeCard,
+  .rightCard.activeCard,
+  .centerCard.activeCard {
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
+  }
   .testimonialsGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -823,6 +828,11 @@
     transform: perspective(1000px) translate3d(0, -10px, 25px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
     z-index: 20 !important;
   }
+  .leftCard.activeCard,
+  .rightCard.activeCard,
+  .centerCard.activeCard {
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
+  }
   .catCard {
     height: 380px;
   }
@@ -893,6 +903,11 @@
   .centerCard.activeCard {
     transform: perspective(1000px) translate3d(0, -8px, 20px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.03) !important;
     z-index: 20 !important;
+  }
+  .leftCard.activeCard,
+  .rightCard.activeCard,
+  .centerCard.activeCard {
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
   }
   .catCard {
     height: 420px;
