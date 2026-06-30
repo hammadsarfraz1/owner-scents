@@ -744,6 +744,12 @@
         transform: translateX(-50%) translateY(-2px);
     }
 
+    .mobileFilterStickyBtnHidden {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) translateY(100px) !important;
+    }
+
     /* Bottom Sheet Dialog */
     .bottomSheetBackdrop {
         position: fixed;

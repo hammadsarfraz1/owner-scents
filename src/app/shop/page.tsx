@@ -61,6 +61,7 @@ function ShopContent() {
     const [genderFolderOpen, setGenderFolderOpen] = useState(true);
     const [categoryFolderOpen, setCategoryFolderOpen] = useState(true);
     const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
     const router = useRouter();
 
     const handleGenderSelect = (g: string) => {
@@ -159,6 +160,26 @@ function ShopContent() {
             console.error('Error loading shop data:', err);
             setLoading(false);
         });
+    }, []);
+
+    useEffect(() => {
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            const [entry] = entries;
+            setIsFooterVisible(entry.isIntersecting);
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.05
+        });
+
+        observer.observe(footer);
+
+        return () => {
+            observer.unobserve(footer);
+        };
     }, []);
 
     const productCategories = Array.from(new Set(products.map(p => p.category).filter((c): c is string => Boolean(c))));
@@ -408,7 +429,7 @@ function ShopContent() {
 
             {/* Sticky Filters & Sort Button for Mobile */}
             <button 
-                className={styles.mobileFilterStickyBtn} 
+                className={`${styles.mobileFilterStickyBtn} ${isFooterVisible ? styles.mobileFilterStickyBtnHidden : ''}`} 
                 onClick={() => setIsBottomSheetOpen(true)}
             >
                 <SlidersHorizontal size={16} />

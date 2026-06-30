@@ -828,3 +828,28 @@
     box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
     transform: translateY(-1px);
 }
+
+.logoutBtn {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+    padding: 0.55rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.logoutBtn:hover {
+    background: #ef4444;
+    color: #000000;
+    border-color: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}

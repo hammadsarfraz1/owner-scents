@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
@@ -21,7 +21,8 @@ import {
     ChevronUp, 
     Gift, 
     X,
-    MessageSquare
+    MessageSquare,
+    LogOut
 } from 'lucide-react';
 
 type OrderItem = {
@@ -186,6 +187,13 @@ export default function ProfilePage() {
                         <span className={styles.memberBadge}>VIP CONNOISSEUR</span>
                         <h1 className={styles.userName}>{userName}</h1>
                         <p className={styles.userEmail}>{session.user?.email}</p>
+                        <button 
+                            onClick={() => signOut({ callbackUrl: '/' })} 
+                            className={styles.logoutBtn}
+                        >
+                            <LogOut size={13} />
+                            <span>Log Out</span>
+                        </button>
                     </div>
                     <div className={styles.profileStats}>
                         <div className={styles.statBox}>
